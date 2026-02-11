@@ -12,41 +12,69 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <style>
-        /* --- RESET & VARIABLES --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        /* ==========================================================================
+           1. RESET & VARIABLES GLOBALES
+           ========================================================================== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
 
         :root {
-            /* Couleurs ACCENT (Vives) */
+            /* --- PALETTE DE COULEURS (ACCENTS NEON) --- */
             --orange: #ff6b35;
             --teal: #00d4aa;
             --purple: #6a4c93;
             --pink: #ff006e;
             --yellow: #ffbe0b;
             
-            /* Backgrounds & Textes (Mode Sombre par défaut - RETOUR AU NOIR PROFOND) */
-            --bg-primary: #000000;
-            --bg-card: #080808; /* Très sombre pour contraste */
-            --card-border: rgba(255, 107, 53, 0.2); /* Bordure colorée par défaut */
-            --text-primary: #ffffff;
-            --text-secondary: #a1a1aa;
-            --glass-bg: rgba(15, 15, 15, 0.7); /* Plus sombre pour faire ressortir les néons */
-            --dock-bg: rgba(20, 20, 20, 0.6);
+            /* --- THÈME SOMBRE (DÉFAUT) --- */
+            --bg-primary: #050505;
+            --bg-secondary: #0a0a0a;
+            
+            /* Effets de transparence (Glassmorphism) */
+            --glass-bg: rgba(20, 20, 20, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            
+            /* Bordures colorées par défaut pour le style Cyber */
+            --card-border: rgba(255, 107, 53, 0.2);
+            
+            /* Modales & Dock */
+            --modal-bg: rgba(15, 15, 15, 0.95);
+            --dock-bg: rgba(20, 20, 20, 0.7);
             --dock-border: rgba(255, 255, 255, 0.1);
             
-            /* Polices */
+            /* Typographie */
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            
+            /* Fonts Families */
             --font-display: 'Outfit', sans-serif;
             --font-body: 'Inter', sans-serif;
         }
 
-        /* --- MODE CLAIR (SOBER) --- */
+        /* --- THÈME CLAIR (MODE SOBRE / ENTREPRISE) --- */
         body.sober-mode {
-            --bg-primary: #f5f5f7;
-            --bg-card: #ffffff;
+            /* Fond gris très clair "Papier" */
+            --bg-primary: #f2f2f7;
+            --bg-secondary: #ffffff;
+            
+            /* Cartes blanches et propres */
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.05);
             --card-border: rgba(0, 0, 0, 0.08);
+            
+            --modal-bg: rgba(255, 255, 255, 0.98);
+            
+            /* Texte sombre lisible */
             --text-primary: #1d1d1f;
             --text-secondary: #515155;
-            --glass-bg: rgba(255, 255, 255, 0.9);
-            --dock-bg: rgba(255, 255, 255, 0.85);
+            
+            /* Dock clair */
+            --dock-bg: rgba(255, 255, 255, 0.9);
             --dock-border: rgba(0, 0, 0, 0.1);
         }
 
@@ -55,312 +83,1152 @@
             color: var(--text-primary);
             font-family: var(--font-body);
             line-height: 1.6;
-            overflow-x: hidden;
-            padding-bottom: 120px;
-            transition: background 0.5s ease, color 0.5s ease;
+            overflow-x: hidden; /* Évite le scroll horizontal */
+            padding-bottom: 140px; /* Marge pour le Dock en bas */
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        /* --- BACKGROUND NEON EFFECTS (Restaurés) --- */
+        /* ==========================================================================
+           2. EFFETS D'ARRIÈRE-PLAN (PARTICULES & LUMIÈRES)
+           ========================================================================== */
+        
+        /* Grille futuriste en fond */
         .grid-background {
-            position: fixed; inset: 0; z-index: 0;
+            position: fixed;
+            inset: 0;
+            z-index: 0;
             background-image: 
-                linear-gradient(to right, rgba(255, 107, 53, 0.05) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0, 212, 170, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
+                linear-gradient(to right, rgba(255, 107, 53, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 212, 170, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
             pointer-events: none;
         }
 
+        /* Halo lumineux qui suit la souris */
         .cursor-glow {
-            position: fixed; width: 600px; height: 600px; pointer-events: none; z-index: 40;
-            opacity: 0; transition: opacity 0.3s ease;
-            background: radial-gradient(circle, rgba(255, 107, 53, 0.2) 0%, rgba(106, 76, 147, 0.15) 30%, transparent 70%);
-            transform: translate(-50%, -50%); filter: blur(50px); mix-blend-mode: screen;
+            position: fixed;
+            width: 700px;
+            height: 700px;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background: radial-gradient(
+                circle, 
+                rgba(255, 107, 53, 0.12) 0%, 
+                rgba(0, 212, 170, 0.08) 30%, 
+                transparent 70%
+            );
+            transform: translate(-50%, -50%);
+            filter: blur(60px);
+            mix-blend-mode: screen;
         }
-        .cursor-glow.active { opacity: 1; }
+        
+        .cursor-glow.active {
+            opacity: 1;
+        }
 
+        /* Orbes flottantes colorées */
         .orb {
-            position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 1;
-            opacity: 0.25; /* Opacité augmentée pour plus de "peps" */
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
             transition: opacity 0.5s ease;
         }
-        .orb-1 { top: 10%; left: 10%; width: 50vw; height: 50vw; background: linear-gradient(135deg, var(--orange), var(--pink)); animation: float 8s ease-in-out infinite; }
-        .orb-2 { top: 40%; right: 10%; width: 60vw; height: 60vw; background: linear-gradient(135deg, var(--teal), var(--purple)); animation: float 10s ease-in-out infinite 2s; }
-        .orb-3 { bottom: 15%; left: 30%; width: 55vw; height: 55vw; background: linear-gradient(135deg, var(--purple), var(--pink)); animation: float 12s ease-in-out infinite 4s; }
+
+        .orb-1 {
+            top: 5%;
+            left: 5%;
+            width: 40vw;
+            height: 40vw;
+            background: linear-gradient(135deg, var(--orange), var(--pink));
+            animation: float 10s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            top: 40%;
+            right: 5%;
+            width: 50vw;
+            height: 50vw;
+            background: linear-gradient(135deg, var(--teal), var(--purple));
+            animation: float 12s ease-in-out infinite 2s;
+        }
+
+        .orb-3 {
+            bottom: 5%;
+            left: 20%;
+            width: 45vw;
+            height: 45vw;
+            background: linear-gradient(135deg, var(--purple), var(--yellow));
+            animation: float 14s ease-in-out infinite 4s;
+        }
 
         @keyframes float {
             0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            33% { transform: translate(40px, -40px) scale(1.1) rotate(120deg); }
-            66% { transform: translate(-30px, 30px) scale(0.9) rotate(240deg); }
+            33% { transform: translate(30px, -30px) scale(1.05) rotate(10deg); }
+            66% { transform: translate(-20px, 20px) scale(0.95) rotate(-5deg); }
         }
 
-        .container { position: relative; z-index: 10; max-width: 1400px; margin: 0 auto; padding: 0 1rem; }
+        /* Conteneur principal centré */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
 
-        /* --- HERO --- */
-        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 4rem 1rem; position: relative; }
-        .hero-content { text-align: center; max-width: 1000px; width: 100%; }
+        /* ==========================================================================
+           3. HERO SECTION (L'ACCUEIL)
+           ========================================================================== */
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 1rem;
+            position: relative;
+        }
 
-        .profile-image-wrapper { margin-bottom: 2rem; display: flex; justify-content: center; }
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        /* Image de profil avec animation Pulse */
+        .profile-image-wrapper {
+            margin-bottom: 2.5rem;
+            display: flex;
+            justify-content: center;
+        }
+
         .profile-image {
-            width: clamp(140px, 25vw, 220px);
-            height: clamp(140px, 25vw, 220px);
+            width: clamp(150px, 20vw, 220px);
+            height: clamp(150px, 20vw, 220px);
             border-radius: 50%;
-            padding: 5px;
+            padding: 6px;
             background: linear-gradient(var(--bg-primary), var(--bg-primary)) padding-box,
                         linear-gradient(135deg, var(--orange), var(--teal), var(--purple)) border-box;
             border: 4px solid transparent;
-            box-shadow: 0 0 60px rgba(255, 107, 53, 0.4), 0 0 100px rgba(106, 76, 147, 0.3);
+            box-shadow: 0 0 50px rgba(255, 107, 53, 0.3), 0 0 100px rgba(106, 76, 147, 0.2);
             animation: fadeInScale 1s ease-out, profilePulse 4s infinite;
         }
-        .profile-image img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-        
-        @keyframes profilePulse {
-            0%, 100% { box-shadow: 0 0 60px rgba(255, 107, 53, 0.4); }
-            50% { box-shadow: 0 0 90px rgba(255, 107, 53, 0.7), 0 0 120px rgba(106, 76, 147, 0.5); }
-        }
-        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 
-        .badge {
-            display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(0, 212, 170, 0.1));
-            border: 1px solid rgba(255, 107, 53, 0.5); border-radius: 50px; margin-bottom: 2rem;
-            font-weight: 600; font-size: clamp(0.75rem, 2vw, 0.875rem); letter-spacing: 0.05em;
-            backdrop-filter: blur(10px); box-shadow: 0 0 20px rgba(255, 107, 53, 0.2);
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
         }
+
+        @keyframes profilePulse {
+            0%, 100% { box-shadow: 0 0 50px rgba(255, 107, 53, 0.3); }
+            50% { box-shadow: 0 0 80px rgba(255, 107, 53, 0.5), 0 0 100px rgba(106, 76, 147, 0.4); }
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Badge sous la photo */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.8rem 1.8rem;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(0, 212, 170, 0.1));
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
         .badge-gradient {
             background: linear-gradient(90deg, var(--orange), var(--teal), var(--purple));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
         }
 
-        .hero-title { font-family: var(--font-display); font-size: clamp(3rem, 11vw, 7.5rem); font-weight: 900; line-height: 1; margin-bottom: 1rem; letter-spacing: -0.03em; }
+        /* Titre Principal (Nom) */
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+        }
+
         .gradient-text {
             background: linear-gradient(135deg, var(--orange), var(--teal), var(--purple));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-            display: inline-block; filter: drop-shadow(0 0 30px rgba(255, 107, 53, 0.5));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            filter: drop-shadow(0 0 30px rgba(255, 107, 53, 0.4));
         }
 
-        .hero-subtitle { font-size: clamp(1.25rem, 3vw, 2rem); font-weight: 300; color: var(--text-secondary); margin-bottom: 1.5rem; }
-        .hero-description { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-secondary); max-width: 800px; margin: 0 auto 2rem; line-height: 1.7; }
-        .hero-description .highlight { color: var(--teal); font-weight: 600; text-shadow: 0 0 20px rgba(0, 212, 170, 0.4); }
+        /* Sous-titre & Description */
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
 
-        /* BOUTONS */
-        .cta-container { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .hero-description {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .hero-description .highlight {
+            color: var(--teal);
+            font-weight: 600;
+            text-shadow: 0 0 20px rgba(0, 212, 170, 0.3);
+        }
+
+        /* --- BOUTONS HERO (AVEC L'ANIMATION CERCLE V1) --- */
+        .cta-container {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         .btn {
-            display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem;
-            font-size: clamp(0.9rem, 2vw, 1.1rem); font-weight: 700; border-radius: 1rem;
-            text-decoration: none; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            font-family: var(--font-display); position: relative; overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1.2rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: var(--font-display);
+            
+            /* Propriétés vitales pour l'animation cercle */
+            position: relative;
+            overflow: hidden; 
+            z-index: 1;
         }
-        .btn:hover { transform: scale(1.05); }
-        .btn-primary { background: linear-gradient(135deg, var(--orange), var(--pink)); color: white; box-shadow: 0 10px 40px rgba(255, 107, 53, 0.6); }
-        .btn-secondary { background: transparent; color: var(--text-primary); border: 2px solid rgba(0, 212, 170, 0.5); box-shadow: 0 0 20px rgba(0, 212, 170, 0.1); }
-        .btn-secondary:hover { background: rgba(0, 212, 170, 0.15); border-color: var(--teal); box-shadow: 0 0 30px rgba(0, 212, 170, 0.3); }
 
+        /* L'Animation "Cercle qui grandit" au survol */
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            width: 500px;
+            height: 500px;
+        }
+
+        /* Bouton Primaire (Dégradé) */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--orange), var(--pink));
+            color: white;
+            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.5);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(255, 107, 53, 0.7);
+        }
+
+        /* Bouton Secondaire (Outline) */
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid rgba(0, 212, 170, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--teal);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 212, 170, 0.2);
+        }
+
+        /* Indicateur de Scroll (Flèche bas) */
         .scroll-down {
-            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            color: var(--text-secondary); animation: bounce 2s infinite; cursor: pointer; opacity: 0.7;
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-secondary);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: color 0.3s;
         }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); } 40% { transform: translate(-50%, -10px); } 60% { transform: translate(-50%, -5px); } }
-
-        /* --- SECTIONS & GRIDS (LE RETOUR DU LAYOUT HORIZONTAL) --- */
-        section { padding: clamp(3rem, 8vw, 6rem) 1rem; position: relative; }
-        .section-header { text-align: center; margin-bottom: clamp(2rem, 6vw, 4rem); }
-        .section-title { font-family: var(--font-display); font-size: clamp(2rem, 6vw, 4rem); font-weight: 900; margin-bottom: 0.75rem; letter-spacing: -0.02em; }
-        .section-subtitle { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-secondary); }
-
-        /* GRILLES : On force le grid à 2 ou 3 colonnes sur PC */
-        .experience-grid, .vision-grid, .skills-grid {
-            display: grid; 
-            gap: 2rem; 
-            max-width: 1400px; 
-            margin: 0 auto;
-            /* Mobile first : 1 colonne */
-            grid-template-columns: 1fr;
+        .scroll-down:hover {
+            color: var(--orange);
+            opacity: 1;
         }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+            40% { transform: translate(-50%, -10px); }
+            60% { transform: translate(-50%, -5px); }
+        }
+
+        /* ==========================================================================
+           4. STRUCTURE GÉNÉRALE DES SECTIONS
+           ========================================================================== */
         
-        /* Tablette et + : au moins 2 colonnes */
+        section {
+            padding: clamp(4rem, 8vw, 8rem) 1rem;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: var(--text-secondary);
+        }
+
+        /* --- GRILLES (Layout Adaptatif) --- */
+        /* Sur mobile : 1 colonne. Sur PC : 2, 3 ou 4 colonnes selon la section */
+        
+        .experience-grid, 
+        .vision-grid, 
+        .skills-grid {
+            display: grid;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            grid-template-columns: 1fr; /* Mobile First */
+        }
+
+        /* Tablette (min 768px) */
         @media (min-width: 768px) {
-            .experience-grid, .vision-grid, .skills-grid {
+            .experience-grid, 
+            .vision-grid, 
+            .skills-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-        
-        /* PC Large : 3 colonnes pour l'effet "Blocs" */
+
+        /* Desktop (min 1200px) */
         @media (min-width: 1200px) {
             .experience-grid { grid-template-columns: repeat(3, 1fr); }
             .vision-grid { grid-template-columns: repeat(4, 1fr); }
             .skills-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
-        /* --- CARDS DESIGN (VIBRANT GLOW) --- */
+        /* ==========================================================================
+           5. CARDS (DESIGN GLASSMORPHISM)
+           ========================================================================== */
+        
         .card-glass {
             background: var(--glass-bg);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--card-border);
-            border-radius: 1.5rem; padding: clamp(1.5rem, 4vw, 2.5rem);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 2rem;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative; overflow: hidden;
+            position: relative;
+            overflow: hidden;
             box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
 
-        /* Effet "Glow" au survol restauré */
-        .experience-card:hover, .vision-card:hover, .skill-category:hover {
+        /* Effet de survol : La carte monte et s'allume (Pour Parcours & Vision) */
+        .experience-card:hover, 
+        .vision-card:hover, 
+        .skill-category:hover {
             transform: translateY(-10px) scale(1.02);
             border-color: var(--orange);
-            box-shadow: 0 20px 50px rgba(255, 107, 53, 0.25), inset 0 0 20px rgba(255, 107, 53, 0.05);
+            box-shadow: 0 20px 50px rgba(255, 107, 53, 0.15), inset 0 0 20px rgba(255, 107, 53, 0.05);
             background: rgba(30, 30, 30, 0.8);
         }
 
-        /* Contenu des cartes */
-        .exp-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
-        .exp-icon { width: 65px; height: 65px; border-radius: 1.2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: white; box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
-        .exp-info h3 { font-family: var(--font-display); font-size: clamp(1.2rem, 3vw, 1.6rem); font-weight: 700; margin-bottom: 0.2rem; }
-        .exp-period { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.2rem; }
-        .exp-company { font-weight: 600; font-size: 1rem; color: var(--text-primary); }
-        .exp-description { color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem; margin-bottom: 1rem; }
-        
-        .exp-tags, .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .exp-tag, .skill-tag {
-            padding: 0.35rem 0.9rem; border-radius: 2rem; font-size: 0.8rem; font-weight: 600;
-            background: rgba(255, 107, 53, 0.1); border: 1px solid rgba(255, 107, 53, 0.3);
-            color: var(--orange); transition: all 0.3s;
+        /* --- DÉTAILS EXPÉRIENCES --- */
+        .exp-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
-        .skill-tag:hover { background: var(--purple); color: white; transform: scale(1.1); border-color: transparent; box-shadow: 0 0 15px var(--purple); }
 
-        /* Vision */
-        .vision-icon { width: 60px; height: 60px; border-radius: 1.2rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .vision-card h3 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
-        .vision-card p { color: var(--text-secondary); }
+        .exp-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
 
-        /* Atouts */
-        .traits-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr)); gap: 1.5rem; }
+        .exp-info h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            line-height: 1.2;
+        }
+
+        .exp-period {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .exp-company {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .exp-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .exp-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .exp-tag {
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            color: var(--orange);
+            transition: all 0.3s;
+        }
+
+        .exp-tag:hover {
+            background: var(--orange);
+            color: white;
+        }
+
+        /* --- DÉTAILS VISION --- */
+        .vision-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .vision-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .vision-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ==========================================================================
+           6. SECTION ATOUTS (AVEC MODAL POPUPS INTERACTIFS)
+           ========================================================================== */
+        
+        .traits-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(450px, 100%), 1fr));
+            gap: 2rem;
+        }
+
+        /* Barres latérales de couleur */
         .trait-card.strengths { border-left: 4px solid var(--teal); }
         .trait-card.weaknesses { border-left: 4px solid var(--yellow); }
-        .trait-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
-        .trait-badge { padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.8rem; font-weight: 700; }
-        .trait-badge.green { background: rgba(0, 212, 170, 0.15); color: var(--teal); border: 1px solid rgba(0, 212, 170, 0.3); }
-        .trait-badge.amber { background: rgba(255, 190, 11, 0.15); color: var(--yellow); border: 1px solid rgba(255, 190, 11, 0.3); }
-        .trait-item { display: flex; gap: 0.75rem; padding: 0.8rem; background: rgba(255, 255, 255, 0.03); border-radius: 0.75rem; margin-bottom: 0.75rem; transition: transform 0.3s; }
-        .trait-item:hover { transform: translateX(5px); background: rgba(255, 255, 255, 0.08); }
-        .trait-item span { font-size: 0.95rem; color: var(--text-secondary); }
 
-        /* Skills */
-        .skill-category h3 { display: flex; align-items: center; gap: 0.75rem; font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; margin-bottom: 1.5rem; }
+        .trait-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
 
-        /* Timeline / Formation */
-        .search-container { max-width: 900px; margin: 0 auto 3rem; }
-        .search-wrapper { position: relative; background: var(--bg-card); border: 2px solid var(--card-border); border-radius: 1.5rem; overflow: hidden; display: flex; align-items: center; transition: all 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .search-wrapper:focus-within { border-color: var(--orange); box-shadow: 0 0 30px rgba(255, 107, 53, 0.3); }
-        .search-icon { margin-left: 1.5rem; color: var(--orange); }
-        .search-input { width: 100%; padding: 1.2rem; background: transparent; border: none; color: var(--text-primary); font-size: 1.1rem; font-family: var(--font-body); outline: none; }
-        .search-results { text-align: center; margin-top: 1rem; color: var(--orange); font-weight: 700; }
+        .trait-badge {
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
 
-        .timeline { display: flex; flex-direction: column; gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
-        .timeline-item { background: var(--glass-bg); border: 1px solid var(--card-border); border-radius: 1.5rem; overflow: hidden; transition: all 0.3s; }
-        .timeline-item:hover { border-color: var(--purple); box-shadow: 0 0 30px rgba(106, 76, 147, 0.2); }
-        .timeline-header { padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; cursor: pointer; gap: 1rem; flex-wrap: wrap; }
-        .timeline-header:hover { background: rgba(255, 255, 255, 0.05); }
-        .timeline-badge { width: 60px; height: 60px; border-radius: 1.2rem; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 1.2rem; font-weight: 900; color: white; flex-shrink: 0; box-shadow: 0 5px 20px rgba(0,0,0,0.4); }
-        .timeline-info h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; }
-        .timeline-subtitle { color: var(--purple); font-weight: 600; font-size: 0.95rem; }
-        .timeline-count { padding: 0.5rem 1rem; background: rgba(106, 76, 147, 0.15); border: 1px solid rgba(106, 76, 147, 0.3); border-radius: 2rem; color: var(--purple); font-weight: 700; font-size: 0.85rem; }
-        
-        .timeline-content { max-height: 0; overflow: hidden; transition: max-height 0.6s ease; }
-        .timeline-content.active { max-height: 10000px; }
-        .timeline-body { padding: 0 1.5rem 1.5rem; }
-        
-        /* GRILLE POUR LES COURS (Horizontal Layout restored) */
-        .categories-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 1rem; 
+        .trait-badge.green { 
+            background: rgba(0, 212, 170, 0.15); 
+            color: var(--teal); 
+            border: 1px solid rgba(0, 212, 170, 0.3); 
         }
         
-        .category-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; padding: 1.25rem; transition: all 0.3s; }
-        .category-card:hover { transform: translateY(-3px); border-color: var(--orange); background: rgba(255, 255, 255, 0.05); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .category-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
-        .category-icon { width: 40px; height: 40px; border-radius: 0.8rem; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .category-card h4 { font-weight: 700; font-size: 1rem; }
-        .category-courses { list-style: none; padding: 0; }
-        .category-courses li { padding: 0.6rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex; gap: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; }
-        .category-courses li:last-child { border-bottom: none; }
-        .category-courses li.highlight { background: rgba(255, 107, 53, 0.15); padding: 0.6rem; border-radius: 0.5rem; color: var(--orange); font-weight: 600; }
+        .trait-badge.amber { 
+            background: rgba(255, 190, 11, 0.15); 
+            color: var(--yellow); 
+            border: 1px solid rgba(255, 190, 11, 0.3); 
+        }
 
-        /* Footer */
-        footer { padding: 5rem 1rem; text-align: center; border-top: 1px solid var(--card-border); margin-top: 4rem; }
-        footer h3 { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; }
-        .footer-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .trait-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Élément cliquable pour ouvrir la popup */
+        .trait-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .trait-item:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .trait-item i {
+            margin-top: 3px;
+            transition: transform 0.3s;
+        }
+
+        .trait-item:hover i {
+            transform: scale(1.2);
+        }
+
+        .trait-item span {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* --- STYLE DES MODALES POPUP (LE DÉTAIL CACHÉ) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--modal-bg);
+            border: 1px solid var(--glass-border);
+            padding: 3rem;
+            border-radius: 2rem;
+            max-width: 650px;
+            width: 90%;
+            transform: translateY(30px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.6);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: var(--orange);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--orange), var(--teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .modal-text {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        /* ==========================================================================
+           7. COMPÉTENCES
+           ========================================================================== */
         
-        /* --- DOCK NAVIGATION (BUBBLE / iOS STYLE) --- */
+        .skill-category h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .skill-tag {
+            padding: 0.5rem 1.1rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+
+        .skill-tag:hover {
+            background: var(--purple);
+            color: white;
+            transform: scale(1.1);
+            border-color: transparent;
+            box-shadow: 0 0 20px rgba(106, 76, 147, 0.5);
+        }
+
+        /* ==========================================================================
+           8. FORMATION (TIMELINE) - FIX DU Z-INDEX
+           ========================================================================== */
+        
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .timeline-item:hover {
+            border-color: var(--purple);
+            box-shadow: 0 0 40px rgba(106, 76, 147, 0.15);
+        }
+
+        .timeline-header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            gap: 1rem;
+            flex-wrap: wrap;
+            transition: background 0.3s;
+        }
+
+        .timeline-header:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .timeline-badge {
+            width: 65px;
+            height: 65px;
+            border-radius: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .timeline-info h3 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .timeline-subtitle {
+            color: var(--purple);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .timeline-count {
+            padding: 0.5rem 1.2rem;
+            background: rgba(106, 76, 147, 0.15);
+            border: 1px solid rgba(106, 76, 147, 0.3);
+            border-radius: 2rem;
+            color: var(--purple);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .timeline-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease;
+        }
+
+        .timeline-content.active {
+            max-height: 15000px; /* Grande valeur pour tout montrer sans coupure */
+        }
+
+        .timeline-body {
+            padding: 0 2rem 2rem 2rem;
+        }
+
+        /* GRILLE INTERNE FORMATION (Les cases) */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* --- STYLE DES CASES COURS - FIX Z-INDEX --- */
+        /* Note importante : Pour éviter le bug de Z-Index lors de l'empilement,
+           on ne fait PAS de transformation verticale (translateY) sur ces cases-là.
+           On joue uniquement sur la lumière et la bordure. */
+        
+        .category-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.2rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        /* AU SURVOL : LUMIÈRE UNIQUEMENT */
+        .category-card:hover {
+            border-color: var(--orange);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.2);
+            transform: none; /* Bloque le mouvement pour éviter les bugs de superposition */
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .category-card h4 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .category-courses {
+            list-style: none;
+        }
+
+        .category-courses li {
+            padding: 0.7rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            gap: 0.6rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            align-items: flex-start;
+        }
+
+        .category-courses li:last-child {
+            border-bottom: none;
+        }
+
+        .category-courses li.highlight {
+            background: rgba(255, 107, 53, 0.15);
+            padding: 0.7rem;
+            border-radius: 0.5rem;
+            color: var(--orange);
+            font-weight: 700;
+            border-bottom: none;
+        }
+
+        /* --- BARRE DE RECHERCHE --- */
+        .search-container {
+            max-width: 900px;
+            margin: 0 auto 3rem;
+        }
+
+        .search-wrapper {
+            position: relative;
+            background: var(--bg-secondary);
+            border: 2px solid var(--glass-border);
+            border-radius: 2rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        .search-wrapper:focus-within {
+            border-color: var(--orange);
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .search-icon {
+            margin-left: 1.5rem;
+            color: var(--orange);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1.2rem;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-family: var(--font-body);
+            outline: none;
+        }
+
+        .search-results {
+            text-align: center;
+            margin-top: 1rem;
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(0, 212, 170, 0.15));
+            border-radius: 2rem;
+            display: inline-block;
+            color: var(--orange);
+            font-weight: 700;
+        }
+
+        /* ==========================================================================
+           9. FOOTER
+           ========================================================================== */
+        
+        footer {
+            padding: 6rem 1rem;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 4rem;
+            background: linear-gradient(to top, var(--bg-secondary), transparent);
+        }
+
+        footer h3 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        /* ==========================================================================
+           10. DOCK NAVIGATION (STYLE iOS / BUBBLE)
+           ========================================================================== */
+        
         .dock-nav {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 1000;
-            display: flex; align-items: center; gap: 8px; padding: 10px 12px;
-            background: var(--dock-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--dock-border); border-radius: 100px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            
+            background: var(--dock-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--dock-border);
+            border-radius: 100px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            
             transition: all 0.4s cubic-bezier(0.25, 1.5, 0.5, 1);
         }
-        .dock-nav:hover { transform: translateX(-50%) scale(1.02); }
+
+        .dock-nav:hover {
+            transform: translateX(-50%) scale(1.03);
+        }
+
         .dock-item {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: var(--text-secondary); text-decoration: none;
-            width: 50px; height: 50px; border-radius: 50%;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
         }
+
         .dock-item:hover {
-            background: rgba(255, 255, 255, 0.15); color: var(--text-primary);
-            transform: translateY(-10px) scale(1.15); box-shadow: 0 10px 20px rgba(0,0,0,0.3); z-index: 10;
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--text-primary);
+            transform: translateY(-15px) scale(1.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            z-index: 10;
         }
+
         .dock-item.active {
-            color: white; background: linear-gradient(135deg, var(--orange), var(--pink));
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.5); transform: translateY(-5px);
+            color: white;
+            background: linear-gradient(135deg, var(--orange), var(--pink));
+            box-shadow: 0 5px 20px rgba(255, 107, 53, 0.5);
+            transform: translateY(-5px);
         }
-        .dock-item i { width: 22px; height: 22px; transition: all 0.3s; }
+
+        .dock-item i {
+            width: 24px;
+            height: 24px;
+            transition: all 0.3s;
+        }
+
+        /* Tooltip au survol du dock */
         .dock-item span {
-            position: absolute; top: -40px; background: rgba(0,0,0,0.9); color: white;
-            padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;
-            opacity: 0; transform: translateY(10px); transition: all 0.3s;
-            pointer-events: none; white-space: nowrap; backdrop-filter: blur(5px);
+            position: absolute;
+            top: -45px;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s;
+            pointer-events: none;
+            white-space: nowrap;
+            backdrop-filter: blur(5px);
         }
-        .dock-item:hover span { opacity: 1; transform: translateY(0); }
 
-        /* --- CONTROLS --- */
-        .controls-panel { position: fixed; top: 2rem; right: 2rem; z-index: 100; display: flex; gap: 0.75rem; }
+        .dock-item:hover span {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- CONTROL PANEL (TOP RIGHT) --- */
+        .controls-panel {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 100;
+            display: flex;
+            gap: 0.8rem;
+        }
+
         .control-btn {
-            display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem;
-            background: var(--glass-bg); border: 1px solid var(--card-border);
-            border-radius: 2rem; color: var(--text-primary);
-            font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; cursor: pointer;
-            transition: all 0.3s ease; backdrop-filter: blur(10px);
-        }
-        .control-btn:hover { background: rgba(255, 107, 53, 0.15); border-color: var(--orange); transform: translateY(-2px); box-shadow: 0 0 15px rgba(255, 107, 53, 0.3); }
-        .control-btn.active { background: linear-gradient(135deg, var(--orange), var(--teal)); color: white; border-color: transparent; }
-
-        /* --- SOBRE MODE --- */
-        body.sober-mode .orb, body.sober-mode .cursor-glow { display: none !important; }
-        body.sober-mode .gradient-text { background: none; -webkit-text-fill-color: var(--text-primary); color: var(--text-primary); filter: none; }
-        body.sober-mode .profile-image { box-shadow: 0 10px 30px rgba(0,0,0,0.1); background: white; border-color: rgba(0,0,0,0.1); animation: none; }
-        body.sober-mode .btn-primary { background: #1d1d1f; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        body.sober-mode .dock-nav { background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
-        body.sober-mode .dock-item { color: #888; }
-        body.sober-mode .dock-item:hover { background: white; color: black; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        body.sober-mode .dock-item.active { background: #1d1d1f; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        body.sober-mode .dock-item span { background: #1d1d1f; }
-        body.sober-mode .experience-card:hover, body.sober-mode .vision-card:hover, body.sober-mode .skill-category:hover { 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.1); background: white; transform: translateY(-5px); 
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.4rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 2rem;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
-        /* Mobile */
+        .control-btn:hover {
+            background: rgba(255, 107, 53, 0.15);
+            border-color: var(--orange);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.2);
+        }
+
+        /* --- UTILS --- */
+        .hidden { display: none; }
+        
+        /* Animation d'apparition au scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- MEDIA QUERIES (RESPONSIVE) --- */
         @media (max-width: 640px) {
             .hero-title { font-size: 3.5rem; }
             .controls-panel { top: 1rem; right: 1rem; gap: 0.5rem; }
             .control-btn span { display: none; }
-            .control-btn { padding: 0.75rem; }
-            .dock-nav { padding: 8px 12px; bottom: 20px; }
+            .control-btn { padding: 0.8rem; }
+            
+            /* Dock adapté au mobile */
+            .dock-nav { 
+                padding: 8px 15px; 
+                bottom: 20px; 
+                width: 90%; 
+                justify-content: space-between;
+            }
             .dock-item { width: 45px; height: 45px; }
+            .dock-item span { display: none; } /* Pas de tooltip sur mobile */
+            
+            .timeline-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+        }
+
+        /* --- SOBRE MODE OVERRIDES (CLEAN DESIGN) --- */
+        body.sober-mode .orb, 
+        body.sober-mode .cursor-glow { 
+            display: none !important; 
+        }
+        
+        body.sober-mode .gradient-text {
+            background: none;
+            -webkit-text-fill-color: var(--text-primary);
+            color: var(--text-primary);
+            filter: none;
+        }
+        
+        body.sober-mode .profile-image {
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            background: white;
+            border-color: transparent;
+            animation: none;
+        }
+
+        body.sober-mode .btn-primary {
+            background: #1d1d1f;
+            color: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        body.sober-mode .category-card:hover {
+            transform: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background: white;
+            border-color: rgba(0,0,0,0.1);
         }
     </style>
 </head>
 <body id="home">
+    
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">
+                <i data-lucide="x" width="24"></i>
+            </button>
+            <h3 class="modal-title" id="modalTitle">Titre</h3>
+            <div class="modal-text" id="modalBody">Description...</div>
+        </div>
+    </div>
+
     <div class="controls-panel">
         <button class="control-btn" id="langToggle" title="Switch language">
             <i data-lucide="languages" width="20"></i>
@@ -373,7 +1241,6 @@
     </div>
 
     <div class="cursor-glow" id="cursorGlow"></div>
-
     <div class="grid-background"></div>
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
@@ -390,7 +1257,7 @@
 
                 <div class="badge">
                     <i data-lucide="zap" width="16"></i>
-                    <span class="badge-gradient" data-translate="hero_badge">Pilotage de Projets • Coordination • Product Ownership</span>
+                    <span class="badge-gradient" data-translate="hero_badge">Pilotage de Projets • PMO • Stratégie Produit</span>
                     <i data-lucide="sparkles" width="16"></i>
                 </div>
 
@@ -399,11 +1266,9 @@
                     <div class="gradient-text">BOUCHART</div>
                 </h1>
 
-                <p class="hero-subtitle" data-translate="hero_subtitle">Product Owner passionné par la création de valeur et l'innovation produit</p>
-
                 <p class="hero-description" data-translate="hero_description">
                     De <span class="highlight">l'entrepreneuriat à 15 ans</span> à la gestion de portefeuille chez GRDF, 
-                    j'ai développé une <span class="highlight">vision produit stratégique</span> alliée à une 
+                    j'ai développé une <span class="highlight">vision transversale et stratégique</span> alliée à une 
                     <span class="highlight">excellence opérationnelle Agile et Scrum</span>. Je transforme les besoins utilisateurs en solutions concrètes et rentables.
                 </p>
 
@@ -429,14 +1294,14 @@
         <div class="container">
             <div class="section-header reveal">
                 <h2 class="section-title gradient-text" data-translate="section_pro_title">PARCOURS PROFESSIONNEL</h2>
-                <p class="section-subtitle" data-translate="section_pro_subtitle">De l'entrepreneuriat précoce à l'expertise produit</p>
+                <p class="section-subtitle" data-translate="section_pro_subtitle">Voici les grands chapitres de ma professionnalisation</p>
             </div>
 
             <div class="experience-grid">
                 <div class="experience-card card-glass reveal">
                     <div class="exp-header">
                         <div class="exp-icon" style="background: linear-gradient(135deg, #ff6b35, #f77f00);">
-                            <i data-lucide="briefcase" width="28"></i>
+                            <i data-lucide="briefcase" width="32"></i>
                         </div>
                         <div class="exp-info">
                             <h3 style="color: var(--orange);" data-translate="exp_grdf_title">Chargé de Portefeuille (Alternance)</h3>
@@ -459,7 +1324,7 @@
                 <div class="experience-card card-glass reveal">
                     <div class="exp-header">
                         <div class="exp-icon" style="background: linear-gradient(135deg, #00d4aa, #00a896);">
-                            <i data-lucide="sparkles" width="28"></i>
+                            <i data-lucide="sparkles" width="32"></i>
                         </div>
                         <div class="exp-info">
                             <h3 style="color: var(--teal);" data-translate="exp_desreves_title">Fondateur & Product Owner</h3>
@@ -483,7 +1348,7 @@
                 <div class="experience-card card-glass reveal">
                     <div class="exp-header">
                         <div class="exp-icon" style="background: linear-gradient(135deg, #6a4c93, #8b5cf6);">
-                            <i data-lucide="users" width="28"></i>
+                            <i data-lucide="users" width="32"></i>
                         </div>
                         <div class="exp-info">
                             <h3 style="color: var(--purple);" data-translate="exp_bde_title">Président</h3>
@@ -506,7 +1371,7 @@
                 <div class="experience-card card-glass reveal">
                     <div class="exp-header">
                         <div class="exp-icon" style="background: linear-gradient(135deg, #ff006e, #d00060);">
-                            <i data-lucide="gamepad-2" width="28"></i>
+                            <i data-lucide="gamepad-2" width="32"></i>
                         </div>
                         <div class="exp-info">
                             <h3 style="color: var(--pink);" data-translate="exp_esport_title">Fondateur & Manager</h3>
@@ -528,7 +1393,7 @@
                 <div class="experience-card card-glass reveal">
                     <div class="exp-header">
                         <div class="exp-icon" style="background: linear-gradient(135deg, #ffbe0b, #ff9e00);">
-                            <i data-lucide="globe" width="28"></i>
+                            <i data-lucide="globe" width="32"></i>
                         </div>
                         <div class="exp-info">
                             <h3 style="color: var(--yellow);" data-translate="exp_intl_title">Formations Intensives Internationales</h3>
@@ -560,7 +1425,7 @@
             <div class="vision-grid">
                 <div class="vision-card card-glass reveal">
                     <div class="vision-icon" style="background: linear-gradient(135deg, #00d4aa, #00a896);">
-                        <i data-lucide="lightbulb" width="30"></i>
+                        <i data-lucide="lightbulb" width="32"></i>
                     </div>
                     <h3 style="color: var(--teal);" data-translate="vision_1_title">Innovation permanente</h3>
                     <p data-translate="vision_1_desc">
@@ -571,7 +1436,7 @@
 
                 <div class="vision-card card-glass reveal">
                     <div class="vision-icon" style="background: linear-gradient(135deg, #6a4c93, #8b5cf6);">
-                        <i data-lucide="rocket" width="30"></i>
+                        <i data-lucide="rocket" width="32"></i>
                     </div>
                     <h3 style="color: var(--purple);" data-translate="vision_2_title">Action & Concrétisation</h3>
                     <p data-translate="vision_2_desc">
@@ -582,7 +1447,7 @@
 
                 <div class="vision-card card-glass reveal">
                     <div class="vision-icon" style="background: linear-gradient(135deg, #ff006e, #d00060);">
-                        <i data-lucide="target" width="30"></i>
+                        <i data-lucide="target" width="32"></i>
                     </div>
                     <h3 style="color: var(--pink);" data-translate="vision_3_title">Impact Business</h3>
                     <p data-translate="vision_3_desc">
@@ -593,7 +1458,7 @@
 
                 <div class="vision-card card-glass reveal">
                     <div class="vision-icon" style="background: linear-gradient(135deg, #ff6b35, #f77f00);">
-                        <i data-lucide="brain" width="30"></i>
+                        <i data-lucide="brain" width="32"></i>
                     </div>
                     <h3 style="color: var(--orange);" data-translate="vision_4_title">Passion pour l'IA</h3>
                     <p data-translate="vision_4_desc">
@@ -609,38 +1474,38 @@
         <div class="container">
             <div class="section-header reveal">
                 <h2 class="section-title gradient-text" data-translate="section_atouts_title">MES ATOUTS</h2>
-                <p class="section-subtitle" data-translate="section_atouts_subtitle">Transparence totale sur mes forces et axes de travail</p>
+                <p class="section-subtitle" data-translate="section_atouts_subtitle">Cliquez sur un élément pour voir le détail</p>
             </div>
 
             <div class="traits-container">
                 <div class="trait-card card-glass strengths reveal">
                     <div class="trait-header">
-                        <i data-lucide="check-circle" width="28" style="color: var(--teal);"></i>
+                        <i data-lucide="check-circle" width="30" style="color: var(--teal);"></i>
                         <span class="trait-badge green" data-translate="lbl_forces">MES FORCES</span>
                     </div>
                     <div class="trait-list">
-                        <div class="trait-item">
-                            <i data-lucide="zap" width="18" style="color: var(--teal); flex-shrink: 0;"></i>
+                        <div class="trait-item" onclick="openDetail('force_1')">
+                            <i data-lucide="zap" width="20" style="color: var(--teal);"></i>
                             <span data-translate="force_1"><strong>Vision stratégique</strong> — Alignement projets × objectifs business</span>
                         </div>
-                        <div class="trait-item">
-                            <i data-lucide="zap" width="18" style="color: var(--teal); flex-shrink: 0;"></i>
+                        <div class="trait-item" onclick="openDetail('force_2')">
+                            <i data-lucide="zap" width="20" style="color: var(--teal);"></i>
                             <span data-translate="force_2"><strong>Sens des priorités</strong> — Arbitrage valeur / coûts / risques / délais</span>
                         </div>
-                        <div class="trait-item">
-                            <i data-lucide="zap" width="18" style="color: var(--teal); flex-shrink: 0;"></i>
+                        <div class="trait-item" onclick="openDetail('force_3')">
+                            <i data-lucide="zap" width="20" style="color: var(--teal);"></i>
                             <span data-translate="force_3"><strong>Leadership transversal</strong> — Coordination sans lien hiérarchique</span>
                         </div>
-                        <div class="trait-item">
-                            <i data-lucide="zap" width="18" style="color: var(--teal); flex-shrink: 0;"></i>
+                        <div class="trait-item" onclick="openDetail('force_4')">
+                            <i data-lucide="zap" width="20" style="color: var(--teal);"></i>
                             <span data-translate="force_4"><strong>Culture résultat</strong> — Pilotage orienté impact et ROI</span>
                         </div>
-                        <div class="trait-item">
-                            <i data-lucide="zap" width="18" style="color: var(--teal); flex-shrink: 0;"></i>
+                        <div class="trait-item" onclick="openDetail('force_5')">
+                            <i data-lucide="zap" width="20" style="color: var(--teal);"></i>
                             <span data-translate="force_5"><strong>Curieux et engagé</strong> — Appétence pour l'apprentissage continu</span>
                         </div>
-                        <div class="trait-item">
-                            <i data-lucide="zap" width="18" style="color: var(--teal); flex-shrink: 0;"></i>
+                        <div class="trait-item" onclick="openDetail('force_6')">
+                            <i data-lucide="zap" width="20" style="color: var(--teal);"></i>
                             <span data-translate="force_6"><strong>Communication claire</strong> — Traduction enjeux complexes → décisions simples</span>
                         </div>
                     </div>
@@ -648,32 +1513,32 @@
 
                 <div class="trait-card card-glass weaknesses reveal">
                     <div class="trait-header">
-                        <i data-lucide="alert-circle" width="28" style="color: var(--yellow);"></i>
+                        <i data-lucide="alert-circle" width="30" style="color: var(--yellow);"></i>
                         <span class="trait-badge amber" data-translate="lbl_weaknesses">MES AXES D'AMÉLIORATION</span>
                     </div>
                     <div class="trait-list">
-                        <div class="trait-item">
-                            <i data-lucide="triangle-alert" width="18" style="color: var(--yellow); flex-shrink: 0;"></i>
+                        <div class="trait-item" onclick="openDetail('weak_1')">
+                            <i data-lucide="triangle-alert" width="20" style="color: var(--yellow);"></i>
                             <span data-translate="weak_1"><strong>Trop ouvert aux propositions</strong> — Me ralentit parfois, travail sur le focus</span>
                         </div>
-                        <div class="trait-item">
-                            <i data-lucide="triangle-alert" width="18" style="color: var(--yellow); flex-shrink: 0;"></i>
+                        <div class="trait-item" onclick="openDetail('weak_2')">
+                            <i data-lucide="triangle-alert" width="20" style="color: var(--yellow);"></i>
                             <span data-translate="weak_2"><strong>Besoin de solitude ponctuel</strong> — Phases où je me recharge seul</span>
                         </div>
-                        <div class="trait-item">
-                            <i data-lucide="triangle-alert" width="18" style="color: var(--yellow); flex-shrink: 0;"></i>
+                        <div class="trait-item" onclick="openDetail('weak_3')">
+                            <i data-lucide="triangle-alert" width="20" style="color: var(--yellow);"></i>
                             <span data-translate="weak_3"><strong>Côté direct parfois abrupt</strong> — Je cherche l'efficacité, pas la validation</span>
                         </div>
-                        <div class="trait-item">
-                            <i data-lucide="triangle-alert" width="18" style="color: var(--yellow); flex-shrink: 0;"></i>
+                        <div class="trait-item" onclick="openDetail('weak_4')">
+                            <i data-lucide="triangle-alert" width="20" style="color: var(--yellow);"></i>
                             <span data-translate="weak_4"><strong>Optimisation > émotion</strong> — Tendance à sauter les étapes émotionnelles</span>
                         </div>
-                        <div class="trait-item">
-                            <i data-lucide="triangle-alert" width="18" style="color: var(--yellow); flex-shrink: 0;"></i>
+                        <div class="trait-item" onclick="openDetail('weak_5')">
+                            <i data-lucide="triangle-alert" width="20" style="color: var(--yellow);"></i>
                             <span data-translate="weak_5"><strong>Difficulté avec le flou prolongé</strong> — Besoin de structurer rapidement</span>
                         </div>
-                        <div class="trait-item">
-                            <i data-lucide="triangle-alert" width="18" style="color: var(--yellow); flex-shrink: 0;"></i>
+                        <div class="trait-item" onclick="openDetail('weak_6')">
+                            <i data-lucide="triangle-alert" width="20" style="color: var(--yellow);"></i>
                             <span data-translate="weak_6"><strong>Impatience face aux non-décisions</strong> — Préférence pour l'action concrète</span>
                         </div>
                     </div>
@@ -791,7 +1656,7 @@
 
             <div class="search-container reveal">
                 <div class="search-wrapper">
-                    <i data-lucide="search" width="22" class="search-icon"></i>
+                    <i data-lucide="search" width="24" class="search-icon"></i>
                     <input 
                         type="text" 
                         class="search-input" 
@@ -809,8 +1674,7 @@
     <footer id="contact">
         <div class="container">
             <h3 class="gradient-text" data-translate="footer_title">Construisons ensemble</h3>
-            <p data-translate="footer_subtitle">Prêt à apporter rigueur, créativité et impact à vos projets stratégiques</p>
-
+            
             <div class="footer-buttons">
                 <a href="https://www.linkedin.com/in/florian-bouchart" target="_blank" class="btn btn-primary">
                     <i data-lucide="linkedin" width="20"></i>
@@ -835,9 +1699,9 @@
             <i data-lucide="briefcase"></i>
             <span data-translate="nav_career">Parcours</span>
         </a>
-        <a href="#competences" class="dock-item">
+        <a href="#atouts" class="dock-item">
             <i data-lucide="cpu"></i>
-            <span data-translate="nav_skills">Skills</span>
+            <span data-translate="nav_skills">Atouts</span>
         </a>
         <a href="#formation" class="dock-item">
             <i data-lucide="graduation-cap"></i>
@@ -850,7 +1714,196 @@
     </div>
 
     <script>
-        // DONNÉES ACADÉMIQUES
+        // VARIABLES GLOBALES
+        let currentLang = 'fr';
+        let soberMode = false;
+
+        // DICTIONNAIRE DE TRADUCTION ET DONNÉES COMPLÈTES
+        const translations = {
+            fr: {
+                sober_mode: "Clair",
+                hero_badge: "Pilotage de Projets • PMO • Stratégie Produit",
+                hero_description: "De <span class=\"highlight\">l'entrepreneuriat à 15 ans</span> à la gestion de portefeuille chez GRDF, j'ai développé une <span class=\"highlight\">vision transversale et stratégique</span> alliée à une <span class=\"highlight\">excellence opérationnelle Agile et Scrum</span>. Je transforme les besoins utilisateurs en solutions concrètes et rentables.",
+                btn_cv: "Voir mon CV",
+                nav_home: "Accueil", nav_career: "Parcours", nav_skills: "Atouts", nav_edu: "Formation", nav_contact: "Contact",
+                section_pro_title: "PARCOURS PROFESSIONNEL",
+                section_pro_subtitle: "Voici les grands chapitres de ma professionnalisation",
+                exp_grdf_title: "Chargé de Portefeuille (Alternance)",
+                exp_grdf_period: "2023 - 2026 • 3 ans",
+                exp_grdf_desc: "Pilotage de la relation avec les collectivités locales. Gestion des KPI stratégiques, suivi des contrats de concession, coordination des investissements et production de comptes-rendus d'activités. Gestion des redevances et interface avec les élus.",
+                tag_kpi: "Pilotage KPI", tag_contracts: "Gestion contrats", tag_relations: "Relations institutionnelles", tag_reporting: "Reporting",
+                exp_desreves_title: "Fondateur & Product Owner",
+                exp_desreves_period: "2024 - Aujourd'hui",
+                exp_desreves_comp: "Desrèves - Marque de vêtements durables",
+                exp_desreves_desc: "Création et développement d'une marque de vêtements et accessoires durables Made in France. Gestion complète du projet : stratégie de marque, design produit, développement web (Liquid/CSS), relation fournisseurs, marketing digital et branding.",
+                tag_entrepreneurship: "Entrepreneuriat", tag_product_design: "Design produit", tag_web_dev: "Dev web", tag_suppliers: "Gestion fournisseurs", tag_marketing: "Marketing",
+                exp_bde_title: "Président",
+                exp_bde_period: "2022 - 2025 • 3 ans",
+                exp_bde_desc: "Management d'une équipe bénévole, pilotage budgétaire, gestion des risques événementiels, développement commercial et partenariats. Conception et réalisation de produits (goodies, merchandising). Leadership et coordination transversale.",
+                tag_leadership: "Leadership", tag_budget: "Gestion budget", tag_events: "Événementiel", tag_team_mgmt: "Management équipe",
+                exp_esport_title: "Fondateur & Manager",
+                exp_esport_period: "2018 - 2021 • Dès 15 ans",
+                exp_esport_comp: "Structure E-sport",
+                exp_esport_desc: "Création et gestion d'une structure E-sport. Management de joueurs compétitifs, organisation de LANs (dont participation à Lyon E-Sport). Coordination logistique, gestion d'équipe et développement de partenariats.",
+                tag_early_entrepreneurship: "Entrepreneuriat précoce", tag_management: "Management", tag_event_org: "Organisation événements",
+                exp_intl_title: "Formations Intensives Internationales",
+                exp_intl_comp: "Finlande & Roumanie",
+                exp_intl_desc: "<strong>🇫🇮 Vaasa, Finlande</strong> - Entrepreneurship and Venturing (Vaasan yliopisto)<br><strong>🇷🇴 Cluj-Napoca, Roumanie</strong> - Innovation, Design-Thinking and Entrepreneurship (Universitatea Babes-Bolyai)",
+                tag_mobility: "Mobilité internationale", tag_innovation: "Innovation", tag_design_thinking: "Design Thinking",
+                section_vision_title: "MA VISION",
+                section_vision_subtitle: "Ce qui me motive au quotidien",
+                vision_1_title: "Innovation permanente",
+                vision_1_desc: "J'innove dans tout ce que je fais — process, méthodes, approches. Je ne fais jamais comme les autres. Mon obsession : <strong>l'amélioration continue et l'optimisation intelligente</strong>.",
+                vision_2_title: "Action & Concrétisation",
+                vision_2_desc: "L'inactivité me rend malade. <strong>J'entreprends constamment</strong> : E-sport à 15 ans, BDE, ma marque Desrèves... Je mène les projets de A à Z avec rigueur et polyvalence.",
+                vision_3_title: "Impact Business",
+                vision_3_desc: "Vision stratégique alignée sur les KPI business. Je priorise les features à forte valeur et arbitre entre coûts, risques et délais pour maximiser le ROI produit.",
+                vision_4_title: "Passion pour l'IA",
+                vision_4_desc: "Hyper curieux sur l'IA et l'automatisation. J'apprends à tout automatiser, à appliquer l'IA au quotidien, et à maîtriser les workflows intelligents. <strong>L'IA est devenue mon quotidien</strong>.",
+                section_atouts_title: "MES ATOUTS",
+                section_atouts_subtitle: "Cliquez sur un élément pour en savoir plus",
+                lbl_forces: "MES FORCES",
+                lbl_weaknesses: "MES AXES D'AMÉLIORATION",
+                force_1: "<strong>Vision stratégique</strong> — Alignement projets × objectifs business",
+                force_2: "<strong>Sens des priorités</strong> — Arbitrage valeur / coûts / risques / délais",
+                force_3: "<strong>Leadership transversal</strong> — Coordination sans lien hiérarchique",
+                force_4: "<strong>Culture résultat</strong> — Pilotage orienté impact et ROI",
+                force_5: "<strong>Curieux et engagé</strong> — Appétence pour l'apprentissage continu",
+                force_6: "<strong>Communication claire</strong> — Traduction enjeux complexes → décisions simples",
+                weak_1: "<strong>Trop ouvert aux propositions</strong> — Me ralentit parfois, travail sur le focus",
+                weak_2: "<strong>Besoin de solitude ponctuel</strong> — Phases où je me recharge seul",
+                weak_3: "<strong>Côté direct parfois abrupt</strong> — Je cherche l'efficacité, pas la validation",
+                weak_4: "<strong>Optimisation > émotion</strong> — Tendance à sauter les étapes émotionnelles",
+                weak_5: "<strong>Difficulté avec le flou prolongé</strong> — Besoin de structurer rapidement",
+                weak_6: "<strong>Impatience face aux non-décisions</strong> — Préférence pour l'action concrète",
+                section_skills_title: "COMPÉTENCES",
+                section_skills_subtitle: "Maîtrises techniques et soft skills",
+                skill_cat_mgmt: "<i data-lucide='briefcase' width='24' style='color: var(--orange);'></i> Management & Stratégie",
+                skill_cat_data: "<i data-lucide='bar-chart-3' width='24' style='color: var(--purple);'></i> Data & Analyse",
+                skill_cat_tech: "<i data-lucide='code' width='24' style='color: var(--pink);'></i> Tech (bases avec IA)",
+                skill_cat_lang: "<i data-lucide='globe' width='24' style='color: var(--teal);'></i> Langues",
+                skill_agile: "Gestion de projet Agile", skill_kpi: "Pilotage KPI", skill_risk: "Gestion des risques", skill_team: "Management d'équipe", skill_scrum: "Scrum (préparation certif)",
+                skill_excel: "Excel avancé (Macros, VBA)", skill_dash: "Tableaux de bord", skill_data: "Analyse de données", skill_control: "Contrôle de gestion",
+                skill_prompt: "Prompting IA avancé", skill_workflows: "Workflows automatisés", skill_digital: "Digitalisation process",
+                skill_css: "CSS (avec IA)", skill_liquid: "Liquid (avec IA)", skill_r: "R (bases)",
+                skill_com: "Communication structurée", skill_prob: "Résolution de problèmes", skill_result: "Orientation résultat", skill_listen: "Écoute active", skill_disc: "Discipline",
+                lang_fr: "🇫🇷 Français (Natif)", lang_en: "🇬🇧 Anglais (Pro - TOEIC)", lang_es: "🇪🇸 Espagnol (Notions)", lang_fi: "🇫🇮 Finlande (mobilité)", lang_ro: "🇷🇴 Roumanie (mobilité)",
+                section_edu_title: "FORMATION",
+                section_edu_subtitle: "Master Entrepreneuriat & Management de Projets",
+                search_placeholder: "Rechercher un cours (ex: Scrum, Marketing, RGPD...)",
+                footer_title: "Construisons ensemble",
+                footer_copyright: "© 2026 Florian Bouchart • Portfolio digital innovant"
+            },
+            en: {
+                sober_mode: "Light",
+                hero_badge: "Project Management • PMO • Product Strategy",
+                hero_subtitle: "Project Management, PMO & Product Strategy Expert",
+                hero_description: "From <span class=\"highlight\">entrepreneurship at 15</span> to portfolio management at GRDF, I have developed a <span class=\"highlight\">transversal and strategic vision</span> combined with <span class=\"highlight\">Agile and Scrum operational excellence</span>. I transform user needs into concrete and profitable solutions.",
+                btn_cv: "View Resume",
+                nav_home: "Home", nav_career: "Career", nav_skills: "Strengths", nav_edu: "Education", nav_contact: "Contact",
+                section_pro_title: "PROFESSIONAL EXPERIENCE",
+                section_pro_subtitle: "Here are the main stages of my professional development",
+                exp_grdf_title: "Portfolio Manager (Apprenticeship)",
+                exp_grdf_period: "2023 - 2026 • 3 years",
+                exp_grdf_desc: "Managing relationships with local authorities. Managing strategic KPIs, monitoring concession contracts, coordinating investments, and producing activity reports. Managing royalties and interfacing with elected officials.",
+                tag_kpi: "KPI Management", tag_contracts: "Contract Mgmt", tag_relations: "Institutional Relations", tag_reporting: "Reporting",
+                exp_desreves_title: "Founder & Product Owner",
+                exp_desreves_period: "2024 - Present",
+                exp_desreves_comp: "Desrèves - Sustainable Clothing Brand",
+                exp_desreves_desc: "Creation and development of a sustainable Made in France clothing and accessories brand. Complete project management: brand strategy, product design, web development (Liquid/CSS), supplier relations, digital marketing, and branding.",
+                tag_entrepreneurship: "Entrepreneurship", tag_product_design: "Product Design", tag_web_dev: "Web Dev", tag_suppliers: "Supplier Mgmt", tag_marketing: "Marketing",
+                exp_bde_title: "President",
+                exp_bde_period: "2022 - 2025 • 3 years",
+                exp_bde_desc: "Management of a volunteer team, budget management, event risk management, business development, and partnerships. Design and production of products (goodies, merchandising). Leadership and cross-functional coordination.",
+                tag_leadership: "Leadership", tag_budget: "Budget Mgmt", tag_events: "Event Planning", tag_team_mgmt: "Team Mgmt",
+                exp_esport_title: "Founder & Manager",
+                exp_esport_period: "2018 - 2021 • From age 15",
+                exp_esport_comp: "E-sport Organization",
+                exp_esport_desc: "Creation and management of an E-sport structure. Management of competitive players, organization of LANs (including participation in Lyon E-Sport). Logistics coordination, team management, and partnership development.",
+                tag_early_entrepreneurship: "Early Entrepreneurship", tag_management: "Management", tag_event_org: "Event Organization",
+                exp_intl_title: "Intensive International Training",
+                exp_intl_comp: "Finland & Romania",
+                exp_intl_desc: "<strong>🇫🇮 Vaasa, Finland</strong> - Entrepreneurship and Venturing (Vaasan yliopisto)<br><strong>🇷🇴 Cluj-Napoca, Romania</strong> - Innovation, Design-Thinking and Entrepreneurship (Universitatea Babes-Bolyai)",
+                tag_mobility: "International Mobility", tag_innovation: "Innovation", tag_design_thinking: "Design Thinking",
+                section_vision_title: "MY VISION",
+                section_vision_subtitle: "What drives me daily",
+                vision_1_title: "Continuous Innovation",
+                vision_1_desc: "I innovate in everything I do — processes, methods, approaches. I never do things like everyone else. My obsession: <strong>continuous improvement and intelligent optimization</strong>.",
+                vision_2_title: "Action & Realization",
+                vision_2_desc: "Inactivity drives me crazy. <strong>I am constantly undertaking projects</strong>: E-sport at 15, Student Union, my brand Desrèves... I lead projects from A to Z with rigor and versatility.",
+                vision_3_title: "Business Impact",
+                vision_3_desc: "Strategic vision aligned with business KPIs. I prioritize high-value features and arbitrate between costs, risks, and delays to maximize product ROI.",
+                vision_4_title: "Passion for AI",
+                vision_4_desc: "Hyper curious about AI and automation. I learn to automate everything, apply AI daily, and master intelligent workflows. <strong>AI has become my daily life</strong>.",
+                section_atouts_title: "MY STRENGTHS",
+                section_atouts_subtitle: "Click on an item to learn more",
+                lbl_forces: "MY STRENGTHS",
+                lbl_weaknesses: "AREAS FOR IMPROVEMENT",
+                force_1: "<strong>Strategic Vision</strong> — Aligning projects × business goals",
+                force_2: "<strong>Sense of Priorities</strong> — Arbitrating value / costs / risks / deadlines",
+                force_3: "<strong>Cross-functional Leadership</strong> — Coordination without hierarchical link",
+                force_4: "<strong>Result Culture</strong> — Impact and ROI-oriented management",
+                force_5: "<strong>Curious and Engaged</strong> — Appetite for continuous learning",
+                force_6: "<strong>Clear Communication</strong> — Translating complex issues → simple decisions",
+                weak_1: "<strong>Too open to proposals</strong> — Sometimes slows me down, working on focus",
+                weak_2: "<strong>Occasional need for solitude</strong> — Phases where I recharge alone",
+                weak_3: "<strong>Direct side sometimes abrupt</strong> — I seek efficiency, not validation",
+                weak_4: "<strong>Optimization > Emotion</strong> — Tendency to skip emotional steps",
+                weak_5: "<strong>Difficulty with prolonged ambiguity</strong> — Need to structure quickly",
+                weak_6: "<strong>Impatience with non-decisions</strong> — Preference for concrete action",
+                section_skills_title: "SKILLS",
+                section_skills_subtitle: "Technical mastery and soft skills",
+                skill_cat_mgmt: "<i data-lucide='briefcase' width='24' style='color: var(--orange);'></i> Management & Strategy",
+                skill_cat_data: "<i data-lucide='bar-chart-3' width='24' style='color: var(--purple);'></i> Data & Analysis",
+                skill_cat_tech: "<i data-lucide='code' width='24' style='color: var(--pink);'></i> Tech (basics with AI)",
+                skill_cat_lang: "<i data-lucide='globe' width='24' style='color: var(--teal);'></i> Languages",
+                skill_agile: "Agile Project Mgmt", skill_kpi: "KPI Management", skill_risk: "Risk Management", skill_team: "Team Management", skill_scrum: "Scrum (Certif Prep)",
+                skill_excel: "Advanced Excel (Macros, VBA)", skill_dash: "Dashboards", skill_data: "Data Analysis", skill_control: "Management Control",
+                skill_prompt: "Advanced AI Prompting", skill_workflows: "Automated Workflows", skill_digital: "Process Digitalization",
+                skill_css: "CSS (with AI)", skill_liquid: "Liquid (with AI)", skill_r: "R (basics)",
+                skill_com: "Structured Communication", skill_prob: "Problem Solving", skill_result: "Result Oriented", skill_listen: "Active Listening", skill_disc: "Discipline",
+                lang_fr: "🇫🇷 French (Native)", lang_en: "🇬🇧 English (Pro - TOEIC)", lang_es: "🇪🇸 Spanish (Basic)", lang_fi: "🇫🇮 Finland (mobility)", lang_ro: "🇷🇴 Romania (mobility)",
+                section_edu_title: "EDUCATION",
+                section_edu_subtitle: "Master in Entrepreneurship & Project Management",
+                search_placeholder: "Search for a course (e.g., Scrum, Marketing, GDPR...)",
+                footer_title: "Let's Build Together",
+                footer_copyright: "© 2026 Florian Bouchart • Innovative Digital Portfolio"
+            }
+        };
+
+        // DETAILS POUR POPUP (Le texte explicatif détaillé)
+        const detailsData = {
+            fr: {
+                force_1: "Je ne me contente pas d'exécuter. Je m'assure toujours que chaque action technique ou produit est alignée avec la stratégie globale de l'entreprise à moyen et long terme.",
+                force_2: "Dans un backlog infini, savoir dire ce qui ne doit PAS être fait est aussi important que ce qui doit l'être. J'arbitre en permanence selon la valeur business.",
+                force_3: "J'ai l'habitude de fédérer des équipes sans lien hiérarchique direct, simplement par la clarté de la vision et l'engagement.",
+                force_4: "Je mesure le succès par l'impact réel (ROI, Satisfaction client, Adoption) et non par la quantité de fonctionnalités livrées.",
+                force_5: "Je ne reste jamais sur mes acquis. Je me forme en permanence pour apporter de nouvelles solutions.",
+                force_6: "Je sais vulgariser les sujets techniques pour le business et traduire les enjeux business pour la technique. C'est la clé d'un pilotage réussi.",
+                weak_1: "Ma curiosité me pousse parfois à explorer trop de pistes simultanément. Je travaille activement à recentrer mon focus sur l'essentiel pour ne pas disperser l'équipe.",
+                weak_2: "Après des phases de rush intense, j'ai besoin de moments calmes pour analyser et structurer la suite. Ce n'est pas du désengagement, mais de la recharge stratégique.",
+                weak_3: "Je privilégie l'efficacité et la transparence. Parfois, ma communication peut paraître sèche. Je m'efforce d'ajouter plus de rondeur pour maintenir une bonne cohésion.",
+                weak_4: "Je cherche toujours la solution logique la plus efficace, parfois au détriment de l'aspect émotionnel ou humain immédiat. J'apprends à mieux intégrer ce facteur.",
+                weak_5: "J'aime quand les choses sont carrées. Le flou artistique me stresse, ce qui me pousse parfois à vouloir structurer trop tôt.",
+                weak_6: "J'ai du mal à supporter l'inertie. Si une décision traîne, je vais avoir tendance à la provoquer, quitte à bousculer un peu."
+            },
+            en: {
+                force_1: "I don't just execute. I ensure every technical or product action aligns with the company's mid-to-long-term strategy.",
+                force_2: "In an infinite backlog, knowing what NOT to do is as important as what to do. I constantly arbitrate based on business value.",
+                force_3: "I am used to uniting teams without direct hierarchical links, simply through clarity of vision and engagement.",
+                force_4: "I measure success by real impact (ROI, Customer Satisfaction, Adoption) rather than the quantity of features shipped.",
+                force_5: "I never rest on my laurels. I constantly train myself to bring new solutions.",
+                force_6: "I know how to simplify technical topics for business and translate business challenges for tech. This is key to successful management.",
+                weak_1: "My curiosity sometimes pushes me to explore too many paths at once. I actively work on refocusing on the essentials.",
+                weak_2: "After intense rush phases, I need quiet moments to analyze and structure what's next. It's strategic recharging.",
+                weak_3: "I value efficiency and transparency. Sometimes my communication can seem blunt. I strive to add more softness.",
+                weak_4: "I always look for the most logical solution, sometimes overlooking the immediate emotional factor. I am learning to integrate this better.",
+                weak_5: "I like things to be clear. Artistic vagueness stresses me out, which sometimes pushes me to want to structure too early.",
+                weak_6: "I have trouble tolerating inertia. If a decision drags on, I tend to provoke it, even if it means shaking things up a bit."
+            }
+        };
+
+        // DONNÉES ACADÉMIQUES (TIMELINE COMPLÈTE)
         const academicData = {
             fr: [
                 {
@@ -942,172 +1995,11 @@
             ]
         };
 
-        // DICTIONNAIRE DE TRADUCTION
-        const translations = {
-            fr: {
-                sober_mode: "Clair",
-                hero_badge: "Pilotage de Projets • Coordination • Product Ownership",
-                hero_subtitle: "Product Owner passionné par la création de valeur et l'innovation produit",
-                hero_description: "De <span class=\"highlight\">l'entrepreneuriat à 15 ans</span> à la gestion de portefeuille chez GRDF, j'ai développé une <span class=\"highlight\">vision produit stratégique</span> alliée à une <span class=\"highlight\">excellence opérationnelle Agile et Scrum</span>. Je transforme les besoins utilisateurs en solutions concrètes et rentables.",
-                btn_cv: "Voir mon CV",
-                nav_home: "Accueil", nav_career: "Parcours", nav_skills: "Skills", nav_edu: "Formation", nav_contact: "Contact",
-                section_pro_title: "PARCOURS PROFESSIONNEL",
-                section_pro_subtitle: "De l'entrepreneuriat précoce à l'expertise produit",
-                exp_grdf_title: "Chargé de Portefeuille (Alternance)",
-                exp_grdf_period: "2023 - 2026 • 3 ans",
-                exp_grdf_desc: "Pilotage de la relation avec les collectivités locales. Gestion des KPI stratégiques, suivi des contrats de concession, coordination des investissements et production de comptes-rendus d'activités. Gestion des redevances et interface avec les élus.",
-                tag_kpi: "Pilotage KPI", tag_contracts: "Gestion contrats", tag_relations: "Relations institutionnelles", tag_reporting: "Reporting",
-                exp_desreves_title: "Fondateur & Product Owner",
-                exp_desreves_period: "2024 - Aujourd'hui",
-                exp_desreves_comp: "Desrèves - Marque de vêtements durables",
-                exp_desreves_desc: "Création et développement d'une marque de vêtements et accessoires durables Made in France. Gestion complète du projet : stratégie de marque, design produit, développement web (Liquid/CSS), relation fournisseurs, marketing digital et branding.",
-                tag_entrepreneurship: "Entrepreneuriat", tag_product_design: "Design produit", tag_web_dev: "Dev web", tag_suppliers: "Gestion fournisseurs", tag_marketing: "Marketing",
-                exp_bde_title: "Président",
-                exp_bde_period: "2022 - 2025 • 3 ans",
-                exp_bde_desc: "Management d'une équipe bénévole, pilotage budgétaire, gestion des risques événementiels, développement commercial et partenariats. Conception et réalisation de produits (goodies, merchandising). Leadership et coordination transversale.",
-                tag_leadership: "Leadership", tag_budget: "Gestion budget", tag_events: "Événementiel", tag_team_mgmt: "Management équipe",
-                exp_esport_title: "Fondateur & Manager",
-                exp_esport_period: "2018 - 2021 • Dès 15 ans",
-                exp_esport_comp: "Structure E-sport",
-                exp_esport_desc: "Création et gestion d'une structure E-sport. Management de joueurs compétitifs, organisation de LANs (dont participation à Lyon E-Sport). Coordination logistique, gestion d'équipe et développement de partenariats.",
-                tag_early_entrepreneurship: "Entrepreneuriat précoce", tag_management: "Management", tag_event_org: "Organisation événements",
-                exp_intl_title: "Formations Intensives Internationales",
-                exp_intl_comp: "Finlande & Roumanie",
-                exp_intl_desc: "<strong>🇫🇮 Vaasa, Finlande</strong> - Entrepreneurship and Venturing (Vaasan yliopisto)<br><strong>🇷🇴 Cluj-Napoca, Roumanie</strong> - Innovation, Design-Thinking and Entrepreneurship (Universitatea Babes-Bolyai)",
-                tag_mobility: "Mobilité internationale", tag_innovation: "Innovation", tag_design_thinking: "Design Thinking",
-                section_vision_title: "MA VISION",
-                section_vision_subtitle: "Ce qui me motive au quotidien",
-                vision_1_title: "Innovation permanente",
-                vision_1_desc: "J'innove dans tout ce que je fais — process, méthodes, approches. Je ne fais jamais comme les autres. Mon obsession : <strong>l'amélioration continue et l'optimisation intelligente</strong>.",
-                vision_2_title: "Action & Concrétisation",
-                vision_2_desc: "L'inactivité me rend malade. <strong>J'entreprends constamment</strong> : E-sport à 15 ans, BDE, ma marque Desrèves... Je mène les projets de A à Z avec rigueur et polyvalence.",
-                vision_3_title: "Impact Business",
-                vision_3_desc: "Vision stratégique alignée sur les KPI business. Je priorise les features à forte valeur et arbitre entre coûts, risques et délais pour maximiser le ROI produit.",
-                vision_4_title: "Passion pour l'IA",
-                vision_4_desc: "Hyper curieux sur l'IA et l'automatisation. J'apprends à tout automatiser, à appliquer l'IA au quotidien, et à maîtriser les workflows intelligents. <strong>L'IA est devenue mon quotidien</strong>.",
-                section_atouts_title: "MES ATOUTS",
-                section_atouts_subtitle: "Transparence totale sur mes forces et axes de travail",
-                lbl_forces: "MES FORCES",
-                lbl_weaknesses: "MES AXES D'AMÉLIORATION",
-                force_1: "<strong>Vision stratégique</strong> — Alignement projets × objectifs business",
-                force_2: "<strong>Sens des priorités</strong> — Arbitrage valeur / coûts / risques / délais",
-                force_3: "<strong>Leadership transversal</strong> — Coordination sans lien hiérarchique",
-                force_4: "<strong>Culture résultat</strong> — Pilotage orienté impact et ROI",
-                force_5: "<strong>Curieux et engagé</strong> — Appétence pour l'apprentissage continu",
-                force_6: "<strong>Communication claire</strong> — Traduction enjeux complexes → décisions simples",
-                weak_1: "<strong>Trop ouvert aux propositions</strong> — Me ralentit parfois, travail sur le focus",
-                weak_2: "<strong>Besoin de solitude ponctuel</strong> — Phases où je me recharge seul",
-                weak_3: "<strong>Côté direct parfois abrupt</strong> — Je cherche l'efficacité, pas la validation",
-                weak_4: "<strong>Optimization > émotion</strong> — Tendance à sauter les étapes émotionnelles",
-                weak_5: "<strong>Difficulté avec le flou prolongé</strong> — Besoin de structurer rapidement",
-                weak_6: "<strong>Impatience face aux non-décisions</strong> — Préférence pour l'action concrète",
-                section_skills_title: "COMPÉTENCES",
-                section_skills_subtitle: "Maîtrises techniques et soft skills",
-                skill_cat_mgmt: "<i data-lucide='briefcase' width='24' style='color: var(--orange);'></i> Management & Stratégie",
-                skill_cat_data: "<i data-lucide='bar-chart-3' width='24' style='color: var(--purple);'></i> Data & Analyse",
-                skill_cat_tech: "<i data-lucide='code' width='24' style='color: var(--pink);'></i> Tech (bases avec IA)",
-                skill_cat_lang: "<i data-lucide='globe' width='24' style='color: var(--teal);'></i> Langues",
-                skill_agile: "Gestion de projet Agile", skill_kpi: "Pilotage KPI", skill_risk: "Gestion des risques", skill_team: "Management d'équipe", skill_scrum: "Scrum (préparation certif)",
-                skill_excel: "Excel avancé (Macros, VBA)", skill_dash: "Tableaux de bord", skill_data: "Analyse de données", skill_control: "Contrôle de gestion",
-                skill_prompt: "Prompting IA avancé", skill_workflows: "Workflows automatisés", skill_digital: "Digitalisation process",
-                skill_css: "CSS (avec IA)", skill_liquid: "Liquid (avec IA)", skill_r: "R (bases)",
-                skill_com: "Communication structurée", skill_prob: "Résolution de problèmes", skill_result: "Orientation résultat", skill_listen: "Écoute active", skill_disc: "Discipline",
-                lang_fr: "🇫🇷 Français (Natif)", lang_en: "🇬🇧 Anglais (Pro - TOEIC)", lang_es: "🇪🇸 Espagnol (Notions)", lang_fi: "🇫🇮 Finlande (mobilité)", lang_ro: "🇷🇴 Roumanie (mobilité)",
-                section_edu_title: "FORMATION",
-                section_edu_subtitle: "Master Entrepreneuriat & Management de Projets",
-                search_placeholder: "Rechercher un cours (ex: Scrum, Marketing, RGPD...)",
-                footer_title: "Construisons ensemble",
-                footer_subtitle: "Prêt à apporter rigueur, créativité et impact à vos projets stratégiques",
-                footer_copyright: "© 2026 Florian Bouchart • Portfolio digital innovant"
-            },
-            en: {
-                sober_mode: "Light",
-                hero_badge: "Project Management • Coordination • Product Ownership",
-                hero_subtitle: "Product Owner passionate about value creation and product innovation",
-                hero_description: "From <span class=\"highlight\">entrepreneurship at 15</span> to portfolio management at GRDF, I have developed a <span class=\"highlight\">strategic product vision</span> combined with <span class=\"highlight\">Agile and Scrum operational excellence</span>. I transform user needs into concrete and profitable solutions.",
-                btn_cv: "View Resume",
-                nav_home: "Home", nav_career: "Career", nav_skills: "Skills", nav_edu: "Education", nav_contact: "Contact",
-                section_pro_title: "PROFESSIONAL EXPERIENCE",
-                section_pro_subtitle: "From early entrepreneurship to product expertise",
-                exp_grdf_title: "Portfolio Manager (Apprenticeship)",
-                exp_grdf_period: "2023 - 2026 • 3 years",
-                exp_grdf_desc: "Managing relationships with local authorities. Managing strategic KPIs, monitoring concession contracts, coordinating investments, and producing activity reports. Managing royalties and interfacing with elected officials.",
-                tag_kpi: "KPI Management", tag_contracts: "Contract Mgmt", tag_relations: "Institutional Relations", tag_reporting: "Reporting",
-                exp_desreves_title: "Founder & Product Owner",
-                exp_desreves_period: "2024 - Present",
-                exp_desreves_comp: "Desrèves - Sustainable Clothing Brand",
-                exp_desreves_desc: "Creation and development of a sustainable Made in France clothing and accessories brand. Complete project management: brand strategy, product design, web development (Liquid/CSS), supplier relations, digital marketing, and branding.",
-                tag_entrepreneurship: "Entrepreneurship", tag_product_design: "Product Design", tag_web_dev: "Web Dev", tag_suppliers: "Supplier Mgmt", tag_marketing: "Marketing",
-                exp_bde_title: "President",
-                exp_bde_period: "2022 - 2025 • 3 years",
-                exp_bde_desc: "Management of a volunteer team, budget management, event risk management, business development, and partnerships. Design and production of products (goodies, merchandising). Leadership and cross-functional coordination.",
-                tag_leadership: "Leadership", tag_budget: "Budget Mgmt", tag_events: "Event Planning", tag_team_mgmt: "Team Mgmt",
-                exp_esport_title: "Founder & Manager",
-                exp_esport_period: "2018 - 2021 • From age 15",
-                exp_esport_comp: "E-sport Organization",
-                exp_esport_desc: "Creation and management of an E-sport structure. Management of competitive players, organization of LANs (including participation in Lyon E-Sport). Logistics coordination, team management, and partnership development.",
-                tag_early_entrepreneurship: "Early Entrepreneurship", tag_management: "Management", tag_event_org: "Event Organization",
-                exp_intl_title: "Intensive International Training",
-                exp_intl_comp: "Finland & Romania",
-                exp_intl_desc: "<strong>🇫🇮 Vaasa, Finland</strong> - Entrepreneurship and Venturing (Vaasan yliopisto)<br><strong>🇷🇴 Cluj-Napoca, Romania</strong> - Innovation, Design-Thinking and Entrepreneurship (Universitatea Babes-Bolyai)",
-                tag_mobility: "International Mobility", tag_innovation: "Innovation", tag_design_thinking: "Design Thinking",
-                section_vision_title: "MY VISION",
-                section_vision_subtitle: "What drives me daily",
-                vision_1_title: "Continuous Innovation",
-                vision_1_desc: "I innovate in everything I do — processes, methods, approaches. I never do things like everyone else. My obsession: <strong>continuous improvement and intelligent optimization</strong>.",
-                vision_2_title: "Action & Realization",
-                vision_2_desc: "Inactivity drives me crazy. <strong>I am constantly undertaking projects</strong>: E-sport at 15, Student Union, my brand Desrèves... I lead projects from A to Z with rigor and versatility.",
-                vision_3_title: "Business Impact",
-                vision_3_desc: "Strategic vision aligned with business KPIs. I prioritize high-value features and arbitrate between costs, risks, and delays to maximize product ROI.",
-                vision_4_title: "Passion for AI",
-                vision_4_desc: "Hyper curious about AI and automation. I learn to automate everything, apply AI daily, and master intelligent workflows. <strong>AI has become my daily life</strong>.",
-                section_atouts_title: "MY STRENGTHS",
-                section_atouts_subtitle: "Full transparency on strengths and areas for work",
-                lbl_forces: "MY STRENGTHS",
-                lbl_weaknesses: "AREAS FOR IMPROVEMENT",
-                force_1: "<strong>Strategic Vision</strong> — Aligning projects × business goals",
-                force_2: "<strong>Sense of Priorities</strong> — Arbitrating value / costs / risks / deadlines",
-                force_3: "<strong>Cross-functional Leadership</strong> — Coordination without hierarchical link",
-                force_4: "<strong>Result Culture</strong> — Impact and ROI-oriented management",
-                force_5: "<strong>Curious and Engaged</strong> — Appetite for continuous learning",
-                force_6: "<strong>Clear Communication</strong> — Translating complex issues → simple decisions",
-                weak_1: "<strong>Too open to proposals</strong> — Sometimes slows me down, working on focus",
-                weak_2: "<strong>Occasional need for solitude</strong> — Phases where I recharge alone",
-                weak_3: "<strong>Direct side sometimes abrupt</strong> — I seek efficiency, not validation",
-                weak_4: "<strong>Optimization > Emotion</strong> — Tendency to skip emotional steps",
-                weak_5: "<strong>Difficulty with prolonged ambiguity</strong> — Need to structure quickly",
-                weak_6: "<strong>Impatience with non-decisions</strong> — Preference for concrete action",
-                section_skills_title: "SKILLS",
-                section_skills_subtitle: "Technical mastery and soft skills",
-                skill_cat_mgmt: "<i data-lucide='briefcase' width='24' style='color: var(--orange);'></i> Management & Strategy",
-                skill_cat_data: "<i data-lucide='bar-chart-3' width='24' style='color: var(--purple);'></i> Data & Analysis",
-                skill_cat_tech: "<i data-lucide='code' width='24' style='color: var(--pink);'></i> Tech (bases with IA)",
-                skill_cat_lang: "<i data-lucide='globe' width='24' style='color: var(--teal);'></i> Languages",
-                skill_agile: "Agile Project Mgmt", skill_kpi: "KPI Management", skill_risk: "Risk Management", skill_team: "Team Management", skill_scrum: "Scrum (Certif Prep)",
-                skill_excel: "Advanced Excel (Macros, VBA)", skill_dash: "Dashboards", skill_data: "Data Analysis", skill_control: "Management Control",
-                skill_prompt: "Advanced AI Prompting", skill_workflows: "Automated Workflows", skill_digital: "Process Digitalization",
-                skill_css: "CSS (with AI)", skill_liquid: "Liquid (with AI)", skill_r: "R (bases)",
-                skill_com: "Communication structurée", skill_prob: "Résolution de problèmes", skill_result: "Orientation résultat", skill_listen: "Écoute active", skill_disc: "Discipline",
-                lang_fr: "🇫🇷 French (Native)", lang_en: "🇬🇧 English (Pro - TOEIC)", lang_es: "🇪🇸 Spanish (Basic)", lang_fi: "🇫🇮 Finland (mobility)", lang_ro: "🇷🇴 Romania (mobility)",
-                section_edu_title: "EDUCATION",
-                section_edu_subtitle: "Master in Entrepreneurship & Project Management",
-                search_placeholder: "Search for a course (e.g., Scrum, Marketing, GDPR...)",
-                footer_title: "Let's Build Together",
-                footer_subtitle: "Ready to bring rigor, creativity, and impact to your strategic projects",
-                footer_copyright: "© 2026 Florian Bouchart • Innovative Digital Portfolio"
-            }
-        };
-
-        // --- VARIABLES GLOBALES ---
-        let currentLang = 'fr';
-        let soberMode = false;
-
-        // --- GESTION DU CURSEUR ---
+        // --- GESTION DU CURSEUR (GLOW) ---
         const cursorGlow = document.getElementById('cursorGlow');
         let mouseX = 0, mouseY = 0;
         let glowX = 0, glowY = 0;
-        const smoothing = 0.15;
-
+        
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
@@ -1119,15 +2011,15 @@
         });
 
         function animateGlow() {
-            glowX += (mouseX - glowX) * smoothing;
-            glowY += (mouseY - glowY) * smoothing;
+            glowX += (mouseX - glowX) * 0.15;
+            glowY += (mouseY - glowY) * 0.15;
             cursorGlow.style.left = glowX + 'px';
             cursorGlow.style.top = glowY + 'px';
             requestAnimationFrame(animateGlow);
         }
         animateGlow();
 
-        // --- LOGIQUE TIMELINE (FORMATION) ---
+        // --- LOGIQUE TIMELINE & RECHERCHE ---
         function filterCourses(semester, searchTerm) {
             if (!searchTerm) return semester;
             
@@ -1152,7 +2044,6 @@
 
         function renderTimeline(searchTerm = '') {
             const timeline = document.getElementById('timeline');
-            // Utilise academicData[currentLang] pour choisir les bonnes données
             const currentData = academicData[currentLang];
             const filteredData = currentData.filter(sem => hasMatchingCourses(sem, searchTerm));
             
@@ -1163,8 +2054,8 @@
                 
                 return `
                     <div class="timeline-item reveal">
-                        <div class="timeline-header" onclick="toggleTimeline('${semester.id}')">
-                            <div class="timeline-header-left">
+                        <div class="timeline-header" onclick="this.nextElementSibling.classList.toggle('active'); if(this.nextElementSibling.classList.contains('active')){this.querySelector('.chevron').setAttribute('data-lucide','chevron-up')}else{this.querySelector('.chevron').setAttribute('data-lucide','chevron-down')}; lucide.createIcons();">
+                            <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
                                 <div class="timeline-badge" style="background: ${semester.gradient};">
                                     ${semester.year.substring(2, 4)}
                                 </div>
@@ -1173,9 +2064,9 @@
                                     ${semester.subtitle ? `<div class="timeline-subtitle">${semester.subtitle}</div>` : ''}
                                 </div>
                             </div>
-                            <div class="timeline-header-right">
+                            <div style="display:flex; align-items:center; gap:1rem;">
                                 <span class="timeline-count">${totalCourses} ${courseLabel}</span>
-                                <i data-lucide="chevron-down" width="22" id="icon-${semester.id}"></i>
+                                <i data-lucide="chevron-down" width="22" class="chevron"></i>
                             </div>
                         </div>
                         <div class="timeline-content" id="content-${semester.id}">
@@ -1210,19 +2101,7 @@
             revealOnScroll();
         }
 
-        function toggleTimeline(id) {
-            const content = document.getElementById(`content-${id}`);
-            const icon = document.getElementById(`icon-${id}`);
-            content.classList.toggle('active');
-            if (content.classList.contains('active')) {
-                icon.setAttribute('data-lucide', 'chevron-up');
-            } else {
-                icon.setAttribute('data-lucide', 'chevron-down');
-            }
-            lucide.createIcons();
-        }
-
-        // --- RECHERCHE ---
+        // Recherche
         const searchInput = document.getElementById('searchInput');
         const searchResults = document.getElementById('searchResults');
 
@@ -1261,9 +2140,31 @@
                     element.classList.add('active');
                 }
             });
+            
+            // Active Dock Logic
+            const sections = document.querySelectorAll('section, body');
+            const navLi = document.querySelectorAll('.dock-item');
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLi.forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href').includes(current)) {
+                    a.classList.add('active');
+                }
+            });
         }
         
-        // --- BOUTONS ET TRADUCTIONS ---
+        window.addEventListener('scroll', revealOnScroll);
+
+        // --- GESTION TRADUCTION & MODE ---
         document.getElementById('langToggle').addEventListener('click', () => {
             currentLang = currentLang === 'fr' ? 'en' : 'fr';
             document.getElementById('langText').textContent = currentLang === 'fr' ? 'EN' : 'FR';
@@ -1285,11 +2186,10 @@
                 modeText.setAttribute('data-translate', 'sober_mode');
             }
             lucide.createIcons();
-            applyTranslations(); // Re-appliquer pour mettre à jour le texte du bouton
+            applyTranslations(); // Pour le texte du bouton
         });
 
         function applyTranslations() {
-            // 1. Mise à jour de tous les textes statiques
             const t = translations[currentLang];
             document.querySelectorAll('[data-translate]').forEach(element => {
                 const key = element.getAttribute('data-translate');
@@ -1302,7 +2202,7 @@
                 }
             });
             
-            // Mise à jour texte bouton mode si nécessaire
+            // Mise à jour spécifique bouton mode
             const modeText = document.getElementById('modeText');
             if(soberMode) {
                 modeText.textContent = currentLang === 'fr' ? 'Sombre' : 'Dark';
@@ -1310,41 +2210,40 @@
                 modeText.textContent = t.sober_mode;
             }
 
-            // 2. Placeholder
             if (searchInput) {
                 searchInput.placeholder = t.search_placeholder;
             }
 
-            // 3. Recharger la timeline
             renderTimeline(searchInput.value);
-            
-            // 4. Icônes
             lucide.createIcons();
         }
 
-        // --- ACTIVE DOCK NAVIGATION ---
-        const sections = document.querySelectorAll('section, body');
-        const navLi = document.querySelectorAll('.dock-item');
+        // --- LOGIQUE MODAL POPUP ---
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
 
-        window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
-                    current = section.getAttribute('id');
-                }
-            });
+        function openDetail(key) {
+            const t = translations[currentLang];
+            const d = detailsData[currentLang];
+            
+            if(t[key]) modalTitle.innerHTML = t[key]; // Titre (ex: Vision Stratégique)
+            if(d[key]) {
+                modalBody.innerHTML = d[key]; // Description détaillée
+                modalOverlay.classList.add('active');
+            }
+        }
 
-            navLi.forEach(a => {
-                a.classList.remove('active');
-                if (a.getAttribute('href').includes(current)) {
-                    a.classList.add('active');
-                }
-            });
-            revealOnScroll();
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+        }
+
+        // Fermer au clic dehors
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
         });
 
+        // --- INIT ---
         document.addEventListener('DOMContentLoaded', () => {
             renderTimeline();
             lucide.createIcons();
