@@ -12,6 +12,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <style>
+        /* --- RESET & VARIABLES --- */
         * {
             margin: 0;
             padding: 0;
@@ -19,7 +20,7 @@
         }
 
         :root {
-            /* Nouvelles couleurs */
+            /* Couleurs */
             --orange: #ff6b35;
             --teal: #00d4aa;
             --purple: #6a4c93;
@@ -27,10 +28,13 @@
             --yellow: #ffbe0b;
             --emerald: #10b981;
             
+            /* Backgrounds & Textes */
             --bg-primary: #000000;
             --bg-card: #0a0a0a;
             --text-primary: #ffffff;
             --text-secondary: #a1a1aa;
+            
+            /* Polices */
             --font-display: 'Outfit', sans-serif;
             --font-body: 'Inter', sans-serif;
         }
@@ -43,7 +47,7 @@
             overflow-x: hidden;
         }
 
-        /* Background effects */
+        /* --- BACKGROUND EFFECTS --- */
         .grid-background {
             position: fixed;
             inset: 0;
@@ -55,7 +59,6 @@
             pointer-events: none;
         }
 
-        /* EFFET CURSOR GLOW MAGNIFIQUE */
         .cursor-glow {
             position: fixed;
             width: 800px;
@@ -80,7 +83,6 @@
             opacity: 1;
         }
 
-        /* Orbes flottants avec nouvelles couleurs */
         .orb {
             position: fixed;
             border-radius: 50%;
@@ -131,7 +133,7 @@
             padding: 0 1rem;
         }
 
-        /* HERO */
+        /* --- HERO SECTION --- */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -317,7 +319,7 @@
             transform: translateY(-3px);
         }
 
-        /* Sections */
+        /* --- GLOBAL SECTIONS --- */
         section {
             padding: clamp(3rem, 8vw, 6rem) 1rem;
             position: relative;
@@ -341,7 +343,7 @@
             color: var(--text-secondary);
         }
 
-        /* PARCOURS PRO */
+        /* --- PARCOURS PRO --- */
         .experience-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
@@ -350,7 +352,6 @@
             margin: 0 auto;
         }
 
-        /* Force 3 colonnes max sur grand écran */
         @media (min-width: 1200px) {
             .experience-grid {
                 grid-template-columns: repeat(3, 1fr);
@@ -448,7 +449,7 @@
             font-weight: 500;
         }
 
-        /* Vision */
+        /* --- VISION --- */
         .vision-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
@@ -495,7 +496,7 @@
             color: var(--text-secondary);
         }
 
-        /* Atouts */
+        /* --- ATOUTS --- */
         .traits-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -576,7 +577,7 @@
             line-height: 1.6;
         }
 
-        /* Compétences */
+        /* --- COMPÉTENCES --- */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
@@ -631,7 +632,7 @@
             transform: scale(1.08);
         }
 
-        /* BARRE DE RECHERCHE */
+        /* --- SEARCH & TIMELINE --- */
         .search-container {
             max-width: 900px;
             margin: 0 auto 3rem;
@@ -692,7 +693,6 @@
             box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
         }
 
-        /* Timeline */
         .timeline {
             max-width: 1200px;
             margin: 0 auto;
@@ -871,7 +871,7 @@
             border-bottom: none;
         }
 
-        /* Footer */
+        /* --- FOOTER --- */
         footer {
             padding: clamp(3rem, 6vw, 5rem) 1rem;
             border-top: 1px solid rgba(255, 107, 53, 0.2);
@@ -905,6 +905,7 @@
             font-size: clamp(0.8rem, 1.8vw, 0.875rem);
         }
 
+        /* --- UTILS --- */
         .hidden {
             display: none;
         }
@@ -920,7 +921,7 @@
             transform: translateY(0);
         }
 
-        /* Panneau de contrôle */
+        /* --- CONTROLS PANEL --- */
         .controls-panel {
             position: fixed;
             top: 2rem;
@@ -958,7 +959,7 @@
             border-color: transparent;
         }
 
-        /* Mode sobre */
+        /* --- SOBRE MODE --- */
         body.sober-mode * {
             animation: none !important;
             transition: none !important;
@@ -1038,7 +1039,6 @@
     </style>
 </head>
 <body>
-    <!-- Contrôles en haut à droite -->
     <div class="controls-panel">
         <button class="control-btn" id="langToggle" title="Switch language">
             <i data-lucide="languages" width="20"></i>
@@ -1046,11 +1046,10 @@
         </button>
         <button class="control-btn" id="modeToggle" title="Mode sobre">
             <i data-lucide="sparkles" width="20"></i>
-            <span id="modeText">Sobre</span>
+            <span id="modeText" data-translate="sober_mode">Sobre</span>
         </button>
     </div>
 
-    <!-- Cursor Glow -->
     <div class="cursor-glow" id="cursorGlow"></div>
 
     <div class="grid-background"></div>
@@ -1058,7 +1057,6 @@
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
 
-    <!-- HERO -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
@@ -1070,7 +1068,7 @@
 
                 <div class="badge">
                     <i data-lucide="zap" width="16"></i>
-                    <span class="badge-gradient">Pilotage de Projets • Coordination • Product Ownership</span>
+                    <span class="badge-gradient" data-translate="hero_badge">Pilotage de Projets • Coordination • Product Ownership</span>
                     <i data-lucide="sparkles" width="16"></i>
                 </div>
 
@@ -1079,9 +1077,9 @@
                     <div class="gradient-text">BOUCHART</div>
                 </h1>
 
-                <p class="hero-subtitle">Product Owner passionné par la création de valeur et l'innovation produit</p>
+                <p class="hero-subtitle" data-translate="hero_subtitle">Product Owner passionné par la création de valeur et l'innovation produit</p>
 
-                <p class="hero-description">
+                <p class="hero-description" data-translate="hero_description">
                     De <span class="highlight">l'entrepreneuriat à 15 ans</span> à la gestion de portefeuille chez GRDF, 
                     j'ai développé une <span class="highlight">vision produit stratégique</span> alliée à une 
                     <span class="highlight">excellence opérationnelle Agile et Scrum</span>. Je transforme les besoins utilisateurs en solutions concrètes et rentables.
@@ -1090,7 +1088,7 @@
                 <div class="cta-container">
                     <a href="https://image2url.com/r2/default/documents/1770732771939-d033fee2-1440-4059-b8b8-0866c7d54d53.pdf" target="_blank" class="btn btn-primary">
                         <i data-lucide="file-text" width="20"></i>
-                        <span class="cv-text">Voir mon CV</span>
+                        <span class="cv-text" data-translate="btn_cv">Voir mon CV</span>
                     </a>
                     <a href="https://www.linkedin.com/in/florian-bouchart" target="_blank" class="btn btn-secondary">
                         <i data-lucide="linkedin" width="20"></i>
@@ -1101,143 +1099,136 @@
         </div>
     </section>
 
-    <!-- PARCOURS PROFESSIONNEL -->
     <section id="parcours-pro">
         <div class="container">
             <div class="section-header reveal">
-                <h2 class="section-title gradient-text">PARCOURS PROFESSIONNEL</h2>
-                <p class="section-subtitle">De l'entrepreneuriat précoce à l'expertise produit</p>
+                <h2 class="section-title gradient-text" data-translate="section_pro_title">PARCOURS PROFESSIONNEL</h2>
+                <p class="section-subtitle" data-translate="section_pro_subtitle">De l'entrepreneuriat précoce à l'expertise produit</p>
             </div>
 
             <div class="experience-grid">
-                <!-- GRDF -->
                 <div class="experience-card reveal">
                     <div class="exp-header">
                         <div class="exp-icon" style="background: linear-gradient(135deg, #ff6b35, #f77f00);">
                             <i data-lucide="briefcase" width="36" style="color: white;"></i>
                         </div>
                         <div class="exp-info">
-                            <h3 style="color: var(--orange);">Chargé de Portefeuille (Alternance)</h3>
-                            <div class="exp-period">2023 - 2026 • 3 ans</div>
+                            <h3 style="color: var(--orange);" data-translate="exp_grdf_title">Chargé de Portefeuille (Alternance)</h3>
+                            <div class="exp-period" data-translate="exp_grdf_period">2023 - 2026 • 3 ans</div>
                             <div class="exp-company" style="color: var(--orange);">GRDF - Lille, France</div>
                         </div>
                     </div>
-                    <p class="exp-description">
+                    <p class="exp-description" data-translate="exp_grdf_desc">
                         Pilotage de la relation avec les collectivités locales. Gestion des KPI stratégiques, suivi des contrats de concession, 
                         coordination des investissements et production de comptes-rendus d'activités. Gestion des redevances et interface avec les élus.
                     </p>
                     <div class="exp-tags">
-                        <div class="exp-tag">Pilotage KPI</div>
-                        <div class="exp-tag">Gestion contrats</div>
-                        <div class="exp-tag">Relations institutionnelles</div>
-                        <div class="exp-tag">Reporting</div>
+                        <div class="exp-tag" data-translate="tag_kpi">Pilotage KPI</div>
+                        <div class="exp-tag" data-translate="tag_contracts">Gestion contrats</div>
+                        <div class="exp-tag" data-translate="tag_relations">Relations institutionnelles</div>
+                        <div class="exp-tag" data-translate="tag_reporting">Reporting</div>
                     </div>
                 </div>
 
-                <!-- Desrèves -->
                 <div class="experience-card reveal">
                     <div class="exp-header">
                         <div class="exp-icon" style="background: linear-gradient(135deg, #00d4aa, #00a896);">
                             <i data-lucide="sparkles" width="36" style="color: white;"></i>
                         </div>
                         <div class="exp-info">
-                            <h3 style="color: var(--teal);">Fondateur & Product Owner</h3>
-                            <div class="exp-period">2024 - Aujourd'hui</div>
-                            <div class="exp-company" style="color: var(--teal);">Desrèves - Marque de vêtements durables</div>
+                            <h3 style="color: var(--teal);" data-translate="exp_desreves_title">Fondateur & Product Owner</h3>
+                            <div class="exp-period" data-translate="exp_desreves_period">2024 - Aujourd'hui</div>
+                            <div class="exp-company" style="color: var(--teal);" data-translate="exp_desreves_comp">Desrèves - Marque de vêtements durables</div>
                         </div>
                     </div>
-                    <p class="exp-description">
+                    <p class="exp-description" data-translate="exp_desreves_desc">
                         Création et développement d'une marque de vêtements et accessoires durables Made in France. Gestion complète du projet : 
                         stratégie de marque, design produit, développement web (Liquid/CSS), relation fournisseurs, marketing digital et branding.
                     </p>
                     <div class="exp-tags">
-                        <div class="exp-tag">Entrepreneuriat</div>
-                        <div class="exp-tag">Design produit</div>
-                        <div class="exp-tag">Dev web</div>
-                        <div class="exp-tag">Gestion fournisseurs</div>
-                        <div class="exp-tag">Marketing</div>
+                        <div class="exp-tag" data-translate="tag_entrepreneurship">Entrepreneuriat</div>
+                        <div class="exp-tag" data-translate="tag_product_design">Design produit</div>
+                        <div class="exp-tag" data-translate="tag_web_dev">Dev web</div>
+                        <div class="exp-tag" data-translate="tag_suppliers">Gestion fournisseurs</div>
+                        <div class="exp-tag" data-translate="tag_marketing">Marketing</div>
                     </div>
                 </div>
 
-                <!-- BDE -->
                 <div class="experience-card reveal">
                     <div class="exp-header">
                         <div class="exp-icon" style="background: linear-gradient(135deg, #6a4c93, #8b5cf6);">
                             <i data-lucide="users" width="36" style="color: white;"></i>
                         </div>
                         <div class="exp-info">
-                            <h3 style="color: var(--purple);">Président</h3>
-                            <div class="exp-period">2022 - 2025 • 3 ans</div>
+                            <h3 style="color: var(--purple);" data-translate="exp_bde_title">Président</h3>
+                            <div class="exp-period" data-translate="exp_bde_period">2022 - 2025 • 3 ans</div>
                             <div class="exp-company" style="color: var(--purple);">BDE IAE Valenciennes</div>
                         </div>
                     </div>
-                    <p class="exp-description">
+                    <p class="exp-description" data-translate="exp_bde_desc">
                         Management d'une équipe bénévole, pilotage budgétaire, gestion des risques événementiels, développement commercial et partenariats. 
                         Conception et réalisation de produits (goodies, merchandising). Leadership et coordination transversale.
                     </p>
                     <div class="exp-tags">
-                        <div class="exp-tag">Leadership</div>
-                        <div class="exp-tag">Gestion budget</div>
-                        <div class="exp-tag">Événementiel</div>
-                        <div class="exp-tag">Management équipe</div>
+                        <div class="exp-tag" data-translate="tag_leadership">Leadership</div>
+                        <div class="exp-tag" data-translate="tag_budget">Gestion budget</div>
+                        <div class="exp-tag" data-translate="tag_events">Événementiel</div>
+                        <div class="exp-tag" data-translate="tag_team_mgmt">Management équipe</div>
                     </div>
                 </div>
 
-                <!-- E-sport -->
                 <div class="experience-card reveal">
                     <div class="exp-header">
                         <div class="exp-icon" style="background: linear-gradient(135deg, #ff006e, #d00060);">
                             <i data-lucide="gamepad-2" width="36" style="color: white;"></i>
                         </div>
                         <div class="exp-info">
-                            <h3 style="color: var(--pink);">Fondateur & Manager</h3>
-                            <div class="exp-period">2018 - 2021 • Dès 15 ans</div>
-                            <div class="exp-company" style="color: var(--pink);">Structure E-sport</div>
+                            <h3 style="color: var(--pink);" data-translate="exp_esport_title">Fondateur & Manager</h3>
+                            <div class="exp-period" data-translate="exp_esport_period">2018 - 2021 • Dès 15 ans</div>
+                            <div class="exp-company" style="color: var(--pink);" data-translate="exp_esport_comp">Structure E-sport</div>
                         </div>
                     </div>
-                    <p class="exp-description">
+                    <p class="exp-description" data-translate="exp_esport_desc">
                         Création et gestion d'une structure E-sport. Management de joueurs compétitifs, organisation de LANs 
                         (dont participation à Lyon E-Sport). Coordination logistique, gestion d'équipe et développement de partenariats.
                     </p>
                     <div class="exp-tags">
-                        <div class="exp-tag">Entrepreneuriat précoce</div>
-                        <div class="exp-tag">Management</div>
-                        <div class="exp-tag">Organisation événements</div>
+                        <div class="exp-tag" data-translate="tag_early_entrepreneurship">Entrepreneuriat précoce</div>
+                        <div class="exp-tag" data-translate="tag_management">Management</div>
+                        <div class="exp-tag" data-translate="tag_event_org">Organisation événements</div>
                     </div>
                 </div>
 
-                <!-- Formations internationales -->
                 <div class="experience-card reveal">
                     <div class="exp-header">
                         <div class="exp-icon" style="background: linear-gradient(135deg, #ffbe0b, #ff9e00);">
                             <i data-lucide="globe" width="36" style="color: white;"></i>
                         </div>
                         <div class="exp-info">
-                            <h3 style="color: var(--yellow);">Formations Intensives Internationales</h3>
+                            <h3 style="color: var(--yellow);" data-translate="exp_intl_title">Formations Intensives Internationales</h3>
                             <div class="exp-period">2024</div>
-                            <div class="exp-company" style="color: var(--yellow);">Finlande & Roumanie</div>
+                            <div class="exp-company" style="color: var(--yellow);" data-translate="exp_intl_comp">Finlande & Roumanie</div>
                         </div>
                     </div>
-                    <p class="exp-description">
+                    <p class="exp-description" data-translate="exp_intl_desc">
                         <strong>🇫🇮 Vaasa, Finlande</strong> - Entrepreneurship and Venturing (Vaasan yliopisto)<br>
                         <strong>🇷🇴 Cluj-Napoca, Roumanie</strong> - Innovation, Design-Thinking and Entrepreneurship (Universitatea Babes-Bolyai)
                     </p>
                     <div class="exp-tags">
-                        <div class="exp-tag">Mobilité internationale</div>
-                        <div class="exp-tag">Innovation</div>
-                        <div class="exp-tag">Design Thinking</div>
+                        <div class="exp-tag" data-translate="tag_mobility">Mobilité internationale</div>
+                        <div class="exp-tag" data-translate="tag_innovation">Innovation</div>
+                        <div class="exp-tag" data-translate="tag_design_thinking">Design Thinking</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- MA VISION -->
     <section id="vision">
         <div class="container">
             <div class="section-header reveal">
-                <h2 class="section-title gradient-text">MA VISION</h2>
-                <p class="section-subtitle">Ce qui me motive au quotidien</p>
+                <h2 class="section-title gradient-text" data-translate="section_vision_title">MA VISION</h2>
+                <p class="section-subtitle" data-translate="section_vision_subtitle">Ce qui me motive au quotidien</p>
             </div>
 
             <div class="vision-grid">
@@ -1245,8 +1236,8 @@
                     <div class="vision-icon" style="background: linear-gradient(135deg, #00d4aa, #00a896);">
                         <i data-lucide="lightbulb" width="34" style="color: white;"></i>
                     </div>
-                    <h3 style="color: var(--teal);">Innovation permanente</h3>
-                    <p>
+                    <h3 style="color: var(--teal);" data-translate="vision_1_title">Innovation permanente</h3>
+                    <p data-translate="vision_1_desc">
                         J'innove dans tout ce que je fais — process, méthodes, approches. Je ne fais jamais comme les autres. 
                         Mon obsession : <strong>l'amélioration continue et l'optimisation intelligente</strong>.
                     </p>
@@ -1256,8 +1247,8 @@
                     <div class="vision-icon" style="background: linear-gradient(135deg, #6a4c93, #8b5cf6);">
                         <i data-lucide="rocket" width="34" style="color: white;"></i>
                     </div>
-                    <h3 style="color: var(--purple);">Action & Concrétisation</h3>
-                    <p>
+                    <h3 style="color: var(--purple);" data-translate="vision_2_title">Action & Concrétisation</h3>
+                    <p data-translate="vision_2_desc">
                         L'inactivité me rend malade. <strong>J'entreprends constamment</strong> : E-sport à 15 ans, BDE, ma marque Desrèves... 
                         Je mène les projets de A à Z avec rigueur et polyvalence.
                     </p>
@@ -1267,8 +1258,8 @@
                     <div class="vision-icon" style="background: linear-gradient(135deg, #ff006e, #d00060);">
                         <i data-lucide="target" width="34" style="color: white;"></i>
                     </div>
-                    <h3 style="color: var(--pink);">Impact Business</h3>
-                    <p>
+                    <h3 style="color: var(--pink);" data-translate="vision_3_title">Impact Business</h3>
+                    <p data-translate="vision_3_desc">
                         Vision stratégique alignée sur les KPI business. 
                         Je priorise les features à forte valeur et arbitre entre coûts, risques et délais pour maximiser le ROI produit.
                     </p>
@@ -1278,8 +1269,8 @@
                     <div class="vision-icon" style="background: linear-gradient(135deg, #ff6b35, #f77f00);">
                         <i data-lucide="brain" width="34" style="color: white;"></i>
                     </div>
-                    <h3 style="color: var(--orange);">Passion pour l'IA</h3>
-                    <p>
+                    <h3 style="color: var(--orange);" data-translate="vision_4_title">Passion pour l'IA</h3>
+                    <p data-translate="vision_4_desc">
                         Hyper curieux sur l'IA et l'automatisation. J'apprends à tout automatiser, à appliquer l'IA au quotidien, 
                         et à maîtriser les workflows intelligents. <strong>L'IA est devenue mon quotidien</strong>.
                     </p>
@@ -1288,44 +1279,43 @@
         </div>
     </section>
 
-    <!-- MES ATOUTS -->
     <section id="atouts">
         <div class="container">
             <div class="section-header reveal">
-                <h2 class="section-title gradient-text">MES ATOUTS</h2>
-                <p class="section-subtitle">Transparence totale sur mes forces et axes de travail</p>
+                <h2 class="section-title gradient-text" data-translate="section_atouts_title">MES ATOUTS</h2>
+                <p class="section-subtitle" data-translate="section_atouts_subtitle">Transparence totale sur mes forces et axes de travail</p>
             </div>
 
             <div class="traits-container">
                 <div class="trait-card strengths reveal">
                     <div class="trait-header">
                         <i data-lucide="check-circle" width="28" style="color: var(--teal);"></i>
-                        <span class="trait-badge green">MES FORCES</span>
+                        <span class="trait-badge green" data-translate="lbl_forces">MES FORCES</span>
                     </div>
                     <div class="trait-list">
                         <div class="trait-item">
                             <i data-lucide="zap" width="18" style="color: var(--teal); flex-shrink: 0;"></i>
-                            <span><strong>Vision stratégique</strong> — Alignement projets × objectifs business</span>
+                            <span data-translate="force_1"><strong>Vision stratégique</strong> — Alignement projets × objectifs business</span>
                         </div>
                         <div class="trait-item">
                             <i data-lucide="zap" width="18" style="color: var(--teal); flex-shrink: 0;"></i>
-                            <span><strong>Sens des priorités</strong> — Arbitrage valeur / coûts / risques / délais</span>
+                            <span data-translate="force_2"><strong>Sens des priorités</strong> — Arbitrage valeur / coûts / risques / délais</span>
                         </div>
                         <div class="trait-item">
                             <i data-lucide="zap" width="18" style="color: var(--teal); flex-shrink: 0;"></i>
-                            <span><strong>Leadership transversal</strong> — Coordination sans lien hiérarchique</span>
+                            <span data-translate="force_3"><strong>Leadership transversal</strong> — Coordination sans lien hiérarchique</span>
                         </div>
                         <div class="trait-item">
                             <i data-lucide="zap" width="18" style="color: var(--teal); flex-shrink: 0;"></i>
-                            <span><strong>Culture résultat</strong> — Pilotage orienté impact et ROI</span>
+                            <span data-translate="force_4"><strong>Culture résultat</strong> — Pilotage orienté impact et ROI</span>
                         </div>
                         <div class="trait-item">
                             <i data-lucide="zap" width="18" style="color: var(--teal); flex-shrink: 0;"></i>
-                            <span><strong>Curieux et engagé</strong> — Appétence pour l'apprentissage continu</span>
+                            <span data-translate="force_5"><strong>Curieux et engagé</strong> — Appétence pour l'apprentissage continu</span>
                         </div>
                         <div class="trait-item">
                             <i data-lucide="zap" width="18" style="color: var(--teal); flex-shrink: 0;"></i>
-                            <span><strong>Communication claire</strong> — Traduction enjeux complexes → décisions simples</span>
+                            <span data-translate="force_6"><strong>Communication claire</strong> — Traduction enjeux complexes → décisions simples</span>
                         </div>
                     </div>
                 </div>
@@ -1333,32 +1323,32 @@
                 <div class="trait-card weaknesses reveal">
                     <div class="trait-header">
                         <i data-lucide="alert-circle" width="28" style="color: var(--yellow);"></i>
-                        <span class="trait-badge amber">MES AXES D'AMÉLIORATION</span>
+                        <span class="trait-badge amber" data-translate="lbl_weaknesses">MES AXES D'AMÉLIORATION</span>
                     </div>
                     <div class="trait-list">
                         <div class="trait-item">
                             <i data-lucide="triangle-alert" width="18" style="color: var(--yellow); flex-shrink: 0;"></i>
-                            <span><strong>Trop ouvert aux propositions</strong> — Me ralentit parfois, travail sur le focus</span>
+                            <span data-translate="weak_1"><strong>Trop ouvert aux propositions</strong> — Me ralentit parfois, travail sur le focus</span>
                         </div>
                         <div class="trait-item">
                             <i data-lucide="triangle-alert" width="18" style="color: var(--yellow); flex-shrink: 0;"></i>
-                            <span><strong>Besoin de solitude ponctuel</strong> — Phases où je me recharge seul</span>
+                            <span data-translate="weak_2"><strong>Besoin de solitude ponctuel</strong> — Phases où je me recharge seul</span>
                         </div>
                         <div class="trait-item">
                             <i data-lucide="triangle-alert" width="18" style="color: var(--yellow); flex-shrink: 0;"></i>
-                            <span><strong>Côté direct parfois abrupt</strong> — Je cherche l'efficacité, pas la validation</span>
+                            <span data-translate="weak_3"><strong>Côté direct parfois abrupt</strong> — Je cherche l'efficacité, pas la validation</span>
                         </div>
                         <div class="trait-item">
                             <i data-lucide="triangle-alert" width="18" style="color: var(--yellow); flex-shrink: 0;"></i>
-                            <span><strong>Optimisation > émotion</strong> — Tendance à sauter les étapes émotionnelles</span>
+                            <span data-translate="weak_4"><strong>Optimisation > émotion</strong> — Tendance à sauter les étapes émotionnelles</span>
                         </div>
                         <div class="trait-item">
                             <i data-lucide="triangle-alert" width="18" style="color: var(--yellow); flex-shrink: 0;"></i>
-                            <span><strong>Difficulté avec le flou prolongé</strong> — Besoin de structurer rapidement</span>
+                            <span data-translate="weak_5"><strong>Difficulté avec le flou prolongé</strong> — Besoin de structurer rapidement</span>
                         </div>
                         <div class="trait-item">
                             <i data-lucide="triangle-alert" width="18" style="color: var(--yellow); flex-shrink: 0;"></i>
-                            <span><strong>Impatience face aux non-décisions</strong> — Préférence pour l'action concrète</span>
+                            <span data-translate="weak_6"><strong>Impatience face aux non-décisions</strong> — Préférence pour l'action concrète</span>
                         </div>
                     </div>
                 </div>
@@ -1366,42 +1356,41 @@
         </div>
     </section>
 
-    <!-- COMPÉTENCES -->
     <section id="competences">
         <div class="container">
             <div class="section-header reveal">
-                <h2 class="section-title gradient-text">COMPÉTENCES</h2>
-                <p class="section-subtitle">Maîtrises techniques et soft skills</p>
+                <h2 class="section-title gradient-text" data-translate="section_skills_title">COMPÉTENCES</h2>
+                <p class="section-subtitle" data-translate="section_skills_subtitle">Maîtrises techniques et soft skills</p>
             </div>
 
             <div class="skills-grid">
                 <div class="skill-category reveal">
-                    <h3>
+                    <h3 data-translate="skill_cat_mgmt">
                         <i data-lucide="briefcase" width="24" style="color: var(--orange);"></i>
                         Management & Stratégie
                     </h3>
                     <div class="skill-tags">
-                        <div class="skill-tag">Gestion de projet Agile</div>
+                        <div class="skill-tag" data-translate="skill_agile">Gestion de projet Agile</div>
                         <div class="skill-tag">Product Management</div>
                         <div class="skill-tag">PMO / Portfolio Manager</div>
-                        <div class="skill-tag">Pilotage KPI</div>
-                        <div class="skill-tag">Gestion des risques</div>
-                        <div class="skill-tag">Management d'équipe</div>
-                        <div class="skill-tag">Scrum (préparation certif)</div>
+                        <div class="skill-tag" data-translate="skill_kpi">Pilotage KPI</div>
+                        <div class="skill-tag" data-translate="skill_risk">Gestion des risques</div>
+                        <div class="skill-tag" data-translate="skill_team">Management d'équipe</div>
+                        <div class="skill-tag" data-translate="skill_scrum">Scrum (préparation certif)</div>
                     </div>
                 </div>
 
                 <div class="skill-category reveal">
-                    <h3>
+                    <h3 data-translate="skill_cat_data">
                         <i data-lucide="bar-chart-3" width="24" style="color: var(--purple);"></i>
                         Data & Analyse
                     </h3>
                     <div class="skill-tags">
                         <div class="skill-tag">Power BI</div>
-                        <div class="skill-tag">Excel avancé (Macros, VBA)</div>
-                        <div class="skill-tag">Tableaux de bord</div>
-                        <div class="skill-tag">Analyse de données</div>
-                        <div class="skill-tag">Contrôle de gestion</div>
+                        <div class="skill-tag" data-translate="skill_excel">Excel avancé (Macros, VBA)</div>
+                        <div class="skill-tag" data-translate="skill_dash">Tableaux de bord</div>
+                        <div class="skill-tag" data-translate="skill_data">Analyse de données</div>
+                        <div class="skill-tag" data-translate="skill_control">Contrôle de gestion</div>
                     </div>
                 </div>
 
@@ -1411,9 +1400,9 @@
                         Digital & IA
                     </h3>
                     <div class="skill-tags">
-                        <div class="skill-tag">Prompting IA avancé</div>
-                        <div class="skill-tag">Workflows automatisés</div>
-                        <div class="skill-tag">Digitalisation process</div>
+                        <div class="skill-tag" data-translate="skill_prompt">Prompting IA avancé</div>
+                        <div class="skill-tag" data-translate="skill_workflows">Workflows automatisés</div>
+                        <div class="skill-tag" data-translate="skill_digital">Digitalisation process</div>
                         <div class="skill-tag">Marketing digital</div>
                         <div class="skill-tag">RGPD</div>
                         <div class="skill-tag">CRM</div>
@@ -1421,14 +1410,14 @@
                 </div>
 
                 <div class="skill-category reveal">
-                    <h3>
+                    <h3 data-translate="skill_cat_tech">
                         <i data-lucide="code" width="24" style="color: var(--pink);"></i>
                         Tech (bases avec IA)
                     </h3>
                     <div class="skill-tags">
-                        <div class="skill-tag">CSS (avec IA)</div>
-                        <div class="skill-tag">Liquid (avec IA)</div>
-                        <div class="skill-tag">R (bases)</div>
+                        <div class="skill-tag" data-translate="skill_css">CSS (avec IA)</div>
+                        <div class="skill-tag" data-translate="skill_liquid">Liquid (avec IA)</div>
+                        <div class="skill-tag" data-translate="skill_r">R (bases)</div>
                         <div class="skill-tag">VBA</div>
                         <div class="skill-tag">Suite Adobe</div>
                         <div class="skill-tag">Notion</div>
@@ -1442,40 +1431,38 @@
                     </h3>
                     <div class="skill-tags">
                         <div class="skill-tag">Leadership</div>
-                        <div class="skill-tag">Communication structurée</div>
-                        <div class="skill-tag">Résolution de problèmes</div>
-                        <div class="skill-tag">Orientation résultat</div>
-                        <div class="skill-tag">Écoute active</div>
-                        <div class="skill-tag">Discipline</div>
+                        <div class="skill-tag" data-translate="skill_com">Communication structurée</div>
+                        <div class="skill-tag" data-translate="skill_prob">Résolution de problèmes</div>
+                        <div class="skill-tag" data-translate="skill_result">Orientation résultat</div>
+                        <div class="skill-tag" data-translate="skill_listen">Écoute active</div>
+                        <div class="skill-tag" data-translate="skill_disc">Discipline</div>
                     </div>
                 </div>
 
                 <div class="skill-category reveal">
-                    <h3>
+                    <h3 data-translate="skill_cat_lang">
                         <i data-lucide="globe" width="24" style="color: var(--teal);"></i>
                         Langues
                     </h3>
                     <div class="skill-tags">
-                        <div class="skill-tag">🇫🇷 Français (Natif)</div>
-                        <div class="skill-tag">🇬🇧 Anglais (Pro - TOEIC)</div>
-                        <div class="skill-tag">🇪🇸 Espagnol (Notions)</div>
-                        <div class="skill-tag">🇫🇮 Finlande (mobilité)</div>
-                        <div class="skill-tag">🇷🇴 Roumanie (mobilité)</div>
+                        <div class="skill-tag" data-translate="lang_fr">🇫🇷 Français (Natif)</div>
+                        <div class="skill-tag" data-translate="lang_en">🇬🇧 Anglais (Pro - TOEIC)</div>
+                        <div class="skill-tag" data-translate="lang_es">🇪🇸 Espagnol (Notions)</div>
+                        <div class="skill-tag" data-translate="lang_fi">🇫🇮 Finlande (mobilité)</div>
+                        <div class="skill-tag" data-translate="lang_ro">🇷🇴 Roumanie (mobilité)</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FORMATION -->
     <section id="parcours">
         <div class="container">
             <div class="section-header reveal">
-                <h2 class="section-title gradient-text">FORMATION</h2>
-                <p class="section-subtitle">Master Entrepreneuriat & Management de Projets</p>
+                <h2 class="section-title gradient-text" data-translate="section_edu_title">FORMATION</h2>
+                <p class="section-subtitle" data-translate="section_edu_subtitle">Master Entrepreneuriat & Management de Projets</p>
             </div>
 
-            <!-- BARRE DE RECHERCHE -->
             <div class="search-container reveal">
                 <div class="search-wrapper">
                     <i data-lucide="search" width="26" class="search-icon"></i>
@@ -1493,11 +1480,10 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer>
         <div class="container">
-            <h3 class="gradient-text">Construisons ensemble</h3>
-            <p>Prêt à apporter rigueur, créativité et impact à vos projets stratégiques</p>
+            <h3 class="gradient-text" data-translate="footer_title">Construisons ensemble</h3>
+            <p data-translate="footer_subtitle">Prêt à apporter rigueur, créativité et impact à vos projets stratégiques</p>
 
             <div class="footer-buttons">
                 <a href="https://www.linkedin.com/in/florian-bouchart" target="_blank" class="btn btn-primary">
@@ -1510,225 +1496,262 @@
                 </a>
             </div>
 
-            <p class="copyright">© 2026 Florian Bouchart • Portfolio digital innovant</p>
+            <p class="copyright" data-translate="footer_copyright">© 2026 Florian Bouchart • Portfolio digital innovant</p>
         </div>
     </footer>
 
     <script>
-        const academicData = [
-            {
-                id: 'l3',
-                title: 'Licence 3 - Management et Développement des Organisations',
-                year: '2023-2024',
-                gradient: 'linear-gradient(135deg, #00d4aa, #6a4c93)',
-                categories: [
-                    {
-                        name: 'Gestion & Business',
-                        icon: 'briefcase',
-                        color: '#ff6b35',
-                        courses: [
-                            'RH et Management d\'équipe',
-                            'Marketing BtoB (Négociation)',
-                            'Marketing International',
-                            'Financement et Investissement',
-                            'Contrôle de gestion',
-                            'Management Stratégique'
-                        ]
-                    },
-                    {
-                        name: 'Stratégie Digitale',
-                        icon: 'trending-up',
-                        color: '#6a4c93',
-                        courses: [
-                            'RGPD / Marketing Digital',
-                            'Digitalisation des entreprises',
-                            'Communication Réseaux Sociaux'
-                        ]
-                    },
-                    {
-                        name: 'Juridique',
-                        icon: 'award',
-                        color: '#00d4aa',
-                        courses: [
-                            'Droit du travail',
-                            'Droit de la distribution/consommation'
-                        ]
-                    },
-                    {
-                        name: 'Outils & Tech',
-                        icon: 'code',
-                        color: '#ff006e',
-                        courses: [
-                            'Outils de création graphique',
-                            'Système d\'information pour la gestion',
-                            'Tableaux de bord',
-                            'Introduction à la programmation'
-                        ]
-                    },
-                    {
-                        name: 'Innovation & International',
-                        icon: 'globe',
-                        color: '#ffbe0b',
-                        courses: [
-                            'Innovation et Design Thinking',
-                            'Module Polytechnique (Eunice)',
-                            'Management English',
-                            'Gestion de projet et qualité',
-                            'Simulation de gestion'
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 'm1',
-                title: 'Master 1 - Entrepreneuriat et Management de Projets',
-                year: '2024-2025',
-                subtitle: 'L\'expertise',
-                gradient: 'linear-gradient(135deg, #6a4c93, #ff006e)',
-                categories: [
-                    {
-                        name: 'Management des Organisations',
-                        icon: 'users',
-                        color: '#6a4c93',
-                        courses: [
-                            'Comportements organisationnels',
-                            'Conduite de réunion',
-                            'Négociation avec les syndicats',
-                            'Recrutement 5.0',
-                            'Gestion de conflits',
-                            'Conduire des entretiens'
-                        ]
-                    },
-                    {
-                        name: 'Gestion de Projet Agile',
-                        icon: 'target',
-                        color: '#ff006e',
-                        courses: [
-                            'Ingénierie de projet',
-                            'Design entrepreneurial',
-                            'Approche Phygitale',
-                            'CRM',
-                            'Business Model et start-up'
-                        ]
-                    },
-                    {
-                        name: 'Finance & Performance',
-                        icon: 'bar-chart-3',
-                        color: '#00d4aa',
-                        courses: [
-                            'Management de la performance financière',
-                            'Gestion des risques (Risk agil)',
-                            'Outils financiers',
-                            'Fiscalité d\'entreprise'
-                        ]
-                    },
-                    {
-                        name: 'Environnement Légal',
-                        icon: 'award',
-                        color: '#ffbe0b',
-                        courses: [
-                            'Droit des affaires',
-                            'Droit du numérique/RGPD',
-                            'Appliquer la réglementation'
-                        ]
-                    },
-                    {
-                        name: 'Outils Numériques',
-                        icon: 'code',
-                        color: '#ff6b35',
-                        courses: [
-                            'Maîtrise Suite Adobe & Power BI',
-                            'Optimisation système d\'information',
-                            'Veille numérique',
-                            'Conception études et recherches'
-                        ]
-                    },
-                    {
-                        name: 'RSE & International',
-                        icon: 'globe',
-                        color: '#00d4aa',
-                        courses: [
-                            'Diagnostic éthique et écologique',
-                            'Management durable',
-                            'Business English (TOEIC)',
-                            'Semaine internationale',
-                            'Développer capacités de transfert'
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 'm2',
-                title: 'Master 2 - Entrepreneuriat et Management de Projets',
-                year: '2025-2026',
-                subtitle: 'La confirmation',
-                gradient: 'linear-gradient(135deg, #ff006e, #ff6b35)',
-                categories: [
-                    {
-                        name: 'Stratégie Avancée',
-                        icon: 'trending-up',
-                        color: '#ff6b35',
-                        courses: [
-                            'Intelligence collective',
-                            'Négociation salariale',
-                            'Indices de santé entreprise',
-                            'Conduire projets de changement',
-                            'Valoriser le potentiel d\'équipe',
-                            'Intégrer personnalités difficiles'
-                        ]
-                    },
-                    {
-                        name: 'Pilotage de Projet',
-                        icon: 'target',
-                        color: '#ff006e',
-                        courses: [
-                            'MS Project',
-                            'Manager la dimension digitale',
-                            'Amélioration continue',
-                            'Scrum Master (Préparation)',
-                            'Manager qualité'
-                        ]
-                    },
-                    {
-                        name: 'Data & Innovation',
-                        icon: 'sparkles',
-                        color: '#6a4c93',
-                        courses: [
-                            'Power BI (Traitement avancé)',
-                            'Analyse de données',
-                            'Design Thinking',
-                            'Slow Management',
-                            'Protection de l\'innovation',
-                            'Implémenter innovations managériales'
-                        ]
-                    },
-                    {
-                        name: 'Entrepreneuriat & Finance',
-                        icon: 'briefcase',
-                        color: '#00d4aa',
-                        courses: [
-                            'Business Model financier',
-                            'Réseaux d\'accompagnement',
-                            'Financer son projet',
-                            'Découverte parcours créateurs',
-                            'Mémoire de recherche'
-                        ]
-                    },
-                    {
-                        name: 'Marketing Digital',
-                        icon: 'trending-up',
-                        color: '#ffbe0b',
-                        courses: [
-                            'Marketing BtoB',
-                            'Web marketing',
-                            'Marketing digital avancé'
-                        ]
-                    }
-                ]
-            }
-        ];
+        // DONNÉES ACADÉMIQUES DUPLIQUÉES (FR / EN)
+        const academicData = {
+            fr: [
+                {
+                    id: 'l3',
+                    title: 'Licence 3 - Management et Développement des Organisations',
+                    year: '2023-2024',
+                    gradient: 'linear-gradient(135deg, #00d4aa, #6a4c93)',
+                    categories: [
+                        { name: 'Gestion & Business', icon: 'briefcase', color: '#ff6b35', courses: ['RH et Management d\'équipe', 'Marketing BtoB (Négociation)', 'Marketing International', 'Financement et Investissement', 'Contrôle de gestion', 'Management Stratégique'] },
+                        { name: 'Stratégie Digitale', icon: 'trending-up', color: '#6a4c93', courses: ['RGPD / Marketing Digital', 'Digitalisation des entreprises', 'Communication Réseaux Sociaux'] },
+                        { name: 'Juridique', icon: 'award', color: '#00d4aa', courses: ['Droit du travail', 'Droit de la distribution/consommation'] },
+                        { name: 'Outils & Tech', icon: 'code', color: '#ff006e', courses: ['Outils de création graphique', 'Système d\'information pour la gestion', 'Tableaux de bord', 'Introduction à la programmation'] },
+                        { name: 'Innovation & International', icon: 'globe', color: '#ffbe0b', courses: ['Innovation et Design Thinking', 'Module Polytechnique (Eunice)', 'Management English', 'Gestion de projet et qualité', 'Simulation de gestion'] }
+                    ]
+                },
+                {
+                    id: 'm1',
+                    title: 'Master 1 - Entrepreneuriat et Management de Projets',
+                    year: '2024-2025',
+                    subtitle: 'L\'expertise',
+                    gradient: 'linear-gradient(135deg, #6a4c93, #ff006e)',
+                    categories: [
+                        { name: 'Management des Organisations', icon: 'users', color: '#6a4c93', courses: ['Comportements organisationnels', 'Conduite de réunion', 'Négociation avec les syndicats', 'Recrutement 5.0', 'Gestion de conflits', 'Conduire des entretiens'] },
+                        { name: 'Gestion de Projet Agile', icon: 'target', color: '#ff006e', courses: ['Ingénierie de projet', 'Design entrepreneurial', 'Approche Phygitale', 'CRM', 'Business Model et start-up'] },
+                        { name: 'Finance & Performance', icon: 'bar-chart-3', color: '#00d4aa', courses: ['Management de la performance financière', 'Gestion des risques (Risk agil)', 'Outils financiers', 'Fiscalité d\'entreprise'] },
+                        { name: 'Environnement Légal', icon: 'award', color: '#ffbe0b', courses: ['Droit des affaires', 'Droit du numérique/RGPD', 'Appliquer la réglementation'] },
+                        { name: 'Outils Numériques', icon: 'code', color: '#ff6b35', courses: ['Maîtrise Suite Adobe & Power BI', 'Optimisation système d\'information', 'Veille numérique', 'Conception études et recherches'] },
+                        { name: 'RSE & International', icon: 'globe', color: '#00d4aa', courses: ['Diagnostic éthique et écologique', 'Management durable', 'Business English (TOEIC)', 'Semaine internationale', 'Développer capacités de transfert'] }
+                    ]
+                },
+                {
+                    id: 'm2',
+                    title: 'Master 2 - Entrepreneuriat et Management de Projets',
+                    year: '2025-2026',
+                    subtitle: 'La confirmation',
+                    gradient: 'linear-gradient(135deg, #ff006e, #ff6b35)',
+                    categories: [
+                        { name: 'Stratégie Avancée', icon: 'trending-up', color: '#ff6b35', courses: ['Intelligence collective', 'Négociation salariale', 'Indices de santé entreprise', 'Conduire projets de changement', 'Valoriser le potentiel d\'équipe', 'Intégrer personnalités difficiles'] },
+                        { name: 'Pilotage de Projet', icon: 'target', color: '#ff006e', courses: ['MS Project', 'Manager la dimension digitale', 'Amélioration continue', 'Scrum Master (Préparation)', 'Manager qualité'] },
+                        { name: 'Data & Innovation', icon: 'sparkles', color: '#6a4c93', courses: ['Power BI (Traitement avancé)', 'Analyse de données', 'Design Thinking', 'Slow Management', 'Protection de l\'innovation', 'Implémenter innovations managériales'] },
+                        { name: 'Entrepreneuriat & Finance', icon: 'briefcase', color: '#00d4aa', courses: ['Business Model financier', 'Réseaux d\'accompagnement', 'Financer son projet', 'Découverte parcours créateurs', 'Mémoire de recherche'] },
+                        { name: 'Marketing Digital', icon: 'trending-up', color: '#ffbe0b', courses: ['Marketing BtoB', 'Web marketing', 'Marketing digital avancé'] }
+                    ]
+                }
+            ],
+            en: [
+                {
+                    id: 'l3',
+                    title: 'Bachelor 3 - Management and Organizational Development',
+                    year: '2023-2024',
+                    gradient: 'linear-gradient(135deg, #00d4aa, #6a4c93)',
+                    categories: [
+                        { name: 'Business & Management', icon: 'briefcase', color: '#ff6b35', courses: ['HR & Team Management', 'B2B Marketing (Negotiation)', 'International Marketing', 'Financing & Investment', 'Management Control', 'Strategic Management'] },
+                        { name: 'Digital Strategy', icon: 'trending-up', color: '#6a4c93', courses: ['GDPR / Digital Marketing', 'Business Digitalization', 'Social Media Communication'] },
+                        { name: 'Legal', icon: 'award', color: '#00d4aa', courses: ['Labor Law', 'Distribution/Consumer Law'] },
+                        { name: 'Tools & Tech', icon: 'code', color: '#ff006e', courses: ['Graphic Creation Tools', 'Management Information Systems', 'Dashboards', 'Introduction to Programming'] },
+                        { name: 'Innovation & International', icon: 'globe', color: '#ffbe0b', courses: ['Innovation & Design Thinking', 'Polytechnic Module (Eunice)', 'Management English', 'Project Management & Quality', 'Business Simulation'] }
+                    ]
+                },
+                {
+                    id: 'm1',
+                    title: 'Master 1 - Entrepreneurship & Project Management',
+                    year: '2024-2025',
+                    subtitle: 'Expertise',
+                    gradient: 'linear-gradient(135deg, #6a4c93, #ff006e)',
+                    categories: [
+                        { name: 'Organizational Management', icon: 'users', color: '#6a4c93', courses: ['Organizational Behavior', 'Meeting Management', 'Union Negotiation', 'Recruitment 5.0', 'Conflict Management', 'Conducting Interviews'] },
+                        { name: 'Agile Project Mgmt', icon: 'target', color: '#ff006e', courses: ['Project Engineering', 'Entrepreneurial Design', 'Phygital Approach', 'CRM', 'Business Models & Startups'] },
+                        { name: 'Finance & Performance', icon: 'bar-chart-3', color: '#00d4aa', courses: ['Financial Performance Mgmt', 'Risk Management (Agile Risk)', 'Financial Tools', 'Corporate Taxation'] },
+                        { name: 'Legal Environment', icon: 'award', color: '#ffbe0b', courses: ['Business Law', 'Digital Law/GDPR', 'Regulatory Compliance'] },
+                        { name: 'Digital Tools', icon: 'code', color: '#ff6b35', courses: ['Adobe Suite Mastery & Power BI', 'Information System Optimization', 'Digital Watch', 'Research Design'] },
+                        { name: 'CSR & International', icon: 'globe', color: '#00d4aa', courses: ['Ethical & Ecological Diagnosis', 'Sustainable Management', 'Business English (TOEIC)', 'International Week', 'Developing Transfer Capabilities'] }
+                    ]
+                },
+                {
+                    id: 'm2',
+                    title: 'Master 2 - Entrepreneurship & Project Management',
+                    year: '2025-2026',
+                    subtitle: 'Confirmation',
+                    gradient: 'linear-gradient(135deg, #ff006e, #ff6b35)',
+                    categories: [
+                        { name: 'Advanced Strategy', icon: 'trending-up', color: '#ff6b35', courses: ['Collective Intelligence', 'Salary Negotiation', 'Company Health Indices', 'Leading Change Projects', 'Valuing Team Potential', 'Managing Difficult Personalities'] },
+                        { name: 'Project Steering', icon: 'target', color: '#ff006e', courses: ['MS Project', 'Managing Digital Dimension', 'Continuous Improvement', 'Scrum Master (Prep)', 'Quality Management'] },
+                        { name: 'Data & Innovation', icon: 'sparkles', color: '#6a4c93', courses: ['Power BI (Advanced)', 'Data Analysis', 'Design Thinking', 'Slow Management', 'Innovation Protection', 'Implementing Managerial Innovations'] },
+                        { name: 'Entrepreneurship & Finance', icon: 'briefcase', color: '#00d4aa', courses: ['Financial Business Model', 'Support Networks', 'Project Financing', 'Creator Journey Discovery', 'Research Thesis'] },
+                        { name: 'Digital Marketing', icon: 'trending-up', color: '#ffbe0b', courses: ['B2B Marketing', 'Web Marketing', 'Advanced Digital Marketing'] }
+                    ]
+                }
+            ]
+        };
 
-        // Cursor Glow Effect
+        // DICTIONNAIRE DE TRADUCTION COMPLET
+        const translations = {
+            fr: {
+                sober_mode: "Sobre",
+                hero_badge: "Pilotage de Projets • Coordination • Product Ownership",
+                hero_subtitle: "Product Owner passionné par la création de valeur et l'innovation produit",
+                hero_description: "De <span class=\"highlight\">l'entrepreneuriat à 15 ans</span> à la gestion de portefeuille chez GRDF, j'ai développé une <span class=\"highlight\">vision produit stratégique</span> alliée à une <span class=\"highlight\">excellence opérationnelle Agile et Scrum</span>. Je transforme les besoins utilisateurs en solutions concrètes et rentables.",
+                btn_cv: "Voir mon CV",
+                section_pro_title: "PARCOURS PROFESSIONNEL",
+                section_pro_subtitle: "De l'entrepreneuriat précoce à l'expertise produit",
+                exp_grdf_title: "Chargé de Portefeuille (Alternance)",
+                exp_grdf_period: "2023 - 2026 • 3 ans",
+                exp_grdf_desc: "Pilotage de la relation avec les collectivités locales. Gestion des KPI stratégiques, suivi des contrats de concession, coordination des investissements et production de comptes-rendus d'activités. Gestion des redevances et interface avec les élus.",
+                tag_kpi: "Pilotage KPI", tag_contracts: "Gestion contrats", tag_relations: "Relations institutionnelles", tag_reporting: "Reporting",
+                exp_desreves_title: "Fondateur & Product Owner",
+                exp_desreves_period: "2024 - Aujourd'hui",
+                exp_desreves_comp: "Desrèves - Marque de vêtements durables",
+                exp_desreves_desc: "Création et développement d'une marque de vêtements et accessoires durables Made in France. Gestion complète du projet : stratégie de marque, design produit, développement web (Liquid/CSS), relation fournisseurs, marketing digital et branding.",
+                tag_entrepreneurship: "Entrepreneuriat", tag_product_design: "Design produit", tag_web_dev: "Dev web", tag_suppliers: "Gestion fournisseurs", tag_marketing: "Marketing",
+                exp_bde_title: "Président",
+                exp_bde_period: "2022 - 2025 • 3 ans",
+                exp_bde_desc: "Management d'une équipe bénévole, pilotage budgétaire, gestion des risques événementiels, développement commercial et partenariats. Conception et réalisation de produits (goodies, merchandising). Leadership et coordination transversale.",
+                tag_leadership: "Leadership", tag_budget: "Gestion budget", tag_events: "Événementiel", tag_team_mgmt: "Management équipe",
+                exp_esport_title: "Fondateur & Manager",
+                exp_esport_period: "2018 - 2021 • Dès 15 ans",
+                exp_esport_comp: "Structure E-sport",
+                exp_esport_desc: "Création et gestion d'une structure E-sport. Management de joueurs compétitifs, organisation de LANs (dont participation à Lyon E-Sport). Coordination logistique, gestion d'équipe et développement de partenariats.",
+                tag_early_entrepreneurship: "Entrepreneuriat précoce", tag_management: "Management", tag_event_org: "Organisation événements",
+                exp_intl_title: "Formations Intensives Internationales",
+                exp_intl_comp: "Finlande & Roumanie",
+                exp_intl_desc: "<strong>🇫🇮 Vaasa, Finlande</strong> - Entrepreneurship and Venturing (Vaasan yliopisto)<br><strong>🇷🇴 Cluj-Napoca, Roumanie</strong> - Innovation, Design-Thinking and Entrepreneurship (Universitatea Babes-Bolyai)",
+                tag_mobility: "Mobilité internationale", tag_innovation: "Innovation", tag_design_thinking: "Design Thinking",
+                section_vision_title: "MA VISION",
+                section_vision_subtitle: "Ce qui me motive au quotidien",
+                vision_1_title: "Innovation permanente",
+                vision_1_desc: "J'innove dans tout ce que je fais — process, méthodes, approches. Je ne fais jamais comme les autres. Mon obsession : <strong>l'amélioration continue et l'optimisation intelligente</strong>.",
+                vision_2_title: "Action & Concrétisation",
+                vision_2_desc: "L'inactivité me rend malade. <strong>J'entreprends constamment</strong> : E-sport à 15 ans, BDE, ma marque Desrèves... Je mène les projets de A à Z avec rigueur et polyvalence.",
+                vision_3_title: "Impact Business",
+                vision_3_desc: "Vision stratégique alignée sur les KPI business. Je priorise les features à forte valeur et arbitre entre coûts, risques et délais pour maximiser le ROI produit.",
+                vision_4_title: "Passion pour l'IA",
+                vision_4_desc: "Hyper curieux sur l'IA et l'automatisation. J'apprends à tout automatiser, à appliquer l'IA au quotidien, et à maîtriser les workflows intelligents. <strong>L'IA est devenue mon quotidien</strong>.",
+                section_atouts_title: "MES ATOUTS",
+                section_atouts_subtitle: "Transparence totale sur mes forces et axes de travail",
+                lbl_forces: "MES FORCES",
+                lbl_weaknesses: "MES AXES D'AMÉLIORATION",
+                force_1: "<strong>Vision stratégique</strong> — Alignement projets × objectifs business",
+                force_2: "<strong>Sens des priorités</strong> — Arbitrage valeur / coûts / risques / délais",
+                force_3: "<strong>Leadership transversal</strong> — Coordination sans lien hiérarchique",
+                force_4: "<strong>Culture résultat</strong> — Pilotage orienté impact et ROI",
+                force_5: "<strong>Curieux et engagé</strong> — Appétence pour l'apprentissage continu",
+                force_6: "<strong>Communication claire</strong> — Traduction enjeux complexes → décisions simples",
+                weak_1: "<strong>Trop ouvert aux propositions</strong> — Me ralentit parfois, travail sur le focus",
+                weak_2: "<strong>Besoin de solitude ponctuel</strong> — Phases où je me recharge seul",
+                weak_3: "<strong>Côté direct parfois abrupt</strong> — Je cherche l'efficacité, pas la validation",
+                weak_4: "<strong>Optimisation > émotion</strong> — Tendance à sauter les étapes émotionnelles",
+                weak_5: "<strong>Difficulté avec le flou prolongé</strong> — Besoin de structurer rapidement",
+                weak_6: "<strong>Impatience face aux non-décisions</strong> — Préférence pour l'action concrète",
+                section_skills_title: "COMPÉTENCES",
+                section_skills_subtitle: "Maîtrises techniques et soft skills",
+                skill_cat_mgmt: "<i data-lucide='briefcase' width='24' style='color: var(--orange);'></i> Management & Stratégie",
+                skill_cat_data: "<i data-lucide='bar-chart-3' width='24' style='color: var(--purple);'></i> Data & Analyse",
+                skill_cat_tech: "<i data-lucide='code' width='24' style='color: var(--pink);'></i> Tech (bases avec IA)",
+                skill_cat_lang: "<i data-lucide='globe' width='24' style='color: var(--teal);'></i> Langues",
+                skill_agile: "Gestion de projet Agile", skill_kpi: "Pilotage KPI", skill_risk: "Gestion des risques", skill_team: "Management d'équipe", skill_scrum: "Scrum (préparation certif)",
+                skill_excel: "Excel avancé (Macros, VBA)", skill_dash: "Tableaux de bord", skill_data: "Analyse de données", skill_control: "Contrôle de gestion",
+                skill_prompt: "Prompting IA avancé", skill_workflows: "Workflows automatisés", skill_digital: "Digitalisation process",
+                skill_css: "CSS (avec IA)", skill_liquid: "Liquid (avec IA)", skill_r: "R (bases)",
+                skill_com: "Communication structurée", skill_prob: "Résolution de problèmes", skill_result: "Orientation résultat", skill_listen: "Écoute active", skill_disc: "Discipline",
+                lang_fr: "🇫🇷 Français (Natif)", lang_en: "🇬🇧 Anglais (Pro - TOEIC)", lang_es: "🇪🇸 Espagnol (Notions)", lang_fi: "🇫🇮 Finlande (mobilité)", lang_ro: "🇷🇴 Roumanie (mobilité)",
+                section_edu_title: "FORMATION",
+                section_edu_subtitle: "Master Entrepreneuriat & Management de Projets",
+                search_placeholder: "Rechercher un cours (ex: Scrum, Marketing, RGPD...)",
+                footer_title: "Construisons ensemble",
+                footer_subtitle: "Prêt à apporter rigueur, créativité et impact à vos projets stratégiques",
+                footer_copyright: "© 2026 Florian Bouchart • Portfolio digital innovant"
+            },
+            en: {
+                sober_mode: "Sober",
+                hero_badge: "Project Management • Coordination • Product Ownership",
+                hero_subtitle: "Product Owner passionate about value creation and product innovation",
+                hero_description: "From <span class=\"highlight\">entrepreneurship at 15</span> to portfolio management at GRDF, I have developed a <span class=\"highlight\">strategic product vision</span> combined with <span class=\"highlight\">Agile and Scrum operational excellence</span>. I transform user needs into concrete and profitable solutions.",
+                btn_cv: "View Resume",
+                section_pro_title: "PROFESSIONAL EXPERIENCE",
+                section_pro_subtitle: "From early entrepreneurship to product expertise",
+                exp_grdf_title: "Portfolio Manager (Apprenticeship)",
+                exp_grdf_period: "2023 - 2026 • 3 years",
+                exp_grdf_desc: "Managing relationships with local authorities. Managing strategic KPIs, monitoring concession contracts, coordinating investments, and producing activity reports. Managing royalties and interfacing with elected officials.",
+                tag_kpi: "KPI Management", tag_contracts: "Contract Mgmt", tag_relations: "Institutional Relations", tag_reporting: "Reporting",
+                exp_desreves_title: "Founder & Product Owner",
+                exp_desreves_period: "2024 - Present",
+                exp_desreves_comp: "Desrèves - Sustainable Clothing Brand",
+                exp_desreves_desc: "Creation and development of a sustainable Made in France clothing and accessories brand. Complete project management: brand strategy, product design, web development (Liquid/CSS), supplier relations, digital marketing, and branding.",
+                tag_entrepreneurship: "Entrepreneurship", tag_product_design: "Product Design", tag_web_dev: "Web Dev", tag_suppliers: "Supplier Mgmt", tag_marketing: "Marketing",
+                exp_bde_title: "President",
+                exp_bde_period: "2022 - 2025 • 3 years",
+                exp_bde_desc: "Management of a volunteer team, budget management, event risk management, business development, and partnerships. Design and production of products (goodies, merchandising). Leadership and cross-functional coordination.",
+                tag_leadership: "Leadership", tag_budget: "Budget Mgmt", tag_events: "Event Planning", tag_team_mgmt: "Team Mgmt",
+                exp_esport_title: "Founder & Manager",
+                exp_esport_period: "2018 - 2021 • From age 15",
+                exp_esport_comp: "E-sport Organization",
+                exp_esport_desc: "Creation and management of an E-sport structure. Management of competitive players, organization of LANs (including participation in Lyon E-Sport). Logistics coordination, team management, and partnership development.",
+                tag_early_entrepreneurship: "Early Entrepreneurship", tag_management: "Management", tag_event_org: "Event Organization",
+                exp_intl_title: "Intensive International Training",
+                exp_intl_comp: "Finland & Romania",
+                exp_intl_desc: "<strong>🇫🇮 Vaasa, Finland</strong> - Entrepreneurship and Venturing (Vaasan yliopisto)<br><strong>🇷🇴 Cluj-Napoca, Romania</strong> - Innovation, Design-Thinking and Entrepreneurship (Universitatea Babes-Bolyai)",
+                tag_mobility: "International Mobility", tag_innovation: "Innovation", tag_design_thinking: "Design Thinking",
+                section_vision_title: "MY VISION",
+                section_vision_subtitle: "What drives me daily",
+                vision_1_title: "Continuous Innovation",
+                vision_1_desc: "I innovate in everything I do — processes, methods, approaches. I never do things like everyone else. My obsession: <strong>continuous improvement and intelligent optimization</strong>.",
+                vision_2_title: "Action & Realization",
+                vision_2_desc: "Inactivity drives me crazy. <strong>I am constantly undertaking projects</strong>: E-sport at 15, Student Union, my brand Desrèves... I lead projects from A to Z with rigor and versatility.",
+                vision_3_title: "Business Impact",
+                vision_3_desc: "Strategic vision aligned with business KPIs. I prioritize high-value features and arbitrate between costs, risks, and delays to maximize product ROI.",
+                vision_4_title: "Passion for AI",
+                vision_4_desc: "Hyper curious about AI and automation. I learn to automate everything, apply AI daily, and master intelligent workflows. <strong>AI has become my daily life</strong>.",
+                section_atouts_title: "MY STRENGTHS",
+                section_atouts_subtitle: "Full transparency on strengths and areas for work",
+                lbl_forces: "MY STRENGTHS",
+                lbl_weaknesses: "AREAS FOR IMPROVEMENT",
+                force_1: "<strong>Strategic Vision</strong> — Aligning projects × business goals",
+                force_2: "<strong>Sense of Priorities</strong> — Arbitrating value / costs / risks / deadlines",
+                force_3: "<strong>Cross-functional Leadership</strong> — Coordination without hierarchical link",
+                force_4: "<strong>Result Culture</strong> — Impact and ROI-oriented management",
+                force_5: "<strong>Curious and Engaged</strong> — Appetite for continuous learning",
+                force_6: "<strong>Clear Communication</strong> — Translating complex issues → simple decisions",
+                weak_1: "<strong>Too open to proposals</strong> — Sometimes slows me down, working on focus",
+                weak_2: "<strong>Occasional need for solitude</strong> — Phases where I recharge alone",
+                weak_3: "<strong>Direct side sometimes abrupt</strong> — I seek efficiency, not validation",
+                weak_4: "<strong>Optimization > Emotion</strong> — Tendency to skip emotional steps",
+                weak_5: "<strong>Difficulty with prolonged ambiguity</strong> — Need to structure quickly",
+                weak_6: "<strong>Impatience with non-decisions</strong> — Preference for concrete action",
+                section_skills_title: "SKILLS",
+                section_skills_subtitle: "Technical mastery and soft skills",
+                skill_cat_mgmt: "<i data-lucide='briefcase' width='24' style='color: var(--orange);'></i> Management & Strategy",
+                skill_cat_data: "<i data-lucide='bar-chart-3' width='24' style='color: var(--purple);'></i> Data & Analysis",
+                skill_cat_tech: "<i data-lucide='code' width='24' style='color: var(--pink);'></i> Tech (basics with AI)",
+                skill_cat_lang: "<i data-lucide='globe' width='24' style='color: var(--teal);'></i> Languages",
+                skill_agile: "Agile Project Mgmt", skill_kpi: "KPI Management", skill_risk: "Risk Management", skill_team: "Team Management", skill_scrum: "Scrum (Certif Prep)",
+                skill_excel: "Advanced Excel (Macros, VBA)", skill_dash: "Dashboards", skill_data: "Data Analysis", skill_control: "Management Control",
+                skill_prompt: "Advanced AI Prompting", skill_workflows: "Automated Workflows", skill_digital: "Process Digitalization",
+                skill_css: "CSS (with AI)", skill_liquid: "Liquid (with AI)", skill_r: "R (basics)",
+                skill_com: "Structured Communication", skill_prob: "Problem Solving", skill_result: "Result Oriented", skill_listen: "Active Listening", skill_disc: "Discipline",
+                lang_fr: "🇫🇷 French (Native)", lang_en: "🇬🇧 English (Pro - TOEIC)", lang_es: "🇪🇸 Spanish (Basic)", lang_fi: "🇫🇮 Finland (mobility)", lang_ro: "🇷🇴 Romania (mobility)",
+                section_edu_title: "EDUCATION",
+                section_edu_subtitle: "Master in Entrepreneurship & Project Management",
+                search_placeholder: "Search for a course (e.g., Scrum, Marketing, GDPR...)",
+                footer_title: "Let's Build Together",
+                footer_subtitle: "Ready to bring rigor, creativity, and impact to your strategic projects",
+                footer_copyright: "© 2026 Florian Bouchart • Innovative Digital Portfolio"
+            }
+        };
+
+        // --- VARIABLES GLOBALES ---
+        let currentLang = 'fr';
+        let soberMode = false;
+
+        // --- GESTION DU CURSEUR ---
         const cursorGlow = document.getElementById('cursorGlow');
         let mouseX = 0, mouseY = 0;
         let glowX = 0, glowY = 0;
@@ -1747,16 +1770,13 @@
         function animateGlow() {
             glowX += (mouseX - glowX) * smoothing;
             glowY += (mouseY - glowY) * smoothing;
-            
             cursorGlow.style.left = glowX + 'px';
             cursorGlow.style.top = glowY + 'px';
-            
             requestAnimationFrame(animateGlow);
         }
-
         animateGlow();
 
-        // Filtrage et rendu
+        // --- LOGIQUE TIMELINE (FORMATION) ---
         function filterCourses(semester, searchTerm) {
             if (!searchTerm) return semester;
             
@@ -1781,11 +1801,14 @@
 
         function renderTimeline(searchTerm = '') {
             const timeline = document.getElementById('timeline');
-            const filteredData = academicData.filter(sem => hasMatchingCourses(sem, searchTerm));
+            // Utilise academicData[currentLang] pour choisir les bonnes données
+            const currentData = academicData[currentLang];
+            const filteredData = currentData.filter(sem => hasMatchingCourses(sem, searchTerm));
             
             timeline.innerHTML = filteredData.map(semester => {
                 const filtered = filterCourses(semester, searchTerm);
                 const totalCourses = filtered.categories.reduce((acc, cat) => acc + cat.courses.length, 0);
+                const courseLabel = currentLang === 'fr' ? 'matières' : 'courses';
                 
                 return `
                     <div class="timeline-item reveal">
@@ -1800,7 +1823,7 @@
                                 </div>
                             </div>
                             <div class="timeline-header-right">
-                                <span class="timeline-count">${totalCourses} matières</span>
+                                <span class="timeline-count">${totalCourses} ${courseLabel}</span>
                                 <i data-lucide="chevron-down" width="26" id="icon-${semester.id}"></i>
                             </div>
                         </div>
@@ -1839,19 +1862,16 @@
         function toggleTimeline(id) {
             const content = document.getElementById(`content-${id}`);
             const icon = document.getElementById(`icon-${id}`);
-            
             content.classList.toggle('active');
-            
             if (content.classList.contains('active')) {
                 icon.setAttribute('data-lucide', 'chevron-up');
             } else {
                 icon.setAttribute('data-lucide', 'chevron-down');
             }
-            
             lucide.createIcons();
         }
 
-        // Recherche
+        // --- RECHERCHE ---
         const searchInput = document.getElementById('searchInput');
         const searchResults = document.getElementById('searchResults');
 
@@ -1860,65 +1880,39 @@
             renderTimeline(searchTerm);
             
             if (searchTerm) {
-                const totalResults = academicData
+                const currentData = academicData[currentLang];
+                const totalResults = currentData
                     .filter(sem => hasMatchingCourses(sem, searchTerm))
                     .reduce((acc, sem) => {
                         const filtered = filterCourses(sem, searchTerm);
                         return acc + filtered.categories.reduce((catAcc, cat) => catAcc + cat.courses.length, 0);
                     }, 0);
                 
-                searchResults.textContent = `${totalResults} résultat(s) trouvé(s)`;
+                const resultText = currentLang === 'fr' 
+                    ? `${totalResults} résultat(s) trouvé(s)` 
+                    : `${totalResults} result(s) found`;
+                
+                searchResults.textContent = resultText;
                 searchResults.classList.remove('hidden');
             } else {
                 searchResults.classList.add('hidden');
             }
         });
 
+        // --- ANIMATION SCROLL ---
         function revealOnScroll() {
             const reveals = document.querySelectorAll('.reveal');
-            
             reveals.forEach(element => {
                 const windowHeight = window.innerHeight;
                 const elementTop = element.getBoundingClientRect().top;
                 const elementVisible = 100;
-                
                 if (elementTop < windowHeight - elementVisible) {
                     element.classList.add('active');
                 }
             });
         }
         
-        // TRADUCTIONS
-        const translations = {
-            fr: {
-                badge: "Pilotage de Projets • Coordination • Product Ownership",
-                subtitle: "Product Owner passionné par la création de valeur et l'innovation produit",
-                description: "De <span class=\"highlight\">l'entrepreneuriat à 15 ans</span> à la gestion de portefeuille chez GRDF, j'ai développé une <span class=\"highlight\">vision produit stratégique</span> alliée à une <span class=\"highlight\">excellence opérationnelle Agile et Scrum</span>. Je transforme les besoins utilisateurs en solutions concrètes et rentables.",
-                cvBtn: "Voir mon CV",
-                parcours: { title: "PARCOURS PROFESSIONNEL", subtitle: "De l'entrepreneuriat précoce à l'expertise produit" },
-                vision: { title: "MA VISION", subtitle: "Ce qui me motive au quotidien" },
-                atouts: { title: "MES ATOUTS", subtitle: "Transparence totale sur mes forces et axes de travail" },
-                competences: { title: "COMPÉTENCES", subtitle: "Maîtrises techniques et soft skills" },
-                formation: { title: "FORMATION", subtitle: "Master Entrepreneuriat & Management de Projets" },
-                footer: { title: "Prêt à créer ensemble", subtitle: "Transformons vos idées produit en solutions concrètes et rentables", copyright: "© 2026 Florian Bouchart • Product Owner & Product Manager" }
-            },
-            en: {
-                badge: "Project Management • Coordination • Product Ownership",
-                subtitle: "Product Owner passionate about value creation and product innovation",
-                description: "From <span class=\"highlight\">entrepreneurship at 15</span> to portfolio management at GRDF, I've developed a <span class=\"highlight\">strategic product vision</span> combined with <span class=\"highlight\">Agile and Scrum operational excellence</span>. I transform user needs into concrete and profitable solutions.",
-                cvBtn: "View resume",
-                parcours: { title: "PROFESSIONAL EXPERIENCE", subtitle: "From early entrepreneurship to product expertise" },
-                vision: { title: "MY VISION", subtitle: "What drives me daily" },
-                atouts: { title: "MY STRENGTHS", subtitle: "Full transparency on strengths and areas for improvement" },
-                competences: { title: "SKILLS", subtitle: "Technical expertise and soft skills" },
-                formation: { title: "EDUCATION", subtitle: "Master in Entrepreneurship & Project Management" },
-                footer: { title: "Ready to create together", subtitle: "Let's transform your product ideas into concrete and profitable solutions", copyright: "© 2026 Florian Bouchart • Product Owner & Product Manager" }
-            }
-        };
-
-        let currentLang = 'fr';
-        let soberMode = false;
-
+        // --- BOUTONS ET TRADUCTIONS ---
         document.getElementById('langToggle').addEventListener('click', () => {
             currentLang = currentLang === 'fr' ? 'en' : 'fr';
             document.getElementById('langText').textContent = currentLang === 'fr' ? 'EN' : 'FR';
@@ -1932,34 +1926,33 @@
         });
 
         function applyTranslations() {
+            // 1. Mise à jour de tous les textes statiques via data-translate
             const t = translations[currentLang];
-            document.querySelector('.badge-gradient').textContent = t.badge;
-            document.querySelector('.hero-subtitle').textContent = t.subtitle;
-            document.querySelector('.hero-description').innerHTML = t.description;
-            document.querySelector('.cv-text').textContent = t.cvBtn;
-            document.querySelector('.email-text').textContent = t.footer.email || 'florian.bouchart@hotmail.fr';
-            
-            ['parcours', 'vision', 'atouts', 'competences', 'formation'].forEach(section => {
-                const id = section === 'parcours' ? 'parcours-pro' : section;
-                const titleEl = document.querySelector(`#${id} .section-title`);
-                const subtitleEl = document.querySelector(`#${id} .section-subtitle`);
-                if (titleEl) titleEl.textContent = t[section].title;
-                if (subtitleEl) subtitleEl.textContent = t[section].subtitle;
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (t[key]) {
+                    // Si le contenu contient des balises HTML (ex: <i>), on utilise innerHTML
+                    if (t[key].includes('<')) {
+                        element.innerHTML = t[key];
+                    } else {
+                        element.textContent = t[key];
+                    }
+                }
             });
-            
-            document.querySelector('footer h3').textContent = t.footer.title;
-            document.querySelectorAll('footer p')[0].textContent = t.footer.subtitle;
-            document.querySelector('.copyright').textContent = t.footer.copyright;
-            
-            // Traduire le placeholder de recherche
-            const searchInput = document.getElementById('searchInput');
+
+            // 2. Mise à jour spécifique pour le placeholder de recherche
             if (searchInput) {
-                searchInput.placeholder = currentLang === 'fr' 
-                    ? "Rechercher un cours (ex: Scrum, Marketing, RGPD...)"
-                    : "Search for a course (e.g., Scrum, Marketing, GDPR...)";
+                searchInput.placeholder = t.search_placeholder;
             }
+
+            // 3. Recharger la timeline (car les données sont différentes en EN)
+            renderTimeline(searchInput.value);
+            
+            // 4. Recharger les icônes (au cas où on a remplacé du HTML contenant des icônes)
+            lucide.createIcons();
         }
 
+        // --- INIT ---
         window.addEventListener('scroll', revealOnScroll);
 
         document.addEventListener('DOMContentLoaded', () => {
