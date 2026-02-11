@@ -16,21 +16,21 @@
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
 
         :root {
-            /* Couleurs ACCENT */
+            /* Couleurs ACCENT (Vives) */
             --orange: #ff6b35;
             --teal: #00d4aa;
             --purple: #6a4c93;
             --pink: #ff006e;
             --yellow: #ffbe0b;
             
-            /* Backgrounds & Textes (Mode Sombre par défaut) */
+            /* Backgrounds & Textes (Mode Sombre par défaut - RETOUR AU NOIR PROFOND) */
             --bg-primary: #000000;
-            --bg-card: #0a0a0a;
-            --card-border: rgba(255, 255, 255, 0.1);
+            --bg-card: #080808; /* Très sombre pour contraste */
+            --card-border: rgba(255, 107, 53, 0.2); /* Bordure colorée par défaut */
             --text-primary: #ffffff;
             --text-secondary: #a1a1aa;
-            --glass-bg: rgba(10, 10, 10, 0.6);
-            --dock-bg: rgba(15, 15, 15, 0.6);
+            --glass-bg: rgba(15, 15, 15, 0.7); /* Plus sombre pour faire ressortir les néons */
+            --dock-bg: rgba(20, 20, 20, 0.6);
             --dock-border: rgba(255, 255, 255, 0.1);
             
             /* Polices */
@@ -38,16 +38,15 @@
             --font-body: 'Inter', sans-serif;
         }
 
-        /* --- MODE SOBRE (LIGHT MODE / CLEAN) --- */
+        /* --- MODE CLAIR (SOBER) --- */
         body.sober-mode {
-            /* Redéfinition des variables pour le mode clair */
-            --bg-primary: #f5f5f7; /* Gris très clair Apple */
+            --bg-primary: #f5f5f7;
             --bg-card: #ffffff;
             --card-border: rgba(0, 0, 0, 0.08);
             --text-primary: #1d1d1f;
             --text-secondary: #515155;
-            --glass-bg: rgba(255, 255, 255, 0.8);
-            --dock-bg: rgba(255, 255, 255, 0.8);
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --dock-bg: rgba(255, 255, 255, 0.85);
             --dock-border: rgba(0, 0, 0, 0.1);
         }
 
@@ -57,44 +56,31 @@
             font-family: var(--font-body);
             line-height: 1.6;
             overflow-x: hidden;
-            padding-bottom: 120px; /* Espace pour le dock */
+            padding-bottom: 120px;
             transition: background 0.5s ease, color 0.5s ease;
         }
 
-        /* --- BACKGROUND EFFECTS --- */
+        /* --- BACKGROUND NEON EFFECTS (Restaurés) --- */
         .grid-background {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
+            position: fixed; inset: 0; z-index: 0;
             background-image: 
-                linear-gradient(to right, rgba(255, 107, 53, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0, 212, 170, 0.03) 1px, transparent 1px);
+                linear-gradient(to right, rgba(255, 107, 53, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 212, 170, 0.05) 1px, transparent 1px);
             background-size: 50px 50px;
             pointer-events: none;
         }
 
         .cursor-glow {
-            position: fixed;
-            width: 800px;
-            height: 800px;
-            pointer-events: none;
-            z-index: 40;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            background: radial-gradient(circle, rgba(255, 107, 53, 0.15) 0%, rgba(0, 212, 170, 0.1) 25%, transparent 70%);
-            transform: translate(-50%, -50%);
-            filter: blur(40px);
-            mix-blend-mode: screen;
+            position: fixed; width: 600px; height: 600px; pointer-events: none; z-index: 40;
+            opacity: 0; transition: opacity 0.3s ease;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.2) 0%, rgba(106, 76, 147, 0.15) 30%, transparent 70%);
+            transform: translate(-50%, -50%); filter: blur(50px); mix-blend-mode: screen;
         }
         .cursor-glow.active { opacity: 1; }
 
         .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(90px);
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.15;
+            position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 1;
+            opacity: 0.25; /* Opacité augmentée pour plus de "peps" */
             transition: opacity 0.5s ease;
         }
         .orb-1 { top: 10%; left: 10%; width: 50vw; height: 50vw; background: linear-gradient(135deg, var(--orange), var(--pink)); animation: float 8s ease-in-out infinite; }
@@ -119,24 +105,26 @@
             height: clamp(140px, 25vw, 220px);
             border-radius: 50%;
             padding: 5px;
-            /* Bordure dégradée animée */
             background: linear-gradient(var(--bg-primary), var(--bg-primary)) padding-box,
                         linear-gradient(135deg, var(--orange), var(--teal), var(--purple)) border-box;
             border: 4px solid transparent;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            animation: fadeInScale 1s ease-out;
-            transition: all 0.5s ease;
+            box-shadow: 0 0 60px rgba(255, 107, 53, 0.4), 0 0 100px rgba(106, 76, 147, 0.3);
+            animation: fadeInScale 1s ease-out, profilePulse 4s infinite;
         }
         .profile-image img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
         
+        @keyframes profilePulse {
+            0%, 100% { box-shadow: 0 0 60px rgba(255, 107, 53, 0.4); }
+            50% { box-shadow: 0 0 90px rgba(255, 107, 53, 0.7), 0 0 120px rgba(106, 76, 147, 0.5); }
+        }
         @keyframes fadeInScale { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 
         .badge {
             display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;
             background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(0, 212, 170, 0.1));
-            border: 1px solid rgba(255, 107, 53, 0.3); border-radius: 50px; margin-bottom: 2rem;
+            border: 1px solid rgba(255, 107, 53, 0.5); border-radius: 50px; margin-bottom: 2rem;
             font-weight: 600; font-size: clamp(0.75rem, 2vw, 0.875rem); letter-spacing: 0.05em;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px); box-shadow: 0 0 20px rgba(255, 107, 53, 0.2);
         }
         .badge-gradient {
             background: linear-gradient(90deg, var(--orange), var(--teal), var(--purple));
@@ -147,12 +135,12 @@
         .gradient-text {
             background: linear-gradient(135deg, var(--orange), var(--teal), var(--purple));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-            display: inline-block; filter: drop-shadow(0 0 30px rgba(255, 107, 53, 0.4));
+            display: inline-block; filter: drop-shadow(0 0 30px rgba(255, 107, 53, 0.5));
         }
 
         .hero-subtitle { font-size: clamp(1.25rem, 3vw, 2rem); font-weight: 300; color: var(--text-secondary); margin-bottom: 1.5rem; }
         .hero-description { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-secondary); max-width: 800px; margin: 0 auto 2rem; line-height: 1.7; }
-        .hero-description .highlight { color: var(--teal); font-weight: 600; }
+        .hero-description .highlight { color: var(--teal); font-weight: 600; text-shadow: 0 0 20px rgba(0, 212, 170, 0.4); }
 
         /* BOUTONS */
         .cta-container { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
@@ -163,9 +151,9 @@
             font-family: var(--font-display); position: relative; overflow: hidden;
         }
         .btn:hover { transform: scale(1.05); }
-        .btn-primary { background: linear-gradient(135deg, var(--orange), var(--pink)); color: white; box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4); }
-        .btn-secondary { background: transparent; color: var(--text-primary); border: 2px solid rgba(0, 212, 170, 0.5); }
-        .btn-secondary:hover { background: rgba(0, 212, 170, 0.1); border-color: var(--teal); }
+        .btn-primary { background: linear-gradient(135deg, var(--orange), var(--pink)); color: white; box-shadow: 0 10px 40px rgba(255, 107, 53, 0.6); }
+        .btn-secondary { background: transparent; color: var(--text-primary); border: 2px solid rgba(0, 212, 170, 0.5); box-shadow: 0 0 20px rgba(0, 212, 170, 0.1); }
+        .btn-secondary:hover { background: rgba(0, 212, 170, 0.15); border-color: var(--teal); box-shadow: 0 0 30px rgba(0, 212, 170, 0.3); }
 
         .scroll-down {
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
@@ -173,19 +161,37 @@
         }
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); } 40% { transform: translate(-50%, -10px); } 60% { transform: translate(-50%, -5px); } }
 
-        /* --- SECTIONS GLOBAL --- */
+        /* --- SECTIONS & GRIDS (LE RETOUR DU LAYOUT HORIZONTAL) --- */
         section { padding: clamp(3rem, 8vw, 6rem) 1rem; position: relative; }
         .section-header { text-align: center; margin-bottom: clamp(2rem, 6vw, 4rem); }
         .section-title { font-family: var(--font-display); font-size: clamp(2rem, 6vw, 4rem); font-weight: 900; margin-bottom: 0.75rem; letter-spacing: -0.02em; }
         .section-subtitle { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-secondary); }
 
-        /* --- CARDS DESIGN (GLASS) --- */
+        /* GRILLES : On force le grid à 2 ou 3 colonnes sur PC */
         .experience-grid, .vision-grid, .skills-grid {
-            display: grid; gap: 1.5rem; max-width: 1400px; margin: 0 auto;
-            grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
+            display: grid; 
+            gap: 2rem; 
+            max-width: 1400px; 
+            margin: 0 auto;
+            /* Mobile first : 1 colonne */
+            grid-template-columns: 1fr;
         }
-        @media (min-width: 1200px) { .experience-grid { grid-template-columns: repeat(3, 1fr); } }
+        
+        /* Tablette et + : au moins 2 colonnes */
+        @media (min-width: 768px) {
+            .experience-grid, .vision-grid, .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* PC Large : 3 colonnes pour l'effet "Blocs" */
+        @media (min-width: 1200px) {
+            .experience-grid { grid-template-columns: repeat(3, 1fr); }
+            .vision-grid { grid-template-columns: repeat(4, 1fr); }
+            .skills-grid { grid-template-columns: repeat(3, 1fr); }
+        }
 
+        /* --- CARDS DESIGN (VIBRANT GLOW) --- */
         .card-glass {
             background: var(--glass-bg);
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -193,81 +199,91 @@
             border-radius: 1.5rem; padding: clamp(1.5rem, 4vw, 2.5rem);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative; overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
 
+        /* Effet "Glow" au survol restauré */
         .experience-card:hover, .vision-card:hover, .skill-category:hover {
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-10px) scale(1.02);
             border-color: var(--orange);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 50px rgba(255, 107, 53, 0.25), inset 0 0 20px rgba(255, 107, 53, 0.05);
+            background: rgba(30, 30, 30, 0.8);
         }
 
         /* Contenu des cartes */
         .exp-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
-        .exp-icon { width: 60px; height: 60px; border-radius: 1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: white; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
-        .exp-info h3 { font-family: var(--font-display); font-size: clamp(1.2rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 0.2rem; }
+        .exp-icon { width: 65px; height: 65px; border-radius: 1.2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: white; box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+        .exp-info h3 { font-family: var(--font-display); font-size: clamp(1.2rem, 3vw, 1.6rem); font-weight: 700; margin-bottom: 0.2rem; }
         .exp-period { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.2rem; }
-        .exp-company { font-weight: 600; font-size: 1rem; }
+        .exp-company { font-weight: 600; font-size: 1rem; color: var(--text-primary); }
         .exp-description { color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem; margin-bottom: 1rem; }
         
         .exp-tags, .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
         .exp-tag, .skill-tag {
-            padding: 0.35rem 0.8rem; border-radius: 2rem; font-size: 0.8rem; font-weight: 500;
-            background: rgba(125, 125, 125, 0.1); border: 1px solid rgba(125, 125, 125, 0.2);
-            color: var(--text-secondary); transition: all 0.3s;
+            padding: 0.35rem 0.9rem; border-radius: 2rem; font-size: 0.8rem; font-weight: 600;
+            background: rgba(255, 107, 53, 0.1); border: 1px solid rgba(255, 107, 53, 0.3);
+            color: var(--orange); transition: all 0.3s;
         }
-        .exp-tag { color: var(--orange); border-color: rgba(255, 107, 53, 0.2); background: rgba(255, 107, 53, 0.05); }
-        .skill-tag:hover { background: var(--purple); color: white; transform: scale(1.1); border-color: transparent; }
+        .skill-tag:hover { background: var(--purple); color: white; transform: scale(1.1); border-color: transparent; box-shadow: 0 0 15px var(--purple); }
 
         /* Vision */
-        .vision-icon { width: 60px; height: 60px; border-radius: 1rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; color: white; }
+        .vision-icon { width: 60px; height: 60px; border-radius: 1.2rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         .vision-card h3 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
         .vision-card p { color: var(--text-secondary); }
 
         /* Atouts */
-        .traits-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 1.5rem; }
+        .traits-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr)); gap: 1.5rem; }
         .trait-card.strengths { border-left: 4px solid var(--teal); }
         .trait-card.weaknesses { border-left: 4px solid var(--yellow); }
         .trait-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
         .trait-badge { padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.8rem; font-weight: 700; }
-        .trait-badge.green { background: rgba(0, 212, 170, 0.15); color: var(--teal); }
-        .trait-badge.amber { background: rgba(255, 190, 11, 0.15); color: var(--yellow); }
-        .trait-item { display: flex; gap: 0.75rem; padding: 0.75rem; background: rgba(125, 125, 125, 0.05); border-radius: 0.75rem; margin-bottom: 0.75rem; transition: transform 0.3s; }
-        .trait-item:hover { transform: translateX(5px); background: rgba(125, 125, 125, 0.1); }
+        .trait-badge.green { background: rgba(0, 212, 170, 0.15); color: var(--teal); border: 1px solid rgba(0, 212, 170, 0.3); }
+        .trait-badge.amber { background: rgba(255, 190, 11, 0.15); color: var(--yellow); border: 1px solid rgba(255, 190, 11, 0.3); }
+        .trait-item { display: flex; gap: 0.75rem; padding: 0.8rem; background: rgba(255, 255, 255, 0.03); border-radius: 0.75rem; margin-bottom: 0.75rem; transition: transform 0.3s; }
+        .trait-item:hover { transform: translateX(5px); background: rgba(255, 255, 255, 0.08); }
         .trait-item span { font-size: 0.95rem; color: var(--text-secondary); }
 
         /* Skills */
-        .skill-category h3 { display: flex; align-items: center; gap: 0.75rem; font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; margin-bottom: 1.5rem; }
+        .skill-category h3 { display: flex; align-items: center; gap: 0.75rem; font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; margin-bottom: 1.5rem; }
 
         /* Timeline / Formation */
         .search-container { max-width: 900px; margin: 0 auto 3rem; }
-        .search-wrapper { position: relative; background: var(--bg-card); border: 2px solid var(--card-border); border-radius: 1.5rem; overflow: hidden; display: flex; align-items: center; transition: all 0.3s; }
-        .search-wrapper:focus-within { border-color: var(--orange); box-shadow: 0 0 20px rgba(255, 107, 53, 0.2); }
+        .search-wrapper { position: relative; background: var(--bg-card); border: 2px solid var(--card-border); border-radius: 1.5rem; overflow: hidden; display: flex; align-items: center; transition: all 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .search-wrapper:focus-within { border-color: var(--orange); box-shadow: 0 0 30px rgba(255, 107, 53, 0.3); }
         .search-icon { margin-left: 1.5rem; color: var(--orange); }
         .search-input { width: 100%; padding: 1.2rem; background: transparent; border: none; color: var(--text-primary); font-size: 1.1rem; font-family: var(--font-body); outline: none; }
         .search-results { text-align: center; margin-top: 1rem; color: var(--orange); font-weight: 700; }
 
         .timeline { display: flex; flex-direction: column; gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
         .timeline-item { background: var(--glass-bg); border: 1px solid var(--card-border); border-radius: 1.5rem; overflow: hidden; transition: all 0.3s; }
+        .timeline-item:hover { border-color: var(--purple); box-shadow: 0 0 30px rgba(106, 76, 147, 0.2); }
         .timeline-header { padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; cursor: pointer; gap: 1rem; flex-wrap: wrap; }
-        .timeline-header:hover { background: rgba(125, 125, 125, 0.05); }
-        .timeline-badge { width: 60px; height: 60px; border-radius: 1.2rem; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 1.2rem; font-weight: 900; color: white; flex-shrink: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .timeline-info h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; }
-        .timeline-subtitle { color: var(--purple); font-weight: 600; font-size: 0.9rem; }
-        .timeline-count { padding: 0.5rem 1rem; background: rgba(106, 76, 147, 0.1); border-radius: 2rem; color: var(--purple); font-weight: 700; font-size: 0.85rem; }
+        .timeline-header:hover { background: rgba(255, 255, 255, 0.05); }
+        .timeline-badge { width: 60px; height: 60px; border-radius: 1.2rem; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 1.2rem; font-weight: 900; color: white; flex-shrink: 0; box-shadow: 0 5px 20px rgba(0,0,0,0.4); }
+        .timeline-info h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; }
+        .timeline-subtitle { color: var(--purple); font-weight: 600; font-size: 0.95rem; }
+        .timeline-count { padding: 0.5rem 1rem; background: rgba(106, 76, 147, 0.15); border: 1px solid rgba(106, 76, 147, 0.3); border-radius: 2rem; color: var(--purple); font-weight: 700; font-size: 0.85rem; }
         
         .timeline-content { max-height: 0; overflow: hidden; transition: max-height 0.6s ease; }
         .timeline-content.active { max-height: 10000px; }
         .timeline-body { padding: 0 1.5rem 1.5rem; }
-        .category-card { background: rgba(125, 125, 125, 0.05); border: 1px solid var(--card-border); border-radius: 1rem; padding: 1rem; transition: all 0.3s; }
-        .category-card:hover { transform: translateY(-3px); border-color: var(--orange); }
+        
+        /* GRILLE POUR LES COURS (Horizontal Layout restored) */
+        .categories-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 1rem; 
+        }
+        
+        .category-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; padding: 1.25rem; transition: all 0.3s; }
+        .category-card:hover { transform: translateY(-3px); border-color: var(--orange); background: rgba(255, 255, 255, 0.05); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         .category-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
-        .category-icon { width: 40px; height: 40px; border-radius: 0.8rem; display: flex; align-items: center; justify-content: center; color: white; }
+        .category-icon { width: 40px; height: 40px; border-radius: 0.8rem; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         .category-card h4 { font-weight: 700; font-size: 1rem; }
         .category-courses { list-style: none; padding: 0; }
-        .category-courses li { padding: 0.5rem 0; border-bottom: 1px solid rgba(125, 125, 125, 0.1); display: flex; gap: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; }
+        .category-courses li { padding: 0.6rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex; gap: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; }
         .category-courses li:last-child { border-bottom: none; }
-        .category-courses li.highlight { background: rgba(255, 107, 53, 0.1); padding: 0.5rem; border-radius: 0.5rem; color: var(--orange); font-weight: 600; }
+        .category-courses li.highlight { background: rgba(255, 107, 53, 0.15); padding: 0.6rem; border-radius: 0.5rem; color: var(--orange); font-weight: 600; }
 
         /* Footer */
         footer { padding: 5rem 1rem; text-align: center; border-top: 1px solid var(--card-border); margin-top: 4rem; }
@@ -276,88 +292,38 @@
         
         /* --- DOCK NAVIGATION (BUBBLE / iOS STYLE) --- */
         .dock-nav {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 12px;
-            
-            /* Le style "Bubble" / Glassmorphism */
-            background: var(--dock-bg);
-            backdrop-filter: blur(20px); /* Blur intense style iOS */
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--dock-border);
-            border-radius: 100px; /* Forme de pilule complète */
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 1000;
+            display: flex; align-items: center; gap: 8px; padding: 10px 12px;
+            background: var(--dock-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--dock-border); border-radius: 100px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             transition: all 0.4s cubic-bezier(0.25, 1.5, 0.5, 1);
         }
-        
-        .dock-nav:hover {
-            transform: translateX(-50%) scale(1.02); /* Légère expansion globale au survol */
-        }
-
+        .dock-nav:hover { transform: translateX(-50%) scale(1.02); }
         .dock-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            text-decoration: none;
-            width: 50px; /* Taille fixe pour l'alignement */
-            height: 50px;
-            border-radius: 50%; /* Cercle parfait */
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* Effet rebond (Spring) */
-            position: relative;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: var(--text-secondary); text-decoration: none;
+            width: 50px; height: 50px; border-radius: 50%;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative;
         }
-
-        /* Animation au survol de l'icône */
         .dock-item:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: var(--text-primary);
-            transform: translateY(-10px) scale(1.15); /* Ça monte et ça grossit */
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            z-index: 10;
+            background: rgba(255, 255, 255, 0.15); color: var(--text-primary);
+            transform: translateY(-10px) scale(1.15); box-shadow: 0 10px 20px rgba(0,0,0,0.3); z-index: 10;
         }
-        
-        /* État Actif (Pilule ou Cercle lumineux) */
         .dock-item.active {
-            color: white;
-            background: linear-gradient(135deg, var(--orange), var(--pink));
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
-            transform: translateY(-5px);
+            color: white; background: linear-gradient(135deg, var(--orange), var(--pink));
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.5); transform: translateY(-5px);
         }
-
         .dock-item i { width: 22px; height: 22px; transition: all 0.3s; }
-        
-        /* Tooltip (Texte qui apparaît au survol) */
         .dock-item span {
-            position: absolute;
-            top: -40px;
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s;
-            pointer-events: none;
-            white-space: nowrap;
-            backdrop-filter: blur(5px);
+            position: absolute; top: -40px; background: rgba(0,0,0,0.9); color: white;
+            padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;
+            opacity: 0; transform: translateY(10px); transition: all 0.3s;
+            pointer-events: none; white-space: nowrap; backdrop-filter: blur(5px);
         }
-        
-        .dock-item:hover span {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .dock-item:hover span { opacity: 1; transform: translateY(0); }
 
-        /* --- CONTROLS PANEL (Top Right) --- */
+        /* --- CONTROLS --- */
         .controls-panel { position: fixed; top: 2rem; right: 2rem; z-index: 100; display: flex; gap: 0.75rem; }
         .control-btn {
             display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem;
@@ -366,43 +332,22 @@
             font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; cursor: pointer;
             transition: all 0.3s ease; backdrop-filter: blur(10px);
         }
-        .control-btn:hover { background: rgba(255, 107, 53, 0.1); border-color: var(--orange); transform: translateY(-2px); }
+        .control-btn:hover { background: rgba(255, 107, 53, 0.15); border-color: var(--orange); transform: translateY(-2px); box-shadow: 0 0 15px rgba(255, 107, 53, 0.3); }
         .control-btn.active { background: linear-gradient(135deg, var(--orange), var(--teal)); color: white; border-color: transparent; }
 
-        /* --- SOBRE MODE OVERRIDES (LE RENDRE JOLI) --- */
-        body.sober-mode .orb, 
-        body.sober-mode .cursor-glow { 
-            display: none !important; 
-        }
-        
-        body.sober-mode .gradient-text {
-            /* En mode sobre, on garde le texte sombre uni, très classe */
-            background: none;
-            -webkit-text-fill-color: var(--text-primary);
-            color: var(--text-primary);
-            filter: none;
-        }
-        
-        body.sober-mode .profile-image {
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            background: white;
-        }
-
-        body.sober-mode .btn-primary {
-            background: #1d1d1f; /* Noir Apple */
-            color: white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        body.sober-mode .dock-nav {
-            background: rgba(255, 255, 255, 0.85);
-            border: 1px solid rgba(0,0,0,0.1);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-        }
+        /* --- SOBRE MODE --- */
+        body.sober-mode .orb, body.sober-mode .cursor-glow { display: none !important; }
+        body.sober-mode .gradient-text { background: none; -webkit-text-fill-color: var(--text-primary); color: var(--text-primary); filter: none; }
+        body.sober-mode .profile-image { box-shadow: 0 10px 30px rgba(0,0,0,0.1); background: white; border-color: rgba(0,0,0,0.1); animation: none; }
+        body.sober-mode .btn-primary { background: #1d1d1f; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        body.sober-mode .dock-nav { background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
         body.sober-mode .dock-item { color: #888; }
         body.sober-mode .dock-item:hover { background: white; color: black; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         body.sober-mode .dock-item.active { background: #1d1d1f; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         body.sober-mode .dock-item span { background: #1d1d1f; }
+        body.sober-mode .experience-card:hover, body.sober-mode .vision-card:hover, body.sober-mode .skill-category:hover { 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.1); background: white; transform: translateY(-5px); 
+        }
 
         /* Mobile */
         @media (max-width: 640px) {
@@ -1053,7 +998,7 @@
                 weak_1: "<strong>Trop ouvert aux propositions</strong> — Me ralentit parfois, travail sur le focus",
                 weak_2: "<strong>Besoin de solitude ponctuel</strong> — Phases où je me recharge seul",
                 weak_3: "<strong>Côté direct parfois abrupt</strong> — Je cherche l'efficacité, pas la validation",
-                weak_4: "<strong>Optimisation > émotion</strong> — Tendance à sauter les étapes émotionnelles",
+                weak_4: "<strong>Optimization > émotion</strong> — Tendance à sauter les étapes émotionnelles",
                 weak_5: "<strong>Difficulté avec le flou prolongé</strong> — Besoin de structurer rapidement",
                 weak_6: "<strong>Impatience face aux non-décisions</strong> — Préférence pour l'action concrète",
                 section_skills_title: "COMPÉTENCES",
@@ -1136,13 +1081,13 @@
                 section_skills_subtitle: "Technical mastery and soft skills",
                 skill_cat_mgmt: "<i data-lucide='briefcase' width='24' style='color: var(--orange);'></i> Management & Strategy",
                 skill_cat_data: "<i data-lucide='bar-chart-3' width='24' style='color: var(--purple);'></i> Data & Analysis",
-                skill_cat_tech: "<i data-lucide='code' width='24' style='color: var(--pink);'></i> Tech (basics with AI)",
+                skill_cat_tech: "<i data-lucide='code' width='24' style='color: var(--pink);'></i> Tech (bases with IA)",
                 skill_cat_lang: "<i data-lucide='globe' width='24' style='color: var(--teal);'></i> Languages",
                 skill_agile: "Agile Project Mgmt", skill_kpi: "KPI Management", skill_risk: "Risk Management", skill_team: "Team Management", skill_scrum: "Scrum (Certif Prep)",
                 skill_excel: "Advanced Excel (Macros, VBA)", skill_dash: "Dashboards", skill_data: "Data Analysis", skill_control: "Management Control",
                 skill_prompt: "Advanced AI Prompting", skill_workflows: "Automated Workflows", skill_digital: "Process Digitalization",
-                skill_css: "CSS (with AI)", skill_liquid: "Liquid (with AI)", skill_r: "R (basics)",
-                skill_com: "Structured Communication", skill_prob: "Problem Solving", skill_result: "Result Oriented", skill_listen: "Active Listening", skill_disc: "Discipline",
+                skill_css: "CSS (with AI)", skill_liquid: "Liquid (with AI)", skill_r: "R (bases)",
+                skill_com: "Communication structurée", skill_prob: "Résolution de problèmes", skill_result: "Orientation résultat", skill_listen: "Écoute active", skill_disc: "Discipline",
                 lang_fr: "🇫🇷 French (Native)", lang_en: "🇬🇧 English (Pro - TOEIC)", lang_es: "🇪🇸 Spanish (Basic)", lang_fi: "🇫🇮 Finland (mobility)", lang_ro: "🇷🇴 Romania (mobility)",
                 section_edu_title: "EDUCATION",
                 section_edu_subtitle: "Master in Entrepreneurship & Project Management",
