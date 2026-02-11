@@ -995,6 +995,109 @@
             font-weight: 700;
         }
 
+        /* --- SECTION ENGAGEMENT (NEW) --- */
+        .engagement-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 2rem;
+            padding: 4rem 2rem;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .engagement-text {
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+            line-height: 1.8;
+            color: var(--text-primary);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .engagement-signature {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            background: linear-gradient(90deg, var(--teal), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- SECTION AMBITION (STYLE SPÉCIFIQUE) --- */
+        .ambition-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-left: 5px solid var(--orange); /* Accent orange pour le côté Pilier/Force */
+            border-radius: 2rem;
+            padding: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ambition-header h3 {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .ambition-subtitle {
+            font-size: 1.2rem;
+            color: var(--orange);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .ambition-text {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .ambition-text strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        @media (min-width: 900px) {
+            .ambition-section {
+                flex-direction: row;
+                align-items: center;
+                text-align: left;
+            }
+            .ambition-header {
+                flex: 1;
+                border-right: 1px solid var(--glass-border);
+                padding-right: 2rem;
+            }
+            .ambition-body {
+                flex: 2;
+                padding-left: 2rem;
+            }
+        }
+        
+        @media (max-width: 899px) {
+            .ambition-header {
+                border-bottom: 1px solid var(--glass-border);
+                padding-bottom: 1.5rem;
+                text-align: center;
+            }
+            .ambition-body {
+                padding-top: 0.5rem;
+            }
+        }
+
+
         /* ==========================================================================
            9. FOOTER
            ========================================================================== */
@@ -1003,7 +1106,7 @@
             padding: 6rem 1rem;
             text-align: center;
             border-top: 1px solid var(--glass-border);
-            margin-top: 4rem;
+            margin-top: 6rem;
             background: linear-gradient(to top, var(--bg-secondary), transparent);
         }
 
@@ -1215,6 +1318,12 @@
             background: white;
             border-color: rgba(0,0,0,0.1);
         }
+        
+        body.sober-mode .engagement-signature {
+            background: none;
+            -webkit-text-fill-color: var(--text-primary);
+            color: var(--text-primary);
+        }
     </style>
 </head>
 <body id="home">
@@ -1257,7 +1366,7 @@
 
                 <div class="badge">
                     <i data-lucide="zap" width="16"></i>
-                    <span class="badge-gradient" data-translate="hero_badge">Pilotage de Projets • PMO • Stratégie Produit</span>
+                    <span class="badge-gradient" data-translate="hero_badge">Pilotage de Projets • Coordination • Product Ownership</span>
                     <i data-lucide="sparkles" width="16"></i>
                 </div>
 
@@ -1418,52 +1527,52 @@
     <section id="vision">
         <div class="container">
             <div class="section-header reveal">
-                <h2 class="section-title gradient-text" data-translate="section_vision_title">MA VISION</h2>
-                <p class="section-subtitle" data-translate="section_vision_subtitle">Ce qui me motive au quotidien</p>
+                <h2 class="section-title gradient-text" data-translate="section_vision_title">CE QUE J'APPORTE</h2>
+                <p class="section-subtitle" data-translate="section_vision_subtitle">Au-delà d'un intitulé de poste</p>
             </div>
 
             <div class="vision-grid">
                 <div class="vision-card card-glass reveal">
                     <div class="vision-icon" style="background: linear-gradient(135deg, #00d4aa, #00a896);">
-                        <i data-lucide="lightbulb" width="32"></i>
+                        <i data-lucide="telescope" width="32"></i>
                     </div>
-                    <h3 style="color: var(--teal);" data-translate="vision_1_title">Innovation permanente</h3>
+                    <h3 style="color: var(--teal);" data-translate="vision_1_title">Vision Stratégique & Long Terme</h3>
                     <p data-translate="vision_1_desc">
-                        J'innove dans tout ce que je fais — process, méthodes, approches. Je ne fais jamais comme les autres. 
-                        Mon obsession : <strong>l'amélioration continue et l'optimisation intelligente</strong>.
+                        Je ne me limite pas à l'exécution. Je construis des ponts entre la stratégie d'entreprise et la réalité opérationnelle.
+                        Mon but : assurer la pérennité et la cohérence des projets.
                     </p>
                 </div>
 
                 <div class="vision-card card-glass reveal">
                     <div class="vision-icon" style="background: linear-gradient(135deg, #6a4c93, #8b5cf6);">
-                        <i data-lucide="rocket" width="32"></i>
+                        <i data-lucide="hammer" width="32"></i>
                     </div>
-                    <h3 style="color: var(--purple);" data-translate="vision_2_title">Action & Concrétisation</h3>
+                    <h3 style="color: var(--purple);" data-translate="vision_2_title">Impact & Pragmatisme</h3>
                     <p data-translate="vision_2_desc">
-                        L'inactivité me rend malade. <strong>J'entreprends constamment</strong> : E-sport à 15 ans, BDE, ma marque Desrèves... 
-                        Je mène les projets de A à Z avec rigueur et polyvalence.
+                        Transformer le flou en concret. Je priorise ce qui crée de la valeur réelle, au-delà des méthodologies rigides.
+                        L'important n'est pas l'outil, mais le résultat et la satisfaction client.
                     </p>
                 </div>
 
                 <div class="vision-card card-glass reveal">
                     <div class="vision-icon" style="background: linear-gradient(135deg, #ff006e, #d00060);">
-                        <i data-lucide="target" width="32"></i>
+                        <i data-lucide="zap" width="32"></i>
                     </div>
-                    <h3 style="color: var(--pink);" data-translate="vision_3_title">Impact Business</h3>
+                    <h3 style="color: var(--pink);" data-translate="vision_3_title">Énergie & Engagement</h3>
                     <p data-translate="vision_3_desc">
-                        Vision stratégique alignée sur les KPI business. 
-                        Je priorise les features à forte valeur et arbitre entre coûts, risques et délais pour maximiser le ROI produit.
+                        Je suis un moteur. J'apporte une dynamique positive qui fédère les équipes et pousse les projets vers l'avant.
+                        Je m'implique totalement, avec une intensité entrepreneuriale.
                     </p>
                 </div>
 
                 <div class="vision-card card-glass reveal">
                     <div class="vision-icon" style="background: linear-gradient(135deg, #ff6b35, #f77f00);">
-                        <i data-lucide="brain" width="32"></i>
+                        <i data-lucide="network" width="32"></i>
                     </div>
-                    <h3 style="color: var(--orange);" data-translate="vision_4_title">Passion pour l'IA</h3>
+                    <h3 style="color: var(--orange);" data-translate="vision_4_title">Potentiel Évolutif</h3>
                     <p data-translate="vision_4_desc">
-                        Hyper curieux sur l'IA et l'automatisation. J'apprends à tout automatiser, à appliquer l'IA au quotidien, 
-                        et à maîtriser les workflows intelligents. <strong>L'IA est devenue mon quotidien</strong>.
+                        Un profil hybride, capable de passer du marketing à la tech, de la gestion au terrain. 
+                        Je m'adapte à tout écosystème et j'apprends en continu pour anticiper les besoins futurs.
                     </p>
                 </div>
             </div>
@@ -1651,7 +1760,7 @@
         <div class="container">
             <div class="section-header reveal">
                 <h2 class="section-title gradient-text" data-translate="section_edu_title">FORMATION</h2>
-                <p class="section-subtitle" data-translate="section_edu_subtitle">Master Entrepreneuriat & Management de Projets</p>
+                <p class="section-subtitle" data-translate="section_edu_subtitle">Master Entrepreneuriat & Management de Projets - Parcours MDPE à l'IAE de Valenciennes</p>
             </div>
 
             <div class="search-container reveal">
@@ -1668,6 +1777,44 @@
             </div>
 
             <div class="timeline" id="timeline"></div>
+        </div>
+    </section>
+
+    <!-- SECTION AMBITION / PILIER (NEW) -->
+    <section id="ambition" class="reveal">
+        <div class="container">
+            <div class="ambition-section">
+                <div class="ambition-header">
+                    <h3 data-translate="ambition_title">MON ENGAGEMENT ENVERS VOUS</h3>
+                    <div class="ambition-subtitle" data-translate="ambition_subtitle">Plus qu'un collaborateur, un partenaire de croissance</div>
+                </div>
+                <div class="ambition-body">
+                    <p class="ambition-text" data-translate="ambition_text">
+                        Mon ambition est de dépasser le rôle de simple collaborateur pour devenir un véritable <strong>pilier</strong> de votre organisation. 
+                        Fort de mon expérience entrepreneuriale et de ma vision stratégique, je m'engage à apporter une énergie nouvelle et une différenciation concrète. 
+                        Je ne viens pas seulement pour occuper un poste, mais pour <strong>faire grandir l'entreprise</strong>, anticiper les défis de demain et prendre des responsabilités croissantes. 
+                        Je suis cet investissement long terme qui allie <strong>innovation, gestion et excellence</strong>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION LE MOT DE LA FIN (UPDATE TEXTE) -->
+    <section id="final-word" class="reveal">
+        <div class="container">
+            <div class="engagement-section">
+                <i data-lucide="message-circle-heart" width="48" style="color: var(--teal); margin-bottom: 1.5rem;"></i>
+                <h2 style="font-family: var(--font-display); font-size: 2rem; margin-bottom: 1.5rem;" data-translate="final_title">Le mot de la fin</h2>
+                <p class="engagement-text" data-translate="final_text">
+                    J'ai hâte de vous rencontrer pour notre premier entretien. 
+                    Ce support digital ne peut pas tout dire : je veux vous partager de vive voix ce que je n'ai pas pu écrire ici. 
+                    Si vous lisez ceci, c'est que mon profil vous intéresse déjà. 
+                    Je suis déterminé à vous prouver que je ne suis pas comme les autres : je veux innover, gérer et être la meilleure partie prenante de votre succès. 
+                    Prêt à exceller à vos côtés.
+                </p>
+                <div class="engagement-signature">Florian Bouchart</div>
+            </div>
         </div>
     </section>
 
@@ -1707,6 +1854,10 @@
             <i data-lucide="graduation-cap"></i>
             <span data-translate="nav_edu">Formation</span>
         </a>
+        <a href="#ambition" class="dock-item">
+            <i data-lucide="star"></i>
+            <span data-translate="nav_ambition">Ambition</span>
+        </a>
         <a href="#contact" class="dock-item">
             <i data-lucide="mail"></i>
             <span data-translate="nav_contact">Contact</span>
@@ -1722,10 +1873,10 @@
         const translations = {
             fr: {
                 sober_mode: "Clair",
-                hero_badge: "Pilotage de Projets • PMO • Stratégie Produit",
+                hero_badge: "Pilotage de Projets • Coordination • Product Ownership",
                 hero_description: "De <span class=\"highlight\">l'entrepreneuriat à 15 ans</span> à la gestion de portefeuille chez GRDF, j'ai développé une <span class=\"highlight\">vision transversale et stratégique</span> alliée à une <span class=\"highlight\">excellence opérationnelle Agile et Scrum</span>. Je transforme les besoins utilisateurs en solutions concrètes et rentables.",
                 btn_cv: "Voir mon CV",
-                nav_home: "Accueil", nav_career: "Parcours", nav_skills: "Atouts", nav_edu: "Formation", nav_contact: "Contact",
+                nav_home: "Accueil", nav_career: "Parcours", nav_skills: "Atouts", nav_edu: "Formation", nav_ambition: "Ambition", nav_contact: "Contact",
                 section_pro_title: "PARCOURS PROFESSIONNEL",
                 section_pro_subtitle: "Voici les grands chapitres de ma professionnalisation",
                 exp_grdf_title: "Chargé de Portefeuille (Alternance)",
@@ -1750,16 +1901,19 @@
                 exp_intl_comp: "Finlande & Roumanie",
                 exp_intl_desc: "<strong>🇫🇮 Vaasa, Finlande</strong> - Entrepreneurship and Venturing (Vaasan yliopisto)<br><strong>🇷🇴 Cluj-Napoca, Roumanie</strong> - Innovation, Design-Thinking and Entrepreneurship (Universitatea Babes-Bolyai)",
                 tag_mobility: "Mobilité internationale", tag_innovation: "Innovation", tag_design_thinking: "Design Thinking",
-                section_vision_title: "MA VISION",
-                section_vision_subtitle: "Ce qui me motive au quotidien",
-                vision_1_title: "Innovation permanente",
-                vision_1_desc: "J'innove dans tout ce que je fais — process, méthodes, approches. Je ne fais jamais comme les autres. Mon obsession : <strong>l'amélioration continue et l'optimisation intelligente</strong>.",
-                vision_2_title: "Action & Concrétisation",
-                vision_2_desc: "L'inactivité me rend malade. <strong>J'entreprends constamment</strong> : E-sport à 15 ans, BDE, ma marque Desrèves... Je mène les projets de A à Z avec rigueur et polyvalence.",
-                vision_3_title: "Impact Business",
-                vision_3_desc: "Vision stratégique alignée sur les KPI business. Je priorise les features à forte valeur et arbitre entre coûts, risques et délais pour maximiser le ROI produit.",
-                vision_4_title: "Passion pour l'IA",
-                vision_4_desc: "Hyper curieux sur l'IA et l'automatisation. J'apprends à tout automatiser, à appliquer l'IA au quotidien, et à maîtriser les workflows intelligents. <strong>L'IA est devenue mon quotidien</strong>.",
+                
+                // NOUVELLE SECTION VISION GENERALISTE
+                section_vision_title: "CE QUE J'APPORTE",
+                section_vision_subtitle: "Au-delà d'un intitulé de poste",
+                vision_1_title: "Vision Stratégique & Long Terme",
+                vision_1_desc: "Je ne me limite pas à l'exécution. Je construis des ponts entre la stratégie d'entreprise et la réalité opérationnelle. Mon but : assurer la pérennité et la cohérence des projets.",
+                vision_2_title: "Impact & Pragmatisme",
+                vision_2_desc: "Transformer le flou en concret. Je priorise ce qui crée de la valeur réelle, au-delà des méthodologies rigides. L'important n'est pas l'outil, mais le résultat et la satisfaction client.",
+                vision_3_title: "Énergie & Engagement",
+                vision_3_desc: "Je suis un moteur. J'apporte une dynamique positive qui fédère les équipes et pousse les projets vers l'avant. Je m'implique totalement, avec une intensité entrepreneuriale.",
+                vision_4_title: "Potentiel Évolutif",
+                vision_4_desc: "Un profil hybride, capable de passer du marketing à la tech, de la gestion au terrain. Je m'adapte à tout écosystème et j'apprends en continu pour anticiper les besoins futurs.",
+
                 section_atouts_title: "MES ATOUTS",
                 section_atouts_subtitle: "Cliquez sur un élément pour en savoir plus",
                 lbl_forces: "MES FORCES",
@@ -1789,18 +1943,28 @@
                 skill_com: "Communication structurée", skill_prob: "Résolution de problèmes", skill_result: "Orientation résultat", skill_listen: "Écoute active", skill_disc: "Discipline",
                 lang_fr: "🇫🇷 Français (Natif)", lang_en: "🇬🇧 Anglais (Pro - TOEIC)", lang_es: "🇪🇸 Espagnol (Notions)", lang_fi: "🇫🇮 Finlande (mobilité)", lang_ro: "🇷🇴 Roumanie (mobilité)",
                 section_edu_title: "FORMATION",
-                section_edu_subtitle: "Master Entrepreneuriat & Management de Projets",
+                section_edu_subtitle: "Master Entrepreneuriat & Management de Projets - Parcours MDPE à l'IAE de Valenciennes",
                 search_placeholder: "Rechercher un cours (ex: Scrum, Marketing, RGPD...)",
+                
+                // NEW: SECTION AMBITION
+                ambition_title: "MON ENGAGEMENT ENVERS VOUS",
+                ambition_subtitle: "Plus qu'un collaborateur, un partenaire de croissance",
+                ambition_text: "Mon ambition est de dépasser le rôle de simple collaborateur pour devenir un véritable <strong>pilier</strong> de votre organisation. Fort de mon expérience entrepreneuriale et de ma vision stratégique, je m'engage à apporter une énergie nouvelle et une différenciation concrète. Je ne viens pas seulement pour occuper un poste, mais pour <strong>faire grandir l'entreprise</strong>, anticiper les défis de demain et prendre des responsabilités croissantes. Je suis cet investissement long terme qui allie <strong>innovation, gestion et excellence</strong>.",
+
+                // LE MOT DE LA FIN (TEXTE MIS A JOUR)
+                final_title: "Le mot de la fin",
+                final_text: "J'ai hâte de vous rencontrer pour notre premier entretien. Ce support digital ne peut pas tout dire : je veux vous partager de vive voix ce que je n'ai pas pu écrire ici. Si vous lisez ceci, c'est que mon profil vous intéresse déjà. Je suis déterminé à vous prouver que je ne suis pas comme les autres : je veux innover, gérer et être la meilleure partie prenante de votre succès. Prêt à exceller à vos côtés.",
+
                 footer_title: "Construisons ensemble",
                 footer_copyright: "© 2026 Florian Bouchart • Portfolio digital innovant"
             },
             en: {
                 sober_mode: "Light",
-                hero_badge: "Project Management • PMO • Product Strategy",
+                hero_badge: "Project Management • Coordination • Product Ownership",
                 hero_subtitle: "Project Management, PMO & Product Strategy Expert",
                 hero_description: "From <span class=\"highlight\">entrepreneurship at 15</span> to portfolio management at GRDF, I have developed a <span class=\"highlight\">transversal and strategic vision</span> combined with <span class=\"highlight\">Agile and Scrum operational excellence</span>. I transform user needs into concrete and profitable solutions.",
                 btn_cv: "View Resume",
-                nav_home: "Home", nav_career: "Career", nav_skills: "Strengths", nav_edu: "Education", nav_contact: "Contact",
+                nav_home: "Home", nav_career: "Career", nav_skills: "Strengths", nav_edu: "Education", nav_ambition: "Ambition", nav_contact: "Contact",
                 section_pro_title: "PROFESSIONAL EXPERIENCE",
                 section_pro_subtitle: "Here are the main stages of my professional development",
                 exp_grdf_title: "Portfolio Manager (Apprenticeship)",
@@ -1825,16 +1989,19 @@
                 exp_intl_comp: "Finland & Romania",
                 exp_intl_desc: "<strong>🇫🇮 Vaasa, Finland</strong> - Entrepreneurship and Venturing (Vaasan yliopisto)<br><strong>🇷🇴 Cluj-Napoca, Romania</strong> - Innovation, Design-Thinking and Entrepreneurship (Universitatea Babes-Bolyai)",
                 tag_mobility: "International Mobility", tag_innovation: "Innovation", tag_design_thinking: "Design Thinking",
-                section_vision_title: "MY VISION",
-                section_vision_subtitle: "What drives me daily",
-                vision_1_title: "Continuous Innovation",
-                vision_1_desc: "I innovate in everything I do — processes, methods, approaches. I never do things like everyone else. My obsession: <strong>continuous improvement and intelligent optimization</strong>.",
-                vision_2_title: "Action & Realization",
-                vision_2_desc: "Inactivity drives me crazy. <strong>I am constantly undertaking projects</strong>: E-sport at 15, Student Union, my brand Desrèves... I lead projects from A to Z with rigor and versatility.",
-                vision_3_title: "Business Impact",
-                vision_3_desc: "Strategic vision aligned with business KPIs. I prioritize high-value features and arbitrate between costs, risks, and delays to maximize product ROI.",
-                vision_4_title: "Passion for AI",
-                vision_4_desc: "Hyper curious about AI and automation. I learn to automate everything, apply AI daily, and master intelligent workflows. <strong>AI has become my daily life</strong>.",
+                
+                // NEW GENERALIST VISION
+                section_vision_title: "WHAT I BRING",
+                section_vision_subtitle: "Beyond a job title",
+                vision_1_title: "Strategic & Long-Term Vision",
+                vision_1_desc: "I don't just execute. I build bridges between corporate strategy and operational reality. My goal: ensure the sustainability and coherence of projects.",
+                vision_2_title: "Impact & Pragmatism",
+                vision_2_desc: "Turning ambiguity into concrete results. I prioritize what creates real value, beyond rigid methodologies. It's not about the tool, but the result and customer satisfaction.",
+                vision_3_title: "Energy & Engagement",
+                vision_3_desc: "I am a driver. I bring a positive dynamic that unites teams and pushes projects forward. I commit fully, with an entrepreneurial intensity.",
+                vision_4_title: "Evolutionary Potential",
+                vision_4_desc: "A hybrid profile, capable of moving from marketing to tech, from management to the field. I adapt to any ecosystem and learn continuously to anticipate future needs.",
+
                 section_atouts_title: "MY STRENGTHS",
                 section_atouts_subtitle: "Click on an item to learn more",
                 lbl_forces: "MY STRENGTHS",
@@ -1864,8 +2031,18 @@
                 skill_com: "Structured Communication", skill_prob: "Problem Solving", skill_result: "Result Oriented", skill_listen: "Active Listening", skill_disc: "Discipline",
                 lang_fr: "🇫🇷 French (Native)", lang_en: "🇬🇧 English (Pro - TOEIC)", lang_es: "🇪🇸 Spanish (Basic)", lang_fi: "🇫🇮 Finland (mobility)", lang_ro: "🇷🇴 Romania (mobility)",
                 section_edu_title: "EDUCATION",
-                section_edu_subtitle: "Master in Entrepreneurship & Project Management",
+                section_edu_subtitle: "Master's Degree in Entrepreneurship & Project Management - MDPE programme at the IAE in Valenciennes",
                 search_placeholder: "Search for a course (e.g., Scrum, Marketing, GDPR...)",
+                
+                // NEW: AMBITION SECTION
+                ambition_title: "MY COMMITMENT TO YOU",
+                ambition_subtitle: "More than a collaborator, a growth partner",
+                ambition_text: "My ambition is to go beyond the role of a simple collaborator to become a true <strong>pillar</strong> of your organization. With my entrepreneurial experience and strategic vision, I commit to bringing new energy and concrete differentiation. I am not just here to fill a position, but to <strong>grow the company</strong>, anticipate tomorrow's challenges, and take on increasing responsibilities. I am that long-term investment combining <strong>innovation, management, and excellence</strong>.",
+
+                // FINAL WORD UPDATED
+                final_title: "Final Word",
+                final_text: "I look forward to meeting you for our first interview. This digital portfolio shows my skills, but it doesn't say everything. I want to tell you personally about the energy that drives me and my desire to innovate by your side. If you are here, we already share a common interest. Let me prove to you that I am not like the others: I want to manage, innovate, and excel as a key stakeholder in your success. Ready to excel by your side.",
+
                 footer_title: "Let's Build Together",
                 footer_copyright: "© 2026 Florian Bouchart • Innovative Digital Portfolio"
             }
