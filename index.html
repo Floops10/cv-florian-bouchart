@@ -496,7 +496,22 @@
             justify-content: center;
             flex-shrink: 0;
             color: white;
+            background: #FFFFFF; /* Fond blanc pour assurer la visibilité des logos PNG */
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            overflow: hidden;
+            padding: 2px; /* Padding réduit pour ZOOMER sur le logo */
+        }
+        
+        .exp-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        /* Fallback pour icônes sans image */
+        .exp-icon.no-img {
+            background: linear-gradient(135deg, #ff6b35, #f77f00); 
+            padding: 0;
         }
 
         .exp-info h3 {
@@ -827,6 +842,21 @@
             color: white;
             flex-shrink: 0;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            background: white; /* Fond blanc par défaut pour les logos */
+            overflow: hidden;
+            padding: 2px; /* Padding réduit pour ZOOMER sur le logo */
+        }
+        
+        .timeline-badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Style si pas d'image (juste icone) */
+        .timeline-badge.no-logo {
+            background: linear-gradient(135deg, var(--teal), var(--purple)); /* Remis par JS */
+            padding: 0;
         }
 
         .timeline-info h3 {
@@ -1283,7 +1313,45 @@
             .dock-item { width: 45px; height: 45px; }
             .dock-item span { display: none; } /* Pas de tooltip sur mobile */
             
-            .timeline-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            /* Timeline Header Mobile Fix */
+            .timeline-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1.5rem 1rem; /* Moins de padding latéral */
+            }
+            
+            /* Force les éléments internes à bien s'aligner */
+            .timeline-header > div:first-child {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            /* Le compteur et la flèche passent en dessous et prennent toute la largeur */
+            .timeline-header > div:last-child {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 0.5rem;
+            }
+            
+            .timeline-badge {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .timeline-info h3 {
+                font-size: 1.2rem;
+            }
+
+            /* --- CORRECTIF MOBILE (Largeur de contenu) --- */
+            .timeline-body {
+                padding: 0 0.5rem 1.5rem 0.5rem; /* Réduit énormément les marges latérales */
+            }
+            
+            .categories-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
         }
 
         /* --- SOBRE MODE OVERRIDES (CLEAN DESIGN) --- */
@@ -1409,8 +1477,8 @@
             <div class="experience-grid">
                 <div class="experience-card card-glass reveal">
                     <div class="exp-header">
-                        <div class="exp-icon" style="background: linear-gradient(135deg, #ff6b35, #f77f00);">
-                            <i data-lucide="briefcase" width="32"></i>
+                        <div class="exp-icon">
+                            <img src="https://image2url.com/r2/default/images/1770845415458-fa73a2c3-87e8-43ff-8628-6fc1cfc63e5d.png" alt="GRDF Logo">
                         </div>
                         <div class="exp-info">
                             <h3 style="color: var(--orange);" data-translate="exp_grdf_title">Chargé de Portefeuille (Alternance)</h3>
@@ -1432,8 +1500,8 @@
 
                 <div class="experience-card card-glass reveal">
                     <div class="exp-header">
-                        <div class="exp-icon" style="background: linear-gradient(135deg, #00d4aa, #00a896);">
-                            <i data-lucide="sparkles" width="32"></i>
+                        <div class="exp-icon">
+                            <img src="https://image2url.com/r2/default/images/1770846729486-db125a45-ffa2-476b-999b-dd9ab99bef16.png" alt="Desrèves Logo">
                         </div>
                         <div class="exp-info">
                             <h3 style="color: var(--teal);" data-translate="exp_desreves_title">Fondateur & Product Owner</h3>
@@ -1456,8 +1524,8 @@
 
                 <div class="experience-card card-glass reveal">
                     <div class="exp-header">
-                        <div class="exp-icon" style="background: linear-gradient(135deg, #6a4c93, #8b5cf6);">
-                            <i data-lucide="users" width="32"></i>
+                        <div class="exp-icon">
+                            <img src="https://image2url.com/r2/default/images/1770845977094-dc55cbb9-b931-4f47-8712-cc8f67753a12.png" alt="BDE IAE Logo">
                         </div>
                         <div class="exp-info">
                             <h3 style="color: var(--purple);" data-translate="exp_bde_title">Président</h3>
@@ -1479,8 +1547,8 @@
 
                 <div class="experience-card card-glass reveal">
                     <div class="exp-header">
-                        <div class="exp-icon" style="background: linear-gradient(135deg, #ff006e, #d00060);">
-                            <i data-lucide="gamepad-2" width="32"></i>
+                        <div class="exp-icon no-img" style="background: linear-gradient(135deg, #ff006e, #d00060);">
+                            <i data-lucide="gamepad-2" width="32" style="color: white;"></i>
                         </div>
                         <div class="exp-info">
                             <h3 style="color: var(--pink);" data-translate="exp_esport_title">Fondateur & Manager</h3>
@@ -1501,8 +1569,8 @@
 
                 <div class="experience-card card-glass reveal">
                     <div class="exp-header">
-                        <div class="exp-icon" style="background: linear-gradient(135deg, #ffbe0b, #ff9e00);">
-                            <i data-lucide="globe" width="32"></i>
+                        <div class="exp-icon no-img" style="background: linear-gradient(135deg, #ffbe0b, #ff9e00);">
+                            <i data-lucide="globe" width="32" style="color: white;"></i>
                         </div>
                         <div class="exp-info">
                             <h3 style="color: var(--yellow);" data-translate="exp_intl_title">Formations Intensives Internationales</h3>
@@ -1510,10 +1578,17 @@
                             <div class="exp-company" style="color: var(--yellow);" data-translate="exp_intl_comp">Finlande & Roumanie</div>
                         </div>
                     </div>
-                    <p class="exp-description" data-translate="exp_intl_desc">
-                        <strong>🇫🇮 Vaasa, Finlande</strong> - Entrepreneurship and Venturing (Vaasan yliopisto)<br>
-                        <strong>🇷🇴 Cluj-Napoca, Roumanie</strong> - Innovation, Design-Thinking and Entrepreneurship (Universitatea Babes-Bolyai)
-                    </p>
+                    <div class="exp-description">
+                        <p style="margin-bottom: 1rem;" data-translate="exp_intl_desc">
+                            <strong>🇫🇮 Vaasa, Finlande</strong> - Entrepreneurship and Venturing (Vaasan yliopisto)<br>
+                            <strong>🇷🇴 Cluj-Napoca, Roumanie</strong> - Innovation, Design-Thinking and Entrepreneurship (Universitatea Babes-Bolyai)
+                        </p>
+                        <!-- Integration Logos International -->
+                        <div style="display: flex; gap: 15px; margin-top: 15px;">
+                            <img src="https://image2url.com/r2/default/images/1770845625436-a5d78456-5192-4fa3-acb0-7b68d63a9443.png" alt="Vaasa Logo" style="height: 40px; background: white; padding: 2px; border-radius: 8px;">
+                            <img src="https://image2url.com/r2/default/images/1770845505974-51235c8a-89de-4332-ab3b-4ff65902abd0.png" alt="UBBFSEGA Logo" style="height: 40px; background: white; padding: 2px; border-radius: 8px;">
+                        </div>
+                    </div>
                     <div class="exp-tags">
                         <div class="exp-tag" data-translate="tag_mobility">Mobilité internationale</div>
                         <div class="exp-tag" data-translate="tag_innovation">Innovation</div>
@@ -1760,7 +1835,7 @@
         <div class="container">
             <div class="section-header reveal">
                 <h2 class="section-title gradient-text" data-translate="section_edu_title">FORMATION</h2>
-                <p class="section-subtitle" data-translate="section_edu_subtitle">Master Entrepreneuriat & Management de Projets</p>
+                <p class="section-subtitle" data-translate="section_edu_subtitle">Master Entrepreneuriat & Management de Projets - Parcours MDPE à l'IAE de Valenciennes</p>
             </div>
 
             <div class="search-container reveal">
@@ -1943,7 +2018,7 @@
                 skill_com: "Communication structurée", skill_prob: "Résolution de problèmes", skill_result: "Orientation résultat", skill_listen: "Écoute active", skill_disc: "Discipline",
                 lang_fr: "🇫🇷 Français (Natif)", lang_en: "🇬🇧 Anglais (Pro - TOEIC)", lang_es: "🇪🇸 Espagnol (Notions)", lang_fi: "🇫🇮 Finlande (mobilité)", lang_ro: "🇷🇴 Roumanie (mobilité)",
                 section_edu_title: "FORMATION",
-                section_edu_subtitle: "Master Entrepreneuriat & Management de Projets",
+                section_edu_subtitle: "Master Entrepreneuriat & Management de Projets - Parcours MDPE à l'IAE de Valenciennes",
                 search_placeholder: "Rechercher un cours (ex: Scrum, Marketing, RGPD...)",
                 
                 // NEW: AMBITION SECTION
@@ -2031,7 +2106,7 @@
                 skill_com: "Structured Communication", skill_prob: "Problem Solving", skill_result: "Result Oriented", skill_listen: "Active Listening", skill_disc: "Discipline",
                 lang_fr: "🇫🇷 French (Native)", lang_en: "🇬🇧 English (Pro - TOEIC)", lang_es: "🇪🇸 Spanish (Basic)", lang_fi: "🇫🇮 Finland (mobility)", lang_ro: "🇷🇴 Romania (mobility)",
                 section_edu_title: "EDUCATION",
-                section_edu_subtitle: "Master in Entrepreneurship & Project Management",
+                section_edu_subtitle: "Master in Entrepreneurship & Project Management - MDPE Track at IAE Valenciennes",
                 search_placeholder: "Search for a course (e.g., Scrum, Marketing, GDPR...)",
                 
                 // NEW: AMBITION SECTION
@@ -2087,6 +2162,7 @@
                     id: 'l3',
                     title: 'Licence 3 - Management et Développement des Organisations',
                     year: '2023-2024',
+                    logo: 'https://image2url.com/r2/default/images/1770846729486-db125a45-ffa2-476b-999b-dd9ab99bef16.png',
                     gradient: 'linear-gradient(135deg, #00d4aa, #6a4c93)',
                     categories: [
                         { name: 'Gestion & Business', icon: 'briefcase', color: '#ff6b35', courses: ['RH et Management d\'équipe', 'Marketing BtoB (Négociation)', 'Marketing International', 'Financement et Investissement', 'Contrôle de gestion', 'Management Stratégique'] },
@@ -2101,6 +2177,7 @@
                     title: 'Master 1 - Entrepreneuriat et Management de Projets',
                     year: '2024-2025',
                     subtitle: 'L\'expertise',
+                    logo: 'https://image2url.com/r2/default/images/1770846729486-db125a45-ffa2-476b-999b-dd9ab99bef16.png',
                     gradient: 'linear-gradient(135deg, #6a4c93, #ff006e)',
                     categories: [
                         { name: 'Management des Organisations', icon: 'users', color: '#6a4c93', courses: ['Comportements organisationnels', 'Conduite de réunion', 'Négociation avec les syndicats', 'Recrutement 5.0', 'Gestion de conflits', 'Conduire des entretiens'] },
@@ -2116,6 +2193,7 @@
                     title: 'Master 2 - Entrepreneuriat et Management de Projets',
                     year: '2025-2026',
                     subtitle: 'La confirmation',
+                    logo: 'https://image2url.com/r2/default/images/1770846729486-db125a45-ffa2-476b-999b-dd9ab99bef16.png',
                     gradient: 'linear-gradient(135deg, #ff006e, #ff6b35)',
                     categories: [
                         { name: 'Stratégie Avancée', icon: 'trending-up', color: '#ff6b35', courses: ['Intelligence collective', 'Négociation salariale', 'Indices de santé entreprise', 'Conduire projets de changement', 'Valoriser le potentiel d\'équipe', 'Intégrer personnalités difficiles'] },
@@ -2130,13 +2208,14 @@
                     title: 'Université Polytechnique des Hauts-de-France',
                     subtitle: 'Modules Polytechniques & Projets Transverses',
                     year: '2023-2026',
+                    logo: 'https://image2url.com/r2/default/images/1770845782054-6aff1901-b7cb-4072-8640-c111adbd508c.png',
                     gradient: 'linear-gradient(135deg, #00d4aa, #ffbe0b)',
                     categories: [
                         { name: 'Innovation & Management (MPTHON)', icon: 'cpu', color: '#ff6b35', courses: ['Collaboration Manager-Ingénieur (avec INSA)', 'Coaching d\'équipe : Gestion de projet & Design Thinking', 'Création d\'intelligence collective et innovation agile'] },
                         { name: 'Développement Durable & Industrie', icon: 'sprout', color: '#00d4aa', courses: ['Analyse systémique : Produire durablement (RSE, ODD)', 'Économie circulaire & de la fonctionnalité', 'Diagnostic complet de durabilité d\'un site industriel'] },
-                        { name: 'International & Analyse Média', icon: 'eye', color: '#6a4c93', courses: ['Partenariat Université Laval (Québec)', 'Sémiotique : Décryptage des stratégies visuelles & marketing', 'Analyse critique des médias et réseaux sociaux'] },
+                        { name: 'International & Analyse Média (Logos : Laval Québec)', icon: 'eye', color: '#6a4c93', courses: ['<div style="display:flex; align-items:center; gap:10px;">Partenariat Université Laval (Québec) <img src="https://image2url.com/r2/default/images/1770845708512-fe418a7a-02d0-4180-b674-2246efe895c1.png" style="height:20px; background:white; padding:2px; border-radius:4px;"></div>', 'Sémiotique : Décryptage des stratégies visuelles & marketing', 'Analyse critique des médias et réseaux sociaux'] },
                         { name: 'Communication Professionnelle', icon: 'mic', color: '#ff006e', courses: ['Prise de parole à fort enjeu & Pitch efficace', 'Gestion du stress et maîtrise de l\'auditoire', 'Synthèse et structuration du discours'] },
-                        { name: 'Performance Linguistique (TOEIC)', icon: 'languages', color: '#ffbe0b', courses: ['Score Test Blanc : 925/990 (Niveau C1)', 'Certification officielle : Mars 2026 (Objectif 950+)', 'Anglais Business & Professionnel'] }
+                        { name: 'Performance Linguistique (TOEIC)', icon: 'languages', color: '#ffbe0b', courses: ['Score Test Blanc : 925/990 (Niveau C1) <a href="https://image2url.com/r2/default/images/1770846207735-7e032cf9-27e0-47ca-8124-f5778d31ce2e.png" target="_blank" style="text-decoration:underline; color:var(--orange); font-weight:bold; margin-left:5px;">Voir</a>', 'Certification officielle : Mars 2026 (Objectif 950+)', 'Anglais Business & Professionnel'] }
                     ]
                 }
             ],
@@ -2145,6 +2224,7 @@
                     id: 'l3',
                     title: 'Bachelor 3 - Management and Organizational Development',
                     year: '2023-2024',
+                    logo: 'https://image2url.com/r2/default/images/1770846729486-db125a45-ffa2-476b-999b-dd9ab99bef16.png',
                     gradient: 'linear-gradient(135deg, #00d4aa, #6a4c93)',
                     categories: [
                         { name: 'Business & Management', icon: 'briefcase', color: '#ff6b35', courses: ['HR & Team Management', 'B2B Marketing (Negotiation)', 'International Marketing', 'Financing & Investment', 'Management Control', 'Strategic Management'] },
@@ -2159,6 +2239,7 @@
                     title: 'Master 1 - Entrepreneurship & Project Management',
                     year: '2024-2025',
                     subtitle: 'Expertise',
+                    logo: 'https://image2url.com/r2/default/images/1770846729486-db125a45-ffa2-476b-999b-dd9ab99bef16.png',
                     gradient: 'linear-gradient(135deg, #6a4c93, #ff006e)',
                     categories: [
                         { name: 'Organizational Management', icon: 'users', color: '#6a4c93', courses: ['Organizational Behavior', 'Meeting Management', 'Union Negotiation', 'Recruitment 5.0', 'Conflict Management', 'Conducting Interviews'] },
@@ -2174,6 +2255,7 @@
                     title: 'Master 2 - Entrepreneurship & Project Management',
                     year: '2025-2026',
                     subtitle: 'Confirmation',
+                    logo: 'https://image2url.com/r2/default/images/1770846729486-db125a45-ffa2-476b-999b-dd9ab99bef16.png',
                     gradient: 'linear-gradient(135deg, #ff006e, #ff6b35)',
                     categories: [
                         { name: 'Advanced Strategy', icon: 'trending-up', color: '#ff6b35', courses: ['Collective Intelligence', 'Salary Negotiation', 'Company Health Indices', 'Leading Change Projects', 'Valuing Team Potential', 'Managing Difficult Personalities'] },
@@ -2188,13 +2270,14 @@
                     title: 'Université Polytechnique des Hauts-de-France',
                     subtitle: 'Polytechnic Modules & Cross-functional Projects',
                     year: '2023-2026',
+                    logo: 'https://image2url.com/r2/default/images/1770845782054-6aff1901-b7cb-4072-8640-c111adbd508c.png',
                     gradient: 'linear-gradient(135deg, #00d4aa, #ffbe0b)',
                     categories: [
                         { name: 'Innovation & Management (MPTHON)', icon: 'cpu', color: '#ff6b35', courses: ['Manager-Engineer Collaboration (with INSA)', 'Team Coaching: Project Mgmt & Design Thinking', 'Creating Collective Intelligence & Agile Innovation'] },
                         { name: 'Sustainable Development & Industry', icon: 'sprout', color: '#00d4aa', courses: ['Systemic Analysis: Sustainable Production (CSR, SDGs)', 'Circular Economy & Functionality Economy', 'Full Sustainability Diagnostic of an Industrial Site'] },
-                        { name: 'International & Media Analysis', icon: 'eye', color: '#6a4c93', courses: ['Partnership with Université Laval (Quebec)', 'Semiotics: Decoding Visual & Marketing Strategies', 'Critical Analysis of Media and Social Networks'] },
+                        { name: 'International & Media Analysis', icon: 'eye', color: '#6a4c93', courses: ['<div style="display:flex; align-items:center; gap:10px;">Partnership with Université Laval (Quebec) <img src="https://image2url.com/r2/default/images/1770845708512-fe418a7a-02d0-4180-b674-2246efe895c1.png" style="height:20px; background:white; padding:2px; border-radius:4px;"></div>', 'Semiotics: Decoding Visual & Marketing Strategies', 'Critical Analysis of Media and Social Networks'] },
                         { name: 'Professional Communication', icon: 'mic', color: '#ff006e', courses: ['High-Stakes Public Speaking & Effective Pitching', 'Stress Management and Audience Mastery', 'Synthesis and Structuring of Discourse'] },
-                        { name: 'Linguistic Performance (TOEIC)', icon: 'languages', color: '#ffbe0b', courses: ['Practice Test Score: 925/990 (C1 Level)', 'Official Certification: March 2026 (Target 950+)', 'Business & Professional English'] }
+                        { name: 'Linguistic Performance (TOEIC)', icon: 'languages', color: '#ffbe0b', courses: ['Practice Test Score: 925/990 (C1 Level) <a href="https://image2url.com/r2/default/images/1770846207735-7e032cf9-27e0-47ca-8124-f5778d31ce2e.png" target="_blank" style="text-decoration:underline; color:var(--orange); font-weight:bold; margin-left:5px;">View</a>', 'Official Certification: March 2026 (Target 950+)', 'Business & Professional English'] }
                     ]
                 }
             ]
@@ -2257,12 +2340,23 @@
                 const totalCourses = filtered.categories.reduce((acc, cat) => acc + cat.courses.length, 0);
                 const courseLabel = currentLang === 'fr' ? 'matières' : 'courses';
                 
+                // LOGIQUE BADGE : Logo si dispo, sinon Icone
+                let badgeContent;
+                let badgeClass = 'timeline-badge';
+                
+                if (semester.logo) {
+                    badgeContent = `<img src="${semester.logo}" alt="Logo">`;
+                } else {
+                    badgeClass += ' no-logo';
+                    badgeContent = `<i data-lucide="graduation-cap" width="24" color="white"></i>`;
+                }
+
                 return `
                     <div class="timeline-item reveal">
                         <div class="timeline-header" onclick="this.nextElementSibling.classList.toggle('active'); if(this.nextElementSibling.classList.contains('active')){this.querySelector('.chevron').setAttribute('data-lucide','chevron-up')}else{this.querySelector('.chevron').setAttribute('data-lucide','chevron-down')}; lucide.createIcons();">
                             <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
-                                <div class="timeline-badge" style="background: ${semester.gradient};">
-                                    ${semester.year.length > 4 ? semester.year.substring(2, 4) : semester.year}
+                                <div class="${badgeClass}" style="${!semester.logo ? 'background: ' + semester.gradient + ';' : ''}">
+                                    ${badgeContent}
                                 </div>
                                 <div class="timeline-info">
                                     <h3>${semester.title}</h3>
@@ -2289,7 +2383,7 @@
                                                 ${cat.courses.map(course => `
                                                     <li class="${searchTerm && course.toLowerCase().includes(searchTerm.toLowerCase()) ? 'highlight' : ''}">
                                                         <i data-lucide="check" width="14" style="color: ${cat.color}; flex-shrink: 0;"></i>
-                                                        <span>${course}</span>
+                                                        <span style="flex:1;">${course}</span>
                                                     </li>
                                                 `).join('')}
                                             </ul>
