@@ -1386,6 +1386,90 @@
             background: white;
             border-color: rgba(0,0,0,0.1);
         }
+
+        /* ==========================================================================
+           11. SECTION FAQ (NEW)
+           ========================================================================== */
+        
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Sur PC, on met 2 colonnes, sauf si vous préférez une liste verticale pure */
+        @media (min-width: 768px) {
+            .faq-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .faq-item {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0; /* On gère le padding dans le header/body pour l'animation */
+        }
+
+        .faq-item:hover {
+            border-color: var(--teal);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .faq-question {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .faq-toggle-icon {
+            transition: transform 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+        }
+
+        .faq-body {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 1rem;
+        }
+
+        /* État actif (ouvert) */
+        .faq-item.active {
+            border-color: var(--orange);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .faq-item.active .faq-toggle-icon {
+            transform: rotate(45deg); /* Le + devient une croix */
+            color: var(--orange);
+        }
+
+        .faq-item.active .faq-content {
+            max-height: 300px; /* Suffisant pour le texte */
+            transition: max-height 0.4s ease-in-out;
+        }
     </style>
 </head>
 <body id="home">
@@ -1551,7 +1635,7 @@
                         </div>
                     </div>
                     <p class="exp-description" data-translate="exp_esport_desc">
-                        Création et gestion d'une structure E-sport. Management de joueurs compétitifs, organisation de LANs 
+                        Création et gestion d'une structure E-sport. Management of competitive players, organization of LANs 
                         (dont participation à Lyon E-Sport). Coordination logistique, gestion d'équipe et développement de partenariats.
                     </p>
                     <div class="exp-tags">
@@ -1869,6 +1953,98 @@
         </div>
     </section>
 
+    <!-- SECTION FAQ / Q&A -->
+    <section id="faq">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 class="section-title gradient-text" data-translate="section_faq_title">QUESTIONS FRÉQUENTES</h2>
+                <p class="section-subtitle" data-translate="section_faq_subtitle">Anticipons les détails logistiques</p>
+            </div>
+
+            <div class="faq-grid">
+                <!-- Q1 : Disponibilité -->
+                <div class="faq-item card-glass reveal">
+                    <div class="faq-header" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <i data-lucide="calendar-clock" style="color: var(--orange);"></i>
+                            <span data-translate="faq_q1">Quand êtes-vous disponible ?</span>
+                        </div>
+                        <i data-lucide="plus" class="faq-toggle-icon"></i>
+                    </div>
+                    <div class="faq-content">
+                        <div class="faq-body" data-translate="faq_a1">
+                            Je serai diplômé de mon Master 2 et fin de contrat d'alternance fin juin. Je suis donc <strong>disponible dès début Juillet 2026</strong>.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q2 : Mobilité (Valenciennes/Lille/Paris + Voiture) -->
+                <div class="faq-item card-glass reveal">
+                    <div class="faq-header" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <i data-lucide="map-pin" style="color: var(--teal);"></i>
+                            <span data-translate="faq_q2">Quelle est votre zone de mobilité ?</span>
+                        </div>
+                        <i data-lucide="plus" class="faq-toggle-icon"></i>
+                    </div>
+                    <div class="faq-content">
+                        <div class="faq-body" data-translate="faq_a2">
+                            Je suis véhiculé (Permis B + Voiture personnelle). Je cible prioritairement <strong>Valenciennes et sa périphérie</strong> ainsi que <strong>Lille et sa métropole</strong>. Je reste ouvert aux opportunités sur <strong>Paris</strong>.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q3 : Contrat (CDI uniquement) -->
+                <div class="faq-item card-glass reveal">
+                    <div class="faq-header" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <i data-lucide="file-signature" style="color: var(--purple);"></i>
+                            <span data-translate="faq_q3">Quel type de contrat recherchez-vous ?</span>
+                        </div>
+                        <i data-lucide="plus" class="faq-toggle-icon"></i>
+                    </div>
+                    <div class="faq-content">
+                        <div class="faq-body" data-translate="faq_a3">
+                            Je recherche exclusivement un <strong>CDI</strong> pour m'investir sur le long terme et construire.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q4 : Télétravail (Setup Pro) -->
+                <div class="faq-item card-glass reveal">
+                    <div class="faq-header" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <i data-lucide="wifi" style="color: var(--pink);"></i>
+                            <span data-translate="faq_q4">Télétravail : Full ou Hybride ?</span>
+                        </div>
+                        <i data-lucide="plus" class="faq-toggle-icon"></i>
+                    </div>
+                    <div class="faq-content">
+                        <div class="faq-body" data-translate="faq_a4">
+                            Les deux me conviennent. Je ne travaille pas sur un coin de table : je dispose d'un <strong>setup complet et ergonomique</strong> (Bureau assis-debout, micro perche, double écran) pour une productivité et une communication optimales, comme au bureau.
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Q5 : Salaire (La touche "Pas comme les autres") -->
+                 <div class="faq-item card-glass reveal" style="grid-column: 1 / -1;"> <!-- Prend toute la largeur -->
+                    <div class="faq-header" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <i data-lucide="coins" style="color: var(--yellow);"></i>
+                            <span data-translate="faq_q5">Quelles sont vos prétentions salariales ?</span>
+                        </div>
+                        <i data-lucide="plus" class="faq-toggle-icon"></i>
+                    </div>
+                    <div class="faq-content">
+                        <div class="faq-body" data-translate="faq_a5">
+                            Ouvert à la discussion selon le package global et les responsabilités, aligné sur le marché des profils Master 2 à l'IAE et avec 3 ans d'expérience alternance + entrepreneuriat.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- SECTION LE MOT DE LA FIN (UPDATE TEXTE) -->
     <section id="final-word" class="reveal">
         <div class="container">
@@ -2016,6 +2192,20 @@
                 ambition_title: "MON ENGAGEMENT ENVERS VOUS",
                 ambition_subtitle: "Plus qu'un collaborateur, un partenaire de croissance",
                 ambition_text: "Mon ambition est de dépasser le rôle de simple collaborateur pour devenir un véritable <strong>pilier</strong> de votre organisation. Fort de mon expérience entrepreneuriale et de ma vision stratégique, je m'engage à apporter une énergie nouvelle et une différenciation concrète. Je ne viens pas seulement pour occuper un poste, mais pour <strong>faire grandir l'entreprise</strong>, anticiper les défis de demain et prendre des responsabilités croissantes. Je suis cet investissement long terme qui allie <strong>innovation, gestion et excellence</strong>.",
+                
+                // FAQ
+                section_faq_title: "QUESTIONS FRÉQUENTES",
+                section_faq_subtitle: "Anticipons les détails logistiques",
+                faq_q1: "Quand êtes-vous disponible ?",
+                faq_a1: "Je serai diplômé de mon Master 2 et fin de contrat d'alternance fin juin. Je suis donc <strong>disponible dès début Juillet 2026</strong>.",
+                faq_q2: "Quelle est votre zone de mobilité ?",
+                faq_a2: "Je suis véhiculé (Permis B + Voiture personnelle). Je cible prioritairement <strong>Valenciennes et sa périphérie</strong> ainsi que <strong>Lille et sa métropole</strong>. Je reste ouvert aux opportunités sur <strong>Paris</strong>.",
+                faq_q3: "Quel type de contrat recherchez-vous ?",
+                faq_a3: "Je recherche exclusivement un <strong>CDI</strong> pour m'investir sur le long terme et construire.",
+                faq_q4: "Télétravail : Full ou Hybride ?",
+                faq_a4: "Les deux me conviennent. Je ne travaille pas sur un coin de table : je dispose d'un <strong>setup complet et ergonomique</strong> (Bureau assis-debout, micro perche, double écran) pour une productivité et une communication optimales, comme au bureau.",
+                faq_q5: "Quelles sont vos prétentions salariales ?",
+                faq_a5: "Ouvert à la discussion selon le package global et les responsabilités, aligné sur le marché des profils Master 2 à l'IAE et avec 3 ans d'expérience alternance + entrepreneuriat.",
 
                 // FINAL WORD UPDATED
                 final_title: "Le mot de la fin",
@@ -2101,6 +2291,20 @@
                 ambition_title: "MY COMMITMENT TO YOU",
                 ambition_subtitle: "More than a collaborator, a growth partner",
                 ambition_text: "My ambition is to go beyond the role of a simple collaborator to become a true <strong>pillar</strong> of your organization. With my entrepreneurial experience and strategic vision, I commit to bringing new energy and concrete differentiation. I am not just here to fill a position, but to <strong>grow the company</strong>, anticipate tomorrow's challenges, and take on increasing responsibilities. I am that long-term investment combining <strong>innovation, management, and excellence</strong>.",
+
+                // FAQ
+                section_faq_title: "FAQ",
+                section_faq_subtitle: "Logistical details anticipated",
+                faq_q1: "When are you available?",
+                faq_a1: "I will graduate from my Master 2 and finish my apprenticeship contract in late June. I am <strong>available from early July 2026</strong>.",
+                faq_q2: "What is your geographic mobility?",
+                faq_a2: "I have a driving license and my own car. I primarily target <strong>Valenciennes and its surroundings</strong> as well as <strong>Lille metropolitan area</strong>. I am also open to opportunities in <strong>Paris</strong>.",
+                faq_q3: "What type of contract are you looking for?",
+                faq_a3: "I am exclusively looking for a <strong>Permanent Contract (CDI)</strong> to invest myself long-term and build.",
+                faq_q4: "Remote Work: Full or Hybrid?",
+                faq_a4: "Both work for me. I don't work from a kitchen table: I have a <strong>complete and ergonomic setup</strong> (Standing desk, boom mic, dual monitors) ensuring optimal productivity and communication, just like in the office.",
+                faq_q5: "What are your salary expectations?",
+                faq_a5: "Open to discussion depending on the global package and responsibilities, aligned with the market for Master 2 IAE profiles with 3 years of apprenticeship + entrepreneurship experience.",
 
                 // FINAL WORD UPDATED
                 final_title: "Final Word",
@@ -2573,6 +2777,12 @@
         modalOverlay.addEventListener('click', (e) => {
             if (e.target === modalOverlay) closeModal();
         });
+
+        // Toggle FAQ
+        function toggleFaq(header) {
+            const item = header.parentElement;
+            item.classList.toggle('active');
+        }
 
         // --- INIT ---
         document.addEventListener('DOMContentLoaded', () => {
