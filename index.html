@@ -31,25 +31,25 @@
             --pink: #ff006e;
             --yellow: #ffbe0b;
             
-            /* --- THÈME SOMBRE (DÉFAUT) --- */
-            --bg-primary: #050505;
-            --bg-secondary: #0a0a0a;
+            /* --- THÈME MIDNIGHT PRO (Modifié) --- */
+            --bg-primary: #020617; /* Slate 950 - Bleu nuit profond */
+            --bg-secondary: #0f172a; /* Slate 900 */
             
-            /* Effets de transparence (Glassmorphism) */
-            --glass-bg: rgba(20, 20, 20, 0.6);
+            /* Effets de transparence (Glassmorphism - Adapté au bleu nuit) */
+            --glass-bg: rgba(30, 41, 59, 0.6); /* Slate 800 avec transparence */
             --glass-border: rgba(255, 255, 255, 0.08);
             
             /* Bordures colorées par défaut pour le style Cyber */
             --card-border: rgba(255, 107, 53, 0.2);
             
             /* Modales & Dock */
-            --modal-bg: rgba(15, 15, 15, 0.95);
-            --dock-bg: rgba(20, 20, 20, 0.7);
+            --modal-bg: rgba(2, 6, 23, 0.95); /* Slate 950 presque opaque */
+            --dock-bg: rgba(15, 23, 42, 0.8); /* Slate 900 */
             --dock-border: rgba(255, 255, 255, 0.1);
             
             /* Typographie */
             --text-primary: #ffffff;
-            --text-secondary: #a1a1aa;
+            --text-secondary: #94a3b8; /* Slate 400 - Plus doux sur bleu nuit */
             
             /* Fonts Families */
             --font-display: 'Outfit', sans-serif;
@@ -196,13 +196,13 @@
 
         .hero-content {
             text-align: center;
-            max-width: 900px;
+            max-width: 950px; /* Légèrement élargi pour le nouveau titre */
             width: 100%;
         }
 
         /* Image de profil avec animation Pulse */
         .profile-image-wrapper {
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             display: flex;
             justify-content: center;
         }
@@ -236,7 +236,7 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* Badge sous la photo */
+        /* Badge sous la photo (ANCIEN - GARDÉ POUR CSS MAIS NON UTILISÉ DANS HERO MODIFIÉ) */
         .badge {
             display: inline-flex;
             align-items: center;
@@ -260,14 +260,14 @@
             font-weight: 700;
         }
 
-        /* Titre Principal (Nom) */
+        /* Titre Principal */
         .hero-title {
             font-family: var(--font-display);
-            font-size: clamp(3.5rem, 10vw, 7rem);
+            font-size: clamp(1.5rem, 3vw, 2rem); /* Ajusté pour le job title */
             font-weight: 900;
-            line-height: 1;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
         }
 
         .gradient-text {
@@ -1298,7 +1298,7 @@
 
         /* --- MEDIA QUERIES (RESPONSIVE) --- */
         @media (max-width: 640px) {
-            .hero-title { font-size: 3.5rem; }
+            .hero-title { font-size: 2.8rem; } /* Ajusté mobile pour le titre long */
             .controls-panel { top: 1rem; right: 1rem; gap: 0.5rem; }
             .control-btn span { display: none; }
             .control-btn { padding: 0.8rem; }
@@ -1504,22 +1504,27 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
+                
+                <!-- NEW BADGE: DISPONIBLE JUILLET 2026 -->
+                <div style="margin-bottom: 2rem; display: inline-block; padding: 0.5rem 1.5rem; background: rgba(0, 212, 170, 0.15); border: 1px solid var(--teal); border-radius: 50px; color: var(--teal); font-weight: 700; font-size: 0.9rem;">
+                    🟢 DISPONIBLE JUILLET 2026
+                </div>
+
                 <div class="profile-image-wrapper">
                     <div class="profile-image">
                         <img src="https://image2url.com/r2/default/images/1770799183904-7e4b3ed7-6822-4025-b40b-b106a046896b.png" alt="Florian Bouchart">
                     </div>
                 </div>
 
-                <div class="badge">
-                    <i data-lucide="zap" width="16"></i>
-                    <span class="badge-gradient" data-translate="hero_badge">Pilotage de Projets • Coordination • Product Ownership</span>
-                    <i data-lucide="sparkles" width="16"></i>
-                </div>
-
+                <!-- JOB TITLE EN H1 (INVERSION HIERARCHIQUE) -->
                 <h1 class="hero-title">
-                    <div class="gradient-text">FLORIAN</div>
-                    <div class="gradient-text">BOUCHART</div>
+                    <span class="gradient-text" data-translate="hero_badge">Pilotage de Projets • Coordination • Product Ownership</span>
                 </h1>
+
+                <!-- NOM EN SECOND PLAN (SOUS-TITRE) -->
+                <div style="font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 700; color: var(--text-secondary); margin-bottom: 2rem; letter-spacing: 0.1em; text-transform: uppercase;">
+                    FLORIAN BOUCHART
+                </div>
 
                 <p class="hero-description" data-translate="hero_description">
                     De <span class="highlight">l'entrepreneuriat à 15 ans</span> à la gestion de portefeuille chez GRDF, 
@@ -2407,7 +2412,7 @@
                         { name: 'Développement Durable & Industrie', icon: 'sprout', color: '#00d4aa', courses: ['Analyse systémique : Produire durablement (RSE, ODD)', 'Économie circulaire & de la fonctionnalité', 'Diagnostic complet de durabilité d\'un site industriel'] },
                         { name: 'International & Analyse Média (Logos : Laval Québec)', icon: 'eye', color: '#6a4c93', courses: ['<div style="display:flex; align-items:center; gap:10px;">Partenariat Université Laval (Québec) <img src="https://image2url.com/r2/default/images/1770845708512-fe418a7a-02d0-4180-b674-2246efe895c1.png" style="height:20px; background:white; padding:2px; border-radius:4px;"></div>', 'Sémiotique : Décryptage des stratégies visuelles & marketing', 'Analyse critique des médias et réseaux sociaux'] },
                         { name: 'Communication Professionnelle', icon: 'mic', color: '#ff006e', courses: ['Prise de parole à fort enjeu & Pitch efficace', 'Gestion du stress et maîtrise de l\'auditoire', 'Synthèse et structuration du discours'] },
-                        { name: 'Performance Linguistique (TOEIC)', icon: 'languages', color: '#ffbe0b', courses: ['Score Test Blanc : 925/990 (Niveau B2) <a href="https://image2url.com/r2/default/images/1770846207735-7e032cf9-27e0-47ca-8124-f5778d31ce2e.png" target="_blank" style="text-decoration:underline; color:var(--orange); font-weight:bold; margin-left:5px;">Voir la preuve officielle</a>', 'Certification officielle : Mars 2026 (Objectif 950+)', 'Anglais Business & Professionnel'] }
+                        { name: 'Performance Linguistique (TOEIC)', icon: 'languages', color: '#ffbe0b', courses: ['Score Test Blanc : 925/990 (Niveau B2) <a href="https://image2url.com/r2/default/images/1770846207735-7e032cf9-27e0-47ca-8124-f5778d31ce2e.png" target="_blank" style="text-decoration:underline; color:var(--orange); font-weight:bold; margin-left:5px;">Cliquer pour voir</a>', 'Certification officielle : Mars 2026 (Objectif 950+)', 'Anglais Business & Professionnel'] }
                     ]
                 },
                 {
